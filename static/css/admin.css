@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f8f9fa;
+}
+
+h1, h2 {
+    color: #004aad;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: #fff;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 6px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+}
+
+a {
+    margin-left: 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a.aprovar {
+    color: green;
+}
+
+a.aprovar:hover {
+    color: darkgreen;
+}
+
+a.rejeitar {
+    color: red;
+}
+
+a.rejeitar:hover {
+    color: darkred;
+}

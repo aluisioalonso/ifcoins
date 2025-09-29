@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Mestre IFCONS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mestre.css') }}">
+</head>
+<body>
+    <h1>Bem-vindo, Mestre</h1>
+
+    <h2>Ações pendentes:</h2>
+    <ul id="acoesPendentes">
+        {% for acao in acoes %}
+            {% if acao.status == 'pendente' %}
+            <li>
+                {{ acao.descricao }} - Aluno: {{ acao.aluno_email }}
+                <form class="aprovarForm" action="{{ url_for('aprovar_acao', id_acao=acao.id) }}" method="POST" style="display:inline;">
+                    <input type="number" name="valor" value="{{ acoes_disponiveis.get(acao.descricao, 10) }}" min="1" required>
+                    <button type="submit">Aprovar</button>
+                </form>
+                <a href="{{ url_for('rejeitar_acao', id_acao=acao.id) }}" class="rejeitar">Rejeitar</a>
+            </li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+
+    <script src="{{ url_for('static', filename='js/mestre.js') }}"></script>
+</body>
+</html>

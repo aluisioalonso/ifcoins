@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Aluno IFCONS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aluno.css') }}">
+</head>
+<body>
+    <h1>Bem-vindo, {{ aluno.nome }}</h1>
+    <h2>Saldo IFCONS: <span id="saldo">{{ aluno.saldo }}</span></h2>
+
+    <form id="acaoForm" action="{{ url_for('aluno_pagina') }}" method="POST">
+        <input type="hidden" name="email" value="{{ aluno.email }}">
+        <label for="descricao">Escolha sua ação:</label>
+        <select name="descricao" id="descricao" required>
+            {% for acao in acoes_disponiveis.keys() %}
+            <option value="{{ acao }}">{{ acao }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Enviar ação</button>
+    </form>
+
+    <h3>Suas ações:</h3>
+    <ul id="acoesList">
+        {% for acao in aluno.acoes %}
+            <li>{{ acao.descricao }} - Status: {{ acao.status }} - IFCONS: {{ acao.valor }}</li>
+        {% endfor %}
+    </ul>
+
+    <script src="{{ url_for('static', filename='js/aluno.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f0f2f5;
+}
+
+h1, h2 {
+    color: #004aad;
+}
+
+form, ul {
+    background: #fff;
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+button {
+    padding: 5px 12px;
+    margin-top: 5px;
+    background-color: #004aad;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}

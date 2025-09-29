@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+<div class="login-container">
+    <h1>Bem-vindo!</h1>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flash-messages">
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Aqui adicionamos method e action -->
+    <form class="login-form" id="loginForm" method="POST" action="{{ url_for('login') }}">
+        <label for="role">Escolha seu perfil</label>
+        <select id="role" name="role" required>
+            <option value="" disabled selected>Selecione</option>
+            <option value="mestre">Mestre</option>
+            <option value="aluno">Aluno</option>
+        </select>
+
+        <!-- Campo de e-mail inicialmente escondido -->
+        <div id="emailContainer" class="email-group hidden">
+            <input type="text" id="emailUser" name="emailUser" placeholder="" required>
+            <span id="emailDomain"></span>
+        </div>
+
+        <label for="password">Senha</label>
+        <input type="password" id="password" name="senha" placeholder="Digite sua senha" required>
+
+        <button type="submit">Entrar</button>
+    </form>
+
+    <p class="signup-text">
+        Não tem uma conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a>
+    </p>
+</div>
+
+<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin IFCONS</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+    <h1>Painel do Administrador</h1>
+
+    <h2>Mestres pendentes de aprovação</h2>
+    <ul>
+        {% for mestre in mestres %}
+        <li>
+            {{ mestre.nome }} - {{ mestre.email }}
+            <a href="{{ url_for('aprovar_mestre', email=mestre.email) }}" class="aprovar">Aprovar</a>
+            <a href="{{ url_for('rejeitar_mestre', email=mestre.email) }}" class="rejeitar">Rejeitar</a>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+</body>
+</html>

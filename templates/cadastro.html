@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
+    <style>
+        .email-group {
+            display: flex;
+            gap: 5px;
+            margin-top: 5px;
+        }
+        .email-group input {
+            flex: 1;
+        }
+        .email-group span {
+            padding: 14px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: #f0f0f0;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="cadastro-container">
+    <h1>Crie sua conta</h1>
+    <form class="cadastro-form" id="cadastroForm">
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
+
+        <label for="role">Escolha seu perfil</label>
+        <select id="role" name="role" required>
+            <option value="" disabled selected>Selecione</option>
+            <option value="mestre">Mestre</option>
+            <option value="aluno">Aluno</option>
+        </select>
+
+        <div id="emailContainer" class="email-group hidden">
+            <input type="text" id="emailUser" placeholder="Digite seu usuário" required>
+            <span id="emailDomain">@ifpb.edu.br</span>
+        </div>
+
+        <label for="senha">Senha</label>
+        <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+
+        <label for="confirm_senha">Confirme a senha</label>
+        <input type="password" id="confirm_senha" name="confirm_senha" placeholder="Confirme sua senha" required>
+
+        <button type="submit">Cadastrar</button>
+    </form>
+    <p class="login-text">
+        Já tem uma conta? <a href="{{ url_for('login') }}">Faça login</a>
+    </p>
+</div>
+
+<script src="{{ url_for('static', filename='js/cadastro.js') }}"></script>
+</body>
+</html>
