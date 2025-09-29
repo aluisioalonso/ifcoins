@@ -4,13 +4,11 @@ const emailUser = document.getElementById('emailUser');
 const emailDomain = document.getElementById('emailDomain');
 const loginForm = document.getElementById('loginForm');
 
-// Inicialmente esconde o container de e-mail
 emailContainer.classList.add('hidden');
 emailUser.value = '';
 emailUser.placeholder = '';
 emailDomain.textContent = '';
 
-// Ao mudar o perfil
 roleSelect.addEventListener('change', () => {
     if (!roleSelect.value) {
         emailContainer.classList.add('hidden');
@@ -29,7 +27,6 @@ roleSelect.addEventListener('change', () => {
     }
 });
 
-// Validação do formulário
 loginForm.addEventListener('submit', (e) => {
     if (!roleSelect.value) {
         e.preventDefault();

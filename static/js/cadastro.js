@@ -4,7 +4,6 @@ const emailUser = document.getElementById('emailUser');
 const emailDomain = document.getElementById('emailDomain');
 const cadastroForm = document.getElementById('cadastroForm');
 
-// Inicialmente esconde o e-mail
 emailContainer.classList.add('hidden');
 
 roleSelect.addEventListener('change', () => {
@@ -20,7 +19,6 @@ roleSelect.addEventListener('change', () => {
     }
 });
 
-// Submissão do formulário
 cadastroForm.addEventListener('submit', (e) => {
     if (!roleSelect.value) {
         e.preventDefault();
