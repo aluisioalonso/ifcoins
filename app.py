@@ -21,37 +21,45 @@ def login():
     if request.method == 'POST':
         email = request.form['email']
         senha = request.form['senha']
-        aluno = aluno_dao.buscar_por_email(email)
-        mestre = mestre_dao.buscar_por_email(email)
-        if aluno and aluno.senha == senha:
-            session['aluno_email'] = aluno.email
+        role = request.form.get('role')
+        if role == 'aluno':
+            user = aluno_dao.buscar_por_email(email)
+        else:
+            user = mestre_dao.buscar_por_email(email)
+        if user and user.senha == senha and role == 'aluno':
+            session['user'] = user.email
+            session['role'] = 'aluno'
             return redirect(url_for('aluno_pagina'))
-        elif mestre and mestre.senha == senha:
-            if not mestre.aprovado:
+        elif user and user.senha == senha and role == 'mestre':
+            if not user.aprovado:
                 flash("Seu acesso ainda não foi aprovado pelo administrador.")
                 return redirect(url_for('login'))
-            session['mestre_email'] = mestre.email
+            session['user'] = user.email
+            session['role'] = 'mestre'
             return redirect(url_for('mestre_pagina'))
         else:
             flash("Email ou senha incorretos.")
             return redirect(url_for('login'))
     return render_template('login.html')
 
-@app.route('/cadastro', methods=['GET', 'POST'])
+@app.route('/cadastrousuario', methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
         nome = request.form['nome']
-        email = request.form['email']
-        senha = request.form['senha']
         role = request.form['role']
+        email_user = request.form['emailUser']
+        senha = request.form['senha']
+        email_domain = '@ifpb.edu.br' if role == 'mestre' else '@academico.ifpb.edu.br'
+        email = email_user + email_domain
+
         if role == 'aluno':
             aluno = AlunoDB(nome=nome, email=email, senha=senha)
             aluno_dao.adicionar(aluno)
-            flash("Cadastro realizado com sucesso!")
         elif role == 'mestre':
             mestre = MestreDB(nome=nome, email=email, senha=senha, aprovado=False)
             mestre_dao.adicionar(mestre)
             flash("Seu login foi solicitado com sucesso")
+
         return redirect(url_for('login'))
     return render_template('cadastro.html')
 

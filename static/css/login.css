@@ -5,36 +5,36 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #2e2e2e, #121212);
+    color: white;
+    height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 .login-container {
-    background-color: #fff;
+    background-color: #1e1e1e;
     padding: 40px;
     border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
     width: 400px;
 }
 
 h1 {
     text-align: center;
     margin-bottom: 30px;
-    color: #333;
+    color: #00ffae;
 }
 
 .login-form label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
-    color: #555;
+    color: #ccc;
 }
 
-/* Inputs, select e botão todos com mesmo tamanho e padding */
 .login-form select,
 .login-form input,
 .login-form button {
@@ -42,21 +42,33 @@ h1 {
     padding: 14px;
     margin-bottom: 20px;
     border-radius: 6px;
-    border: 1px solid #ccc;
     font-size: 16px;
     line-height: 1.2;
+    background-color: #333;
+    color: white;
+    border: 2px solid #00ffae;
+    transition: border 0.3s;
+}
+
+.login-form input:focus,
+.login-form select:focus {
+    border: 2px solid #00ffae;
+    outline: none;
 }
 
 .login-form button {
-    border: none;
-    background-color: #0072c6;
-    color: white;
+    background-color: #00ffae;
+    color: black;
     font-size: 18px;
+    font-weight: bold;
+    border: none;
     cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .login-form button:hover {
-    background-color: #005ea3;
+    background-color: #00cc8f;
+    box-shadow: 0 0 12px #00ffae;
 }
 
 .signup-text {
@@ -66,10 +78,15 @@ h1 {
 
 .signup-text a {
     text-decoration: none;
-    color: #0072c6;
+    color: #00ffae;
+    font-size: 14px;
 }
 
-/* Layout do e-mail (caixinha + domínio) */
+.signup-text a:hover {
+    color: white;
+}
+
+/* Email layout */
 .email-group {
     display: flex;
     gap: 5px;
@@ -82,21 +99,50 @@ h1 {
     padding: 14px;
     font-size: 16px;
     border-radius: 6px;
-    border: 1px solid #ccc;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .email-group input {
-    text-align: left; /* input do usuário alinhado à esquerda */
+    background-color: #333;
+    color: white;
+    border: 2px solid #00ffae;
 }
 
 .email-group span {
-    background-color: #f0f0f0;
-    pointer-events: none; /* impede edição */
+    background-color: #1e1e1e;
+    color: #00ffae;
+    border: 2px solid #00ffae;
+    pointer-events: none;
 }
 
 .hidden {
     display: none;
+}
+
+/* Flash message */
+.flash-messages {
+    list-style: none;
+    margin-bottom: 20px;
+    padding: 0;
+}
+
+.flash-messages li {
+    background-color: #333;
+    border-left: 5px solid #00ffae;
+    padding: 10px;
+    margin-bottom: 10px;
+    color: white;
+    border-radius: 4px;
+}
+.ifpb-logo {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.ifpb-logo img {
+    width: 100px;
+    height: auto;
+    filter: drop-shadow(0 0 6px #00ffae);
 }

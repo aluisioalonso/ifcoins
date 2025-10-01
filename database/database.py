@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from models.pessoas import Base, AlunoDB, MestreDB, AcaoDB
 
 engine = create_engine('sqlite:///ifcoins.db')
-Base.metadata.create_all(engine)
+
 Session = sessionmaker(bind=engine)
 session = Session()
 
@@ -48,3 +48,8 @@ class AcaoDAO:
         if acao:
             acao.status = 'rejeitada'
             session.commit()
+
+
+if __name__ == '__main__':
+    print('estamos criando a estrututa do banco de dados')
+    Base.metadata.create_all(engine)

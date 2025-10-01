@@ -8,20 +8,9 @@
 </head>
 <body>
 <div class="login-container">
-    <h1>Bem-vindo!</h1>
+    <h1>RPG</h1>
+    <form class="login-form" id="loginForm">
 
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul class="flash-messages">
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
-
-    <!-- Aqui adicionamos method e action -->
-    <form class="login-form" id="loginForm" method="POST" action="{{ url_for('login') }}">
         <label for="role">Escolha seu perfil</label>
         <select id="role" name="role" required>
             <option value="" disabled selected>Selecione</option>
@@ -29,16 +18,20 @@
             <option value="aluno">Aluno</option>
         </select>
 
-
         <div id="emailContainer" class="email-group hidden">
-            <input type="text" id="emailUser" name="emailUser" placeholder="" required>
+            <input type="text" id="emailUser" placeholder="" required>
             <span id="emailDomain"></span>
         </div>
 
         <label for="password">Senha</label>
-        <input type="password" id="password" name="senha" placeholder="Digite sua senha" required>
+        <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
 
         <button type="submit">Entrar</button>
+
+        <!-- ✅ Imagem do IFPB -->
+        <div class="ifpb-logo">
+            <img src="{{ url_for('static', filename='images/ifpb.png') }}" alt="Logo do IFPB">
+        </div>
     </form>
 
     <p class="signup-text">
