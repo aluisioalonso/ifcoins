@@ -12,6 +12,9 @@ class AlunoDB(Base):
     saldo = Column(Integer, default=0)
     acoes = relationship("AcaoDB", back_populates="aluno")
 
+    def __repr__(self):
+        return f"<AlunoDB(email='{self.email}', nome='{self.nome}', saldo='{self.saldo}', acoes='{self.acoes}')> "
+
 class MestreDB(Base):
     __tablename__ = 'mestres'
     email = Column(String, primary_key=True)

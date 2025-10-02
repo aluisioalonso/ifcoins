@@ -4,28 +4,9 @@ const emailUser = document.getElementById('emailUser');
 const emailDomain = document.getElementById('emailDomain');
 const loginForm = document.getElementById('loginForm');
 
-emailContainer.classList.add('hidden');
 emailUser.value = '';
 emailUser.placeholder = '';
-emailDomain.textContent = '';
 
-roleSelect.addEventListener('change', () => {
-    if (!roleSelect.value) {
-        emailContainer.classList.add('hidden');
-        emailUser.value = '';
-        emailUser.placeholder = '';
-        emailDomain.textContent = '';
-    } else {
-        emailContainer.classList.remove('hidden'); // mostra a caixa
-        emailUser.value = '';
-        emailUser.placeholder = 'Digite seu usuário';
-        if (roleSelect.value === 'mestre') {
-            emailDomain.textContent = '@ifpb.edu.br';
-        } else if (roleSelect.value === 'aluno') {
-            emailDomain.textContent = '@academico.ifpb.edu.br';
-        }
-    }
-});
 
 loginForm.addEventListener('submit', (e) => {
     if (!roleSelect.value) {

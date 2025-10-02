@@ -3,18 +3,12 @@ from database.database import AlunoDAO, MestreDAO, AcaoDAO, session as db_sessio
 from models.pessoas import AlunoDB, MestreDB, AcaoDB
 
 app = Flask(__name__)
-app.secret_key = 'supersecretkey'
+app.secret_key = 'IUY$#YIy5i#5232'
 
 aluno_dao = AlunoDAO()
 mestre_dao = MestreDAO()
 acao_dao = AcaoDAO()
 
-acoes_disponiveis = {
-    "Deu bom dia": 20,
-    "Salvou um animal": 100,
-    "Ajudou colega": 50,
-    "Organizou mural": 30
-}
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
@@ -22,10 +16,14 @@ def login():
         email = request.form['email']
         senha = request.form['senha']
         role = request.form.get('role')
+
         if role == 'aluno':
             user = aluno_dao.buscar_por_email(email)
+            print(user.nome)
         else:
             user = mestre_dao.buscar_por_email(email)
+            print(user.nome)
+
         if user and user.senha == senha and role == 'aluno':
             session['user'] = user.email
             session['role'] = 'aluno'
@@ -49,11 +47,12 @@ def cadastro():
         role = request.form['role']
         email_user = request.form['emailUser']
         senha = request.form['senha']
-        email_domain = '@ifpb.edu.br' if role == 'mestre' else '@academico.ifpb.edu.br'
+        email_domain = '@academico.ifpb.edu.br'
         email = email_user + email_domain
 
+
         if role == 'aluno':
-            aluno = AlunoDB(nome=nome, email=email, senha=senha)
+            aluno = AlunoDB(nome=nome, email=email, senha=senha, saldo=0)
             aluno_dao.adicionar(aluno)
         elif role == 'mestre':
             mestre = MestreDB(nome=nome, email=email, senha=senha, aprovado=False)
@@ -125,4 +124,4 @@ def rejeitar_mestre(email):
     return redirect(url_for('admin'))
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, port=5002)

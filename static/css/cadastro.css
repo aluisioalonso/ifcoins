@@ -89,6 +89,7 @@ body {
 .email-group input {
   flex: 1;
   height: 40px;
+  width: 90px;
   border-radius: 6px;
   padding: 0 10px;
   font-size: 16px;

@@ -49,7 +49,3 @@ class AcaoDAO:
             acao.status = 'rejeitada'
             session.commit()
 
-
-if __name__ == '__main__':
-    print('estamos criando a estrututa do banco de dados')
-    Base.metadata.create_all(engine)

@@ -9,7 +9,7 @@
 <body>
 <div class="login-container">
     <h1>RPG</h1>
-    <form class="login-form" id="loginForm">
+    <form action="/" method="post" class="login-form" id="loginForm">
 
         <label for="role">Escolha seu perfil</label>
         <select id="role" name="role" required>
@@ -18,13 +18,13 @@
             <option value="aluno">Aluno</option>
         </select>
 
-        <div id="emailContainer" class="email-group hidden">
-            <input type="text" id="emailUser" placeholder="" required>
-            <span id="emailDomain"></span>
+        <div id="emailContainer" class="email-group">
+            <input type="text"name="email" id="emailUser" placeholder="" required>
+            <span id="emailDomain">@academico.ifpb.edu.br</span>
         </div>
 
         <label for="password">Senha</label>
-        <input type="password" id="password" name="password" placeholder="Digite sua senha" required>
+        <input type="password" id="password" name="senha" placeholder="Digite sua senha" required>
 
         <button type="submit">Entrar</button>
 

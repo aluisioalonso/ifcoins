@@ -95,6 +95,7 @@ h1 {
 
 .email-group input,
 .email-group span {
+    height: 50px;
     flex: 1;
     padding: 14px;
     font-size: 16px;

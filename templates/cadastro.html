@@ -6,33 +6,13 @@
     <title>Cadastro</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/cadastro.css') }}">
     <style>
-        .email-group {
-            display: flex;
-            gap: 5px;
-            margin-top: 5px;
-        }
-        .email-group input {
-            flex: 1;
-        }
-        .email-group span {
-            padding: 14px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            background-color: #f0f0f0;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-        }
-        .hidden {
-            display: none;
-        }
+
     </style>
 </head>
 <body>
 <div class="cadastro-container">
-    <h1>Crie sua conta</h1>
+    <h1>CADASTRO</h1>
 
-    <!-- Corrigido: adicionando method="POST" -->
     <form action="/cadastrousuario" method="POST" class="cadastro-form" id="cadastroForm">
         <label for="nome">Nome completo</label>
         <input type="text" id="nome" name="nome" placeholder="Digite seu nome" required>
@@ -44,9 +24,9 @@
             <option value="aluno">Aluno</option>
         </select>
 
-        <div id="emailContainer" class="email-group hidden">
+        <div id="emailContainer" class="email-group">
             <input type="text" id="emailUser" name="emailUser" placeholder="Digite seu usuário" required>
-            <span id="emailDomain">@ifpb.edu.br</span>
+            <span id="emailDomain">@academico.ifpb.edu.br</span>
         </div>
 
         <label for="senha">Senha</label>
