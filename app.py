@@ -9,22 +9,21 @@ aluno_dao = AlunoDAO()
 mestre_dao = MestreDAO()
 acao_dao = AcaoDAO()
 
-
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
         email = request.form['email']
         senha = request.form['senha']
         role = request.form.get('role')
-
+        email_domain = '@academico.ifpb.edu.br'
+        email = email + email_domain
         if role == 'aluno':
             user = aluno_dao.buscar_por_email(email)
-            print(user.nome)
         else:
             user = mestre_dao.buscar_por_email(email)
-            print(user.nome)
 
         if user and user.senha == senha and role == 'aluno':
+
             session['user'] = user.email
             session['role'] = 'aluno'
             return redirect(url_for('aluno_pagina'))
@@ -37,6 +36,7 @@ def login():
             return redirect(url_for('mestre_pagina'))
         else:
             flash("Email ou senha incorretos.")
+            print('senha ou email errados')
             return redirect(url_for('login'))
     return render_template('login.html')
 
@@ -64,18 +64,22 @@ def cadastro():
 
 @app.route('/aluno', methods=['GET', 'POST'])
 def aluno_pagina():
-    email = session.get('aluno_email')
+    email = session.get('user')
     if not email:
         flash("Faça login para acessar a página do aluno.")
         return redirect(url_for('login'))
     aluno = aluno_dao.buscar_por_email(email)
+    acoes_aluno = acao_dao.listar_por_aluno(email)
+
     if request.method == 'POST':
         descricao = request.form['descricao']
         nova_acao = AcaoDB(descricao=descricao, aluno_email=aluno.email, status='pendente', valor=0)
         acao_dao.adicionar(nova_acao)
         flash(f"Ação '{descricao}' enviada para aprovação do mestre!")
         return redirect(url_for('aluno_pagina'))
-    return render_template('aluno.html', aluno=aluno, acoes_disponiveis=acoes_disponiveis)
+
+    #tem que mudar isso pois estou passando um dicionario vazio enquanto nao resolve o problema
+    return render_template('aluno.html', aluno=aluno, acoes_disponiveis=acoes_aluno)
 
 @app.route('/mestre', methods=['GET'])
 def mestre_pagina():

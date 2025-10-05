@@ -13,6 +13,9 @@ class AlunoDAO:
         session.commit()
     def buscar_por_email(self, email):
         return session.query(AlunoDB).filter_by(email=email).first()
+    def obter_todos_alunos(self):
+        return session.query(AlunoDB).all()
+
 
 class MestreDAO:
     def adicionar(self, mestre):
@@ -34,6 +37,8 @@ class AcaoDAO:
         session.commit()
     def listar_pendentes(self):
         return session.query(AcaoDB).filter_by(status='pendente').all()
+    def listar_por_aluno(self, aluno_email):
+        return session.query(AcaoDB).filter_by(aluno_email=aluno_email).all()
     def aprovar_acao(self, id_acao, valor):
         acao = session.query(AcaoDB).get(id_acao)
         if acao:
@@ -48,4 +53,3 @@ class AcaoDAO:
         if acao:
             acao.status = 'rejeitada'
             session.commit()
-
