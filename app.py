@@ -10,13 +10,15 @@ avaliador_dao = AvaliadorDAO()
 acao_dao = AcaoDAO()
 
 
-@app.route("/registrar_acao")
-def registrar_acao():
-    return render_template("registrar_acao.html")
 
-@app.route("/comprar_viagem")
-def comprar_viagem():
-    return render_template("comprar_viagem.html")
+@app.route("/compras_disponiveis")
+def compras_disponiveis():
+    return render_template("compras_disponiveis.html")
+
+
+@app.route("/historico_acoes")
+def historico_acoes():
+    return "<h1>Histórico de ações</h1>"
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -140,6 +142,7 @@ def rejeitar_avaliador(email):
         db_session.commit()
         flash(f"Avaliador {email} rejeitado e removido do sistema.")
     return redirect(url_for('admin'))
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5002)
