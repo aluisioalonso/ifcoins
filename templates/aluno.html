@@ -2,31 +2,43 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Aluno IFCONS</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página do Aluno</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/aluno.css') }}">
 </head>
 <body>
-    <h1>Bem-vindo, {{ aluno.nome }}</h1>
-    <h2>Saldo IFCONS: <span id="saldo">{{ aluno.saldo }}</span></h2>
+    <header>
+        <div class="saldo">
+            Saldo: <span>{{ aluno.saldo }} IFCoins</span>
+        </div>
+        <div class="perfil">
+            {{ aluno.nome }}
+            <img src="{{ url_for('static', filename='images/avatar.png') }}" alt="Perfil">
+        </div>
+    </header>
 
-    <form id="acaoForm" action="{{ url_for('aluno_pagina') }}" method="POST">
-        <input type="hidden" name="email" value="{{ aluno.email }}">
-        <label for="descricao">Escolha sua ação:</label>
-        <select name="descricao" id="descricao" required>
-            {% for acao in acoes_disponiveis.keys() %}
-            <option value="{{ acao }}">{{ acao }}</option>
-            {% endfor %}
-        </select>
-        <button type="submit">Enviar ação</button>
-    </form>
+    <main>
+        <div class="acoes-central">
+            <h2>Registrar Ação</h2>
+            <a href="{{ url_for('registrar_acao') }}" class="btn-central">Ir para Ações</a>
+        </div>
 
-    <h3>Suas ações:</h3>
-    <ul id="acoesList">
-        {% for acao in aluno.acoes %}
-            <li>{{ acao.descricao }} - Status: {{ acao.status }} - IFCONS: {{ acao.valor }}</li>
-        {% endfor %}
-    </ul>
-
-    <script src="{{ url_for('static', filename='js/aluno.js') }}"></script>
+        <div class="compras-disponiveis">
+            <h2>Compras Disponíveis</h2>
+            <div class="itens-compras">
+                <div class="item-compra">
+                    <h3>Viagem à praia</h3>
+                    <p>Preço: 500 IFCoins</p>
+                    <a href="{{ url_for('comprar_viagem') }}" class="btn-compra">Comprar</a>
+                </div>
+                <div class="item-compra">
+                    <h3>Viagem à serra</h3>
+                    <p>Preço: 300 IFCoins</p>
+                    <a href="{{ url_for('comprar_viagem') }}" class="btn-compra">Comprar</a>
+                </div>
+                <!-- Mais itens podem ser adicionados aqui -->
+            </div>
+        </div>
+    </main>
 </body>
 </html>

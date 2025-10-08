@@ -15,7 +15,7 @@ class AlunoDB(Base):
     def __repr__(self):
         return f"<AlunoDB(email='{self.email}', nome='{self.nome}', saldo='{self.saldo}', acoes='{self.acoes}')> "
 
-class MestreDB(Base):
+class AvaliadorDB(Base):
     __tablename__ = 'mestres'
     email = Column(String, primary_key=True)
     nome = Column(String)

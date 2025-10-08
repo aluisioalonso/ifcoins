@@ -1,33 +1,137 @@
+/* Reset e fonte */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    background-color: #f0f2f5;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #2e2e2e, #121212);
+    color: white;
+    min-height: 100vh;
 }
 
-h1, h2 {
-    color: #004aad;
+/* Header */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
 }
 
-form, ul {
-    background: #fff;
-    padding: 15px;
-    margin: 15px 0;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+header .saldo {
+    font-size: 18px;
+    color: #00ffae;
 }
 
-button {
-    padding: 5px 12px;
-    margin-top: 5px;
-    background-color: #004aad;
-    color: #fff;
+header .perfil {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+}
+
+header .perfil img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid #00ffae;
+}
+
+/* Main content */
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 40px;
+}
+
+/* Central actions button */
+.acoes-central {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    background-color: #2a2a2a;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.btn-central {
+    padding: 12px 25px;
+    background-color: #00ffae;
+    color: black;
+    font-weight: bold;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
+    text-decoration: none;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-select {
-    padding: 5px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
+.btn-central:hover {
+    background-color: #00cc8f;
+}
+
+/* Compras disponíveis */
+.compras-disponiveis {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+}
+
+.compras-disponiveis h2 {
+    margin-bottom: 20px;
+    color: #00ffae;
+}
+
+.itens-compras {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.item-compra {
+    background-color: #2a2a2a;
+    padding: 20px;
+    border-radius: 10px;
+    width: 200px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.item-compra h3 {
+    font-size: 18px;
+    color: #00ffae;
+}
+
+.item-compra p {
+    font-size: 16px;
+    color: white;
+}
+
+.btn-compra {
+    padding: 8px 16px;
+    background-color: #00ffae;
+    color: black;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn-compra:hover {
+    background-color: #00cc8f;
 }
