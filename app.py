@@ -1,22 +1,22 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from database.database import AlunoDAO, MestreDAO, AcaoDAO, session as db_session
-from models.pessoas import AlunoDB, MestreDB, AcaoDB
+from models.modelosDAO import AlunoDB, MestreDB, AcaoDB
+from database.database import (
+    aluno_dao, mestre_dao, acao_dao, recompensa_dao, resgate_dao
+)
 
 app = Flask(__name__)
 app.secret_key = 'IUY$#YIy5i#5232'
+EMAIL_DOMAIN = '@academico.ifpb.edu.br'
 
-aluno_dao = AlunoDAO()
-mestre_dao = MestreDAO()
-acao_dao = AcaoDAO()
 
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email = request.form['email']
+        email_input = request.form['email']
         senha = request.form['senha']
         role = request.form.get('role')
-        email_domain = '@academico.ifpb.edu.br'
-        email = email + email_domain
+        email = email_input + EMAIL_DOMAIN
+
         if role == 'aluno':
             user = aluno_dao.buscar_por_email(email)
         else:
@@ -40,6 +40,12 @@ def login():
             return redirect(url_for('login'))
     return render_template('login.html')
 
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash("Sessão encerrada.")
+    return redirect(url_for('login'))
+
 @app.route('/cadastrousuario', methods=['GET', 'POST'])
 def cadastro():
     if request.method == 'POST':
@@ -50,36 +56,53 @@ def cadastro():
         email_domain = '@academico.ifpb.edu.br'
         email = email_user + email_domain
 
-
         if role == 'aluno':
+            if aluno_dao.buscar_por_email(email):
+                flash("Este e-mail de aluno já está cadastrado.", 'error')
+                return redirect(url_for('cadastro'))
             aluno = AlunoDB(nome=nome, email=email, senha=senha, saldo=0)
             aluno_dao.adicionar(aluno)
         elif role == 'mestre':
+            if mestre_dao.buscar_por_email(email):
+                flash("Este e-mail de mestre já está cadastrado.", 'error')
+                return redirect(url_for('cadastro'))
             mestre = MestreDB(nome=nome, email=email, senha=senha, aprovado=False)
             mestre_dao.adicionar(mestre)
-            flash("Seu login foi solicitado com sucesso")
+            flash("Seu login foi solicitado com sucesso. Aguarde aprovação.")
 
         return redirect(url_for('login'))
     return render_template('cadastro.html')
 
+
 @app.route('/aluno', methods=['GET', 'POST'])
 def aluno_pagina():
     email = session.get('user')
-    if not email:
+    if not email or session.get('role') != 'aluno':
         flash("Faça login para acessar a página do aluno.")
         return redirect(url_for('login'))
-    aluno = aluno_dao.buscar_por_email(email)
-    acoes_aluno = acao_dao.listar_por_aluno(email)
 
-    if request.method == 'POST':
+    aluno = aluno_dao.buscar_por_email(email)
+    # Corrigido para usar a lista de acoes reais
+    #acoes_aluno = acao_dao.listar_por_aluno(email)
+
+    '''
+        if request.method == 'POST':
         descricao = request.form['descricao']
-        nova_acao = AcaoDB(descricao=descricao, aluno_email=aluno.email, status='pendente', valor=0)
+
+        nova_acao = AcaoDB(
+            descricao=descricao,
+            aluno_email=aluno.email,
+            status='pendente',
+            valor=0
+        )
         acao_dao.adicionar(nova_acao)
         flash(f"Ação '{descricao}' enviada para aprovação do mestre!")
         return redirect(url_for('aluno_pagina'))
 
-    #tem que mudar isso pois estou passando um dicionario vazio enquanto nao resolve o problema
-    return render_template('aluno.html', aluno=aluno, acoes_disponiveis=acoes_aluno)
+    '''
+
+    return render_template('aluno.html', aluno=aluno)
+
 
 @app.route('/mestre', methods=['GET'])
 def mestre_pagina():
@@ -122,8 +145,8 @@ def aprovar_mestre(email):
 def rejeitar_mestre(email):
     mestre = mestre_dao.buscar_por_email(email)
     if mestre:
-        db_session.delete(mestre)
-        db_session.commit()
+        session.delete(mestre)
+        session.commit()
         flash(f"Mestre {email} rejeitado e removido do sistema.")
     return redirect(url_for('admin'))
 
