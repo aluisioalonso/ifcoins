@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const nome = link.parentElement.textContent.split('-')[0].trim();
-            if (confirm(`Deseja aprovar o mestre ${nome}?`)) {
+            if (confirm(`Deseja aprovar o avaliador ${nome}?`)) {
                 window.location.href = link.href;
             }
         });
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
             const nome = link.parentElement.textContent.split('-')[0].trim();
-            if (confirm(`Deseja rejeitar o mestre ${nome}?`)) {
+            if (confirm(`Deseja rejeitar o avaliador ${nome}?`)) {
                 window.location.href = link.href;
             }
         });

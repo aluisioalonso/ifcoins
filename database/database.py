@@ -19,20 +19,20 @@ class AlunoDAO:
         return self.session.query(AlunoDB).all()
 
 
-class MestreDAO:
+class AvaliadorDAO:
     def __init__(self,session):
         self.session = session
-    def adicionar(self, mestre):
-        self.session.add(mestre)
+    def adicionar(self, avaliador):
+        self.session.add(avaliador)
         self.session.commit()
     def buscar_por_email(self, email):
-        return self.session.query(MestreDB).filter_by(email=email).first()
+        return self.session.query(AvaliadorDB).filter_by(email=email).first()
     def listar_pendentes(self):
-        return self.session.query(MestreDB).filter_by(aprovado=False).all()
-    def aprovar_mestre(self, email):
-        mestre = self.buscar_por_email(email)
-        if mestre:
-            mestre.aprovado = True
+        return self.session.query(AvaliadorDB).filter_by(aprovado=False).all()
+    def aprovar_avaliador(self, email):
+        avaliador = self.buscar_por_email(email)
+        if avaliador:
+            avaliador.aprovado = True
             self.session.commit()
             return True
         return False
@@ -94,7 +94,7 @@ class ResgateDAO:
         self.session.commit()
 
     def listar_pendentes(self):
-        # Lista resgates que precisam ser processados pelo mestre
+        # Lista resgates que precisam ser processados pelo avaliador
         return self.session.query(ResgateDB).filter_by(status='pendente').all()
 
     def buscar_por_id(self, id_resgate):
@@ -147,7 +147,7 @@ class ResgateDAO:
 
 
 aluno_dao = AlunoDAO(session_dao)
-mestre_dao = MestreDAO(session_dao)
+avaliador_dao = AvaliadorDAO(session_dao)
 acao_dao = AcaoDAO(session_dao)
 recompensa_dao = RecompensaDAO(session_dao)
 resgate_dao = ResgateDAO(session_dao)

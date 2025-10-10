@@ -24,8 +24,8 @@ class AlunoDB(Base):
         )
 
 
-class MestreDB(Base):
-    __tablename__ = 'mestres'
+class AvaliadorDB(Base):
+    __tablename__ = 'avaliadores'
     email = Column(String, primary_key=True)
     nome = Column(String)
     senha = Column(String)
@@ -34,7 +34,7 @@ class MestreDB(Base):
     def __repr__(self):
         senha_oculta = '***' if self.senha else 'N/A'
         return (
-            f"<MestreDB(email='{self.email}', nome='{self.nome}', "
+            f"<AvaliadorDB(email='{self.email}', nome='{self.nome}', "
             f"aprovado='{self.aprovado}', senha='{senha_oculta}')>"
         )
 

@@ -1,12 +1,23 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from models.modelosDAO import AlunoDB, MestreDB, AcaoDB
+from models.modelosDAO import AlunoDB, AvaliadorDB, AcaoDB
 from database.database import (
-    aluno_dao, mestre_dao, acao_dao, recompensa_dao, resgate_dao
+    aluno_dao, avaliador_dao , acao_dao, recompensa_dao, resgate_dao,
 )
 
 app = Flask(__name__)
 app.secret_key = 'IUY$#YIy5i#5232'
 EMAIL_DOMAIN = '@academico.ifpb.edu.br'
+
+
+@app.route("/compras_disponiveis")
+def compras_disponiveis():
+    return render_template("compras_disponiveis.html")
+
+
+@app.route("/historico_acoes")
+def historico_acoes():
+    return "<h1>Histórico de ações</h1>"
+
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -20,20 +31,20 @@ def login():
         if role == 'aluno':
             user = aluno_dao.buscar_por_email(email)
         else:
-            user = mestre_dao.buscar_por_email(email)
+            user = avaliador_dao .buscar_por_email(email)
 
         if user and user.senha == senha and role == 'aluno':
 
             session['user'] = user.email
             session['role'] = 'aluno'
             return redirect(url_for('aluno_pagina'))
-        elif user and user.senha == senha and role == 'mestre':
+        elif user and user.senha == senha and role == 'avaliador':
             if not user.aprovado:
                 flash("Seu acesso ainda não foi aprovado pelo administrador.")
                 return redirect(url_for('login'))
             session['user'] = user.email
-            session['role'] = 'mestre'
-            return redirect(url_for('mestre_pagina'))
+            session['role'] = 'avaliador'
+            return redirect(url_for('avaliador_pagina'))
         else:
             flash("Email ou senha incorretos.")
             print('senha ou email errados')
@@ -62,12 +73,12 @@ def cadastro():
                 return redirect(url_for('cadastro'))
             aluno = AlunoDB(nome=nome, email=email, senha=senha, saldo=0)
             aluno_dao.adicionar(aluno)
-        elif role == 'mestre':
-            if mestre_dao.buscar_por_email(email):
-                flash("Este e-mail de mestre já está cadastrado.", 'error')
+        elif role == 'avaliador':
+            if avaliador_dao .buscar_por_email(email):
+                flash("Este e-mail de avaliador já está cadastrado.", 'error')
                 return redirect(url_for('cadastro'))
-            mestre = MestreDB(nome=nome, email=email, senha=senha, aprovado=False)
-            mestre_dao.adicionar(mestre)
+            avaliador = AvaliadorDB(nome=nome, email=email, senha=senha, aprovado=False)
+            avaliador_dao .adicionar(avaliador)
             flash("Seu login foi solicitado com sucesso. Aguarde aprovação.")
 
         return redirect(url_for('login'))
@@ -96,7 +107,7 @@ def aluno_pagina():
             valor=0
         )
         acao_dao.adicionar(nova_acao)
-        flash(f"Ação '{descricao}' enviada para aprovação do mestre!")
+        flash(f"Ação '{descricao}' enviada para aprovação do avaliador!")
         return redirect(url_for('aluno_pagina'))
 
     '''
@@ -104,50 +115,53 @@ def aluno_pagina():
     return render_template('aluno.html', aluno=aluno)
 
 
-@app.route('/mestre', methods=['GET'])
-def mestre_pagina():
-    email = session.get('mestre_email')
-    if not email:
-        flash("Faça login como mestre para acessar esta página.")
+@app.route('/avaliador', methods=['GET'])
+def avaliador_pagina():
+    email = session.get('user')
+    role = session.get('role')
+    if not email or role != 'avaliador':
+        flash("Faça login como avaliador para acessar esta página.")
         return redirect(url_for('login'))
-    mestre = mestre_dao.buscar_por_email(email)
-    if not mestre.aprovado:
+
+    avaliador = avaliador_dao.buscar_por_email(email)
+    if not avaliador.aprovado:
         flash("Seu acesso ainda não foi aprovado pelo administrador.")
         return redirect(url_for('login'))
+
     acoes = acao_dao.listar_pendentes()
-    return render_template('mestre.html', acoes=acoes, acoes_disponiveis=acoes_disponiveis)
+    return render_template('avaliador.html', acoes=acoes, acoes_disponiveis=[])
 
 @app.route('/aprovar/<int:id_acao>', methods=['POST'])
 def aprovar_acao(id_acao):
     valor_ifcoins = int(request.form['valor'])
     acao_dao.aprovar_acao(id_acao, valor_ifcoins)
     flash("Ação aprovada com sucesso!")
-    return redirect(url_for('mestre_pagina'))
+    return redirect(url_for('avaliador_pagina'))
 
 @app.route('/rejeitar/<int:id_acao>')
 def rejeitar_acao(id_acao):
     acao_dao.rejeitar_acao(id_acao)
     flash("Ação rejeitada.")
-    return redirect(url_for('mestre_pagina'))
+    return redirect(url_for('avaliador_pagina'))
 
 @app.route('/admin')
 def admin():
-    mestres_pendentes = mestre_dao.listar_pendentes()
-    return render_template('admin.html', mestres=mestres_pendentes)
+    avaliadors_pendentes = avaliador_dao .listar_pendentes()
+    return render_template('admin.html', avaliadors=avaliadors_pendentes)
 
-@app.route('/aprovar_mestre/<email>')
-def aprovar_mestre(email):
-    mestre_dao.aprovar_mestre(email)
-    flash(f"Mestre {email} aprovado!")
+@app.route('/aprovar_avaliador/<email>')
+def aprovar_avaliador(email):
+    avaliador_dao .aprovar_avaliador(email)
+    flash(f"avaliador {email} aprovado!")
     return redirect(url_for('admin'))
 
-@app.route('/rejeitar_mestre/<email>')
-def rejeitar_mestre(email):
-    mestre = mestre_dao.buscar_por_email(email)
-    if mestre:
-        session.delete(mestre)
+@app.route('/rejeitar_avaliador/<email>')
+def rejeitar_avaliador(email):
+    avaliador = avaliador_dao .buscar_por_email(email)
+    if avaliador:
+        session.delete(avaliador)
         session.commit()
-        flash(f"Mestre {email} rejeitado e removido do sistema.")
+        flash(f"avaliador {email} rejeitado e removido do sistema.")
     return redirect(url_for('admin'))
 
 if __name__ == '__main__':
