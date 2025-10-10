@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models.pessoas import Base, AlunoDB, AvaliadorDB, AcaoDB
+from models.modelosDAO import Base, AlunoDB, AvaliadorDB, AcaoDB
 
 engine = create_engine('sqlite:///ifcoins.db')
 Session = sessionmaker(bind=engine)
