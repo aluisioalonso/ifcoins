@@ -7,7 +7,7 @@
 </head>
 <body>
     <header class="top-bar">
-        <div class="saldo-box">IFCOINS: {{ aluno.saldo if aluno else '0.0' }}</div>
+        <div class="saldo-box"> Saldo IFCOINS: {{ aluno.saldo if aluno else '0.0' }}</div>
         <h1 class="titulo">Página do Aluno</h1>
         <div class="perfil-menu">
     <button onclick="toggleMenu()" class="hamburger">☰ Perfil</button>
@@ -27,31 +27,31 @@
         <a href="{{ url_for('historico_acoes') }}" class="btn">Histórico de Ações</a>
     </main>
 
-    <!-- Modal -->
     <div id="modal" class="modal hidden">
         <div class="modal-content">
             <span class="fechar" onclick="fecharModal()">&times;</span>
             <h2>Inserir Ação</h2>
             <form>
                 <label for="descricao">Descrição da Ação:</label>
-                <input type="text" id="descricao" name="descricao" required>
+                <input type="text" id="descricao" name="descricao"  placeholder="insira sua ação" required>
                 <button type="submit" class="btn">Enviar</button>
             </form>
         </div>
     </div>
 
     <script src="{{ url_for('static', filename='js/aluno.js') }}"></script>
-</body>
-<!-- Modal de Informações Pessoais -->
-<div id="modal-pessoais" class="modal">
+
+<div id="modal-pessoais" class="modal hidden">
     <div class="modal-content">
         <span class="fechar" onclick="fecharModalPessoais()">&times;</span>
         <h2>Informações Pessoais</h2>
         <p><strong>Nome:</strong> {{ aluno.nome }}</p>
         <p><strong>Email:</strong> {{ aluno.email }}</p>
         <p><strong>Senha:</strong> ********</p>
-        <p><strong>Tipo de Usuário:</strong> {{ 'Aluno' if aluno.tipo_usuario == 'aluno' else 'Avaliador' }}</p>
+        <p><strong>Tipo de Usuário:</strong> Aluno</p>
     </div>
 </div>
+</body>
+
 
 </html>

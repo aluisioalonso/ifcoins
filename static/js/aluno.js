@@ -42,7 +42,7 @@ function toggleMenu() {
     menu.classList.toggle("hidden");
 }
 
-// Modal de Informações Pessoais
+
 function abrirModalPessoais() {
     document.getElementById("modal-pessoais").style.display = "block";
     document.getElementById("menu-opcoes").classList.add("hidden");
@@ -51,6 +51,5 @@ function abrirModalPessoais() {
 function fecharModalPessoais() {
     document.getElementById("modal-pessoais").style.display = "none";
 }
-
 
 
