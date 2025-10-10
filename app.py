@@ -13,7 +13,7 @@ acao_dao = AcaoDAO()
 
 @app.route("/compras_disponiveis")
 def compras_disponiveis():
-    return render_template("compras_disponiveis.html")
+    return render_template("aluno/compras_disponiveis.html")
 
 
 @app.route("/historico_acoes")
@@ -74,7 +74,7 @@ def cadastro():
 
     return render_template('cadastro.html')
 
-@app.route('/aluno', methods=['GET', 'POST'])
+@app.route('aluno', methods=['GET', 'POST'])
 def aluno_pagina():
     email = session.get('user')
     role = session.get('role')
@@ -92,7 +92,7 @@ def aluno_pagina():
         flash(f"Ação '{descricao}' enviada para aprovação do avaliador!")
         return redirect(url_for('aluno_pagina'))
 
-    return render_template('aluno.html', aluno=aluno, acoes_disponiveis=acoes_aluno)
+    return render_template('aluno/aluno.html', aluno=aluno, acoes_disponiveis=acoes_aluno)
 
 @app.route('/avaliador', methods=['GET'])
 def avaliador_pagina():
