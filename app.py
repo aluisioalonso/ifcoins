@@ -9,6 +9,38 @@ app.secret_key = 'IUY$#YIy5i#5232'
 EMAIL_DOMAIN = '@academico.ifpb.edu.br'
 
 
+@app.route('/login_admin', methods=['GET', 'POST'])
+def login_admin():
+    if request.method == 'POST':
+        usuario = request.form.get('usuario')
+        senha = request.form.get('senha')
+
+        if usuario == 'admin' and senha == '1234':
+            session['admin_logado'] = True
+            print("✅ Login bem-sucedido! Redirecionando para admin_dashboard...")
+            return redirect(url_for('admin_dashboard'))
+        else:
+            flash('Usuário ou senha incorretos!', 'erro')
+
+    return render_template('adm/login_admin.html')
+
+
+@app.route('/admin')
+def admin_dashboard():
+    if not session.get('admin_logado'):
+        return redirect(url_for('login_admin'))
+
+    mestres = []
+    return render_template('adm/admin.html', mestres=mestres)
+
+
+@app.route('/adm/logout')
+def logout_admin():
+    session.pop('admin_logado', None)
+    flash('Logout realizado com sucesso!', 'sucesso')
+    return redirect(url_for('login_admin'))
+
+
 @app.route("/compras_disponiveis")
 def compras_disponiveis():
     return render_template("aluno/compras_disponiveis.html")
@@ -148,10 +180,7 @@ def rejeitar_acao(id_acao):
     flash("Ação rejeitada.")
     return redirect(url_for('avaliador_pagina'))
 
-@app.route('/admin')
-def admin():
-    avaliadors_pendentes = avaliador_dao .listar_pendentes()
-    return render_template('admin.html', avaliadors=avaliadors_pendentes)
+
 
 @app.route('/aprovar_avaliador/<email>')
 def aprovar_avaliador(email):

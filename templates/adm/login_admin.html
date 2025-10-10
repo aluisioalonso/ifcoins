@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Login do Administrador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adm/login_admin.css') }}">
+</head>
+<body>
+
+    <div class="login-container">
+        <h1 class="titulo">Painel do Administrador</h1>
+
+        <form class="login-form" method="POST" action="{{ url_for('login_admin') }}">
+            <label for="usuario">Usuário:</label>
+            <input type="text" id="usuario" name="usuario" placeholder="Digite seu usuário" required>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" placeholder="Digite sua senha" required>
+
+            <button type="submit" class="btn">Entrar</button>
+        </form>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flash-messages">
+              {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/adm/login_admin.js') }}"></script>
+</body>
+</html>

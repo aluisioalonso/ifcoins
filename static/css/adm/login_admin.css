@@ -1,0 +1,104 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #2e2e2e, #121212);
+    color: white;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Container principal */
+.login-container {
+    background-color: #1e1e1e;
+    border-radius: 15px;
+    padding: 40px 50px;
+    box-shadow: 0 0 20px #00ffae;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+/* Título */
+.titulo {
+    font-size: 28px;
+    color: #00ffae;
+    margin-bottom: 30px;
+    text-shadow: 0 0 8px #00ffae;
+}
+
+/* Formulário */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.login-form label {
+    text-align: left;
+    color: #00ffae;
+    font-weight: bold;
+}
+
+.login-form input {
+    background-color: #333;
+    border: 1px solid #00ffae;
+    border-radius: 8px;
+    padding: 12px;
+    color: white;
+    outline: none;
+    transition: 0.3s;
+}
+
+.login-form input:focus {
+    border-color: #00ffae;
+    box-shadow: 0 0 10px #00ffae;
+}
+
+/* Botão */
+.btn {
+    background-color: #00ffae;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background-color: #00cc8f;
+    box-shadow: 0 0 12px #00ffae;
+}
+
+/* Mensagem de erro */
+.erro {
+    color: #ff4d4d;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Animação */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}

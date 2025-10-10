@@ -287,3 +287,110 @@ body {
 .hidden {
     display: none;
 }
+/* MODAIS — garantem que fiquem escondidas até serem abertas */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: none; /* 👈 Importante: mantém escondida até o JS ativar */
+}
+
+/* Quando a classe hidden está presente */
+.hidden {
+    display: none !important;
+}
+
+/* Quando for exibida (sem .hidden) */
+.modal:not(.hidden) {
+    display: flex !important;
+}
+/* Estilo aprimorado da modal de Inserir Ações */
+.modal-content {
+    background-color: #1e1e1e;
+    border: 2px solid #00ffae;
+    padding: 30px;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 420px;
+    color: white;
+    box-shadow: 0 0 20px #00ffae;
+    text-align: center;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.modal-content h2 {
+    color: #00ffae;
+    margin-bottom: 20px;
+    font-size: 26px;
+    text-shadow: 0 0 8px #00ffae;
+}
+
+.modal-content label {
+    display: block;
+    text-align: left;
+    font-weight: bold;
+    color: #00ffae;
+    margin-bottom: 8px;
+}
+
+.modal-content select,
+.modal-content textarea,
+.modal-content input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #333;
+    border: 1px solid #00ffae;
+    border-radius: 8px;
+    color: white;
+    margin-bottom: 18px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.modal-content select:focus,
+.modal-content textarea:focus,
+.modal-content input[type="file"]:focus {
+    border-color: #00ffae;
+    box-shadow: 0 0 10px #00ffae;
+}
+
+.modal-content textarea {
+    resize: none;
+}
+
+/* Botão Enviar */
+.enviar-btn {
+    background-color: #00ffae;
+    color: black;
+    font-weight: bold;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 18px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.enviar-btn:hover {
+    background-color: #00cc8f;
+    box-shadow: 0 0 12px #00ffae;
+}
+
+/* Animação suave da modal */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
