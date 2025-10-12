@@ -47,8 +47,8 @@ class AcaoDAO:
     def listar_pendentes(self):
         return self.session.query(AcaoDB).filter_by(status='pendente').all()
 
-    def listar_por_aluno(self, aluno_email):
-        return self.session.query(AcaoDB).filter_by(aluno_email=aluno_email).all()
+    def listar_todas(self):
+        return self.session.query(AcaoDB).all()
 
     def aprovar_acao(self, acao_id):
         acao = self.buscar_por_id(acao_id)

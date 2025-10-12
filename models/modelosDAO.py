@@ -39,20 +39,28 @@ class AvaliadorDB(Base):
         )
 
 
+class AcaoRealizadaAlunoDB(Base):
+    __tablename__ = 'acaorealizada'
+    id = Column(Integer, primary_key=True)
+    email_aluno = Column(String)
+    id_acao = Column(String)
+    comentarios_aluno = Column(String)
+    valor = Column(Integer, default=0)
+    status = Column(Boolean, default=False)
+
+
+    def __repr__(self):
+        return f"<AcaoDB(id={self.id})>"
+
 class AcaoDB(Base):
     __tablename__ = 'acoes'
     id = Column(Integer, primary_key=True)
+    nome = Column(String)
     descricao = Column(String)
-    aluno_email = Column(String, ForeignKey('alunos.email'))
     valor = Column(Integer, default=0)
-    # status: 'pendente', 'aprovada', 'rejeitada'
-    status = Column(String, default='pendente')
-    data_envio = Column(DateTime, default=datetime.utcnow)
-
-    aluno = relationship("AlunoDB", back_populates="acoes")
 
     def __repr__(self):
-        return f"<AcaoDB(id={self.id}, aluno='{self.aluno_email}', status='{self.status}')>"
+        return f"<AcaoDB(id={self.id}, status='{self.status}')>"
 
 
 class RecompensaDB(Base):

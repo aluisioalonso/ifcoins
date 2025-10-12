@@ -2,35 +2,26 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Admin IFCONS</title>
+    <title>Página do Aluno</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/adm/admin.css') }}">
 </head>
 <body>
-    <h1>Painel do Administrador</h1>
+    <header class="top-bar">
+        <h1 class="titulo">Página do Admin</h1>
 
-    <h2>Mestres pendentes de aprovação</h2>
-    <ul>
-        {% for mestre in mestres %}
-        <li>
-            {{ mestre.nome }} - {{ mestre.email }}
-            <a href="{{ url_for('aprovar_avaliador', email=mestre.email) }}" class="aprovar">Aprovar</a>
-            <a href="{{ url_for('rejeitar_avaliador', email=mestre.email) }}" class="rejeitar">Rejeitar</a>
-        </li>
-        {% endfor %}
-    </ul>
+        <div class="perfil-menu">
+            <a href="/admin/logout"  class="hamburger">Logout</a>
+        </div>
+    </header>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-      {% if messages %}
-        <ul class="flash-messages">
-          {% for category, message in messages %}
-            <li class="{{ category }}">{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+    <main class="main-content">
+        <a href="/admin/menuacoes" class="btn" >Menu Ações</a>
+        <a href="" class="btn">Menu Recompensas</a>
+        <a href="" class="btn">Menu Avaliadores</a>
+    </main>
 
-    <a href="{{ url_for('logout_admin') }}" class="logout">Sair</a>
 
-    <script src="{{ url_for('static', filename='js/adm/admin.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/aluno.js') }}"></script>
 </body>
 </html>
