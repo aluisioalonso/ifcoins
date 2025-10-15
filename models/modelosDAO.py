@@ -13,9 +13,6 @@ class AlunoDB(Base):
     senha = Column(String)
     saldo = Column(Integer, default=0)
 
-    acoes = relationship("AcaoDB", back_populates="aluno")
-    resgates = relationship("ResgateDB", back_populates="aluno")
-
     def __repr__(self):
         senha_oculta = '***' if self.senha else 'N/A'
         return (
@@ -71,9 +68,6 @@ class RecompensaDB(Base):
     custo = Column(Integer)  # Custo em IFCoins
     estoque = Column(Integer, default=0)
 
-    # povo, eu deixei um para muitos: uma recompensa pode estar em muitos resgates, ok???
-    resgates = relationship("ResgateDB", back_populates="recompensa")
-
     def __repr__(self):
         return f"<RecompensaDB(id={self.id}, nome='{self.nome}', custo='{self.custo}', estoque='{self.estoque}')>"
 
@@ -90,8 +84,6 @@ class ResgateDB(Base):
     # status: 'pendente', 'entregue', 'cancelado'
     status = Column(String, default='pendente')
 
-    aluno = relationship("AlunoDB", back_populates="resgates")
-    recompensa = relationship("RecompensaDB", back_populates="resgates")
 
     def __repr__(self):
         return f"<ResgateDB(id={self.id}, aluno='{self.aluno_email}', recompensa_id={self.recompensa_id}, status='{self.status}')>"
