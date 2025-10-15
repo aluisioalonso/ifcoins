@@ -1,5 +1,6 @@
 from flask import *
 from database.database import *
+from models.modelosDAO import *
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -46,4 +47,16 @@ def mostrar_menu():
     acoes = acao_dao.listar_todas()
     return render_template('adm/menuacoes.html', acoes=acoes)
 
+@admin_bp.route('/cadastraracao', methods=['POST'])
+def cadastrar_acao():
+    if 'admin_logado' not in session:
+        return render_template('adm/login_admin.html')
 
+    nome = request.form.get('nome')
+    valor = request.form.get('valor')
+    descricao = request.form.get('descricao')
+
+    nova_acao = AcaoDB(nome=nome, descricao=descricao, valor=valor)
+    acao_dao.adicionar(nova_acao)
+    print('oiii')
+    return redirect(url_for('admin.mostrar_menu'))

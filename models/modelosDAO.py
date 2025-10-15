@@ -37,7 +37,7 @@ class AcaoDB(Base):
     nome = Column(String)
     descricao = Column(String)
     valor = Column(Integer, default=0)
-    status = Column(String, default='pendente')  # ✅ adicionada
+    status = Column(String, default='pendente')
 
     acoes_realizadas = relationship("AcaoRealizadaAlunoDB", back_populates="acao")
 
