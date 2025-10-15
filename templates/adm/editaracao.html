@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Página do Admin</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adm/menuacoes.css') }}">
+</head>
+<body>
+    <div class="content-header">
+
+
+    </div>
+
+    <div class="naomodal">
+        <div class="modal-content">
+
+          <h1>Editar Ação</h1>
+          <br>
+            <form method="POST" action="/admin/editaracao/{{acao.id}}">
+                <div class="form-group">
+                    <label for="nome">Id da Ação:</label>
+                    <input type="text" value="{{acao.id}}" name="id" disabled>
+                </div>
+                <div class="form-group">
+                    <label for="nome">Nome da Ação:</label>
+                    <input type="text" value="{{acao.nome}}" id="nome" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="valor">Valor:</label>
+                    <input type="number" value="{{acao.valor}}" step="0.01" id="valor" name="valor" required>
+                </div>
+                <div class="form-group">
+                    <label for="descricao">Descrição:</label>
+                    <textarea id="descricao" name="descricao" rows="4" required>{{acao.descricao}}</textarea>
+                </div>
+                <button type="submit" class="button primary-button modal-submit-button">Salvar Ação</button>
+            </form>
+        </div>
+    </div>
+    {# -------------------- FIM DA MODAL -------------------- #}
+
+</body>

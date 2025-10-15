@@ -1,6 +1,6 @@
 from flask import *
 from database.database import *
-from models.modelosDAO import *
+from models.modelosDB import *
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -40,7 +40,7 @@ def logout_admin():
 
 @admin_bp.route('/menuacoes')
 def mostrar_menu():
-    acoes = acao_dao.listar_pendentes()
+
     if 'admin_logado' not in session:
         return render_template('adm/login_admin.html')
 
@@ -58,5 +58,27 @@ def cadastrar_acao():
 
     nova_acao = AcaoDB(nome=nome, descricao=descricao, valor=valor)
     acao_dao.adicionar(nova_acao)
-    print('oiii')
+
     return redirect(url_for('admin.mostrar_menu'))
+
+@admin_bp.route('/editaracao/<int:id>', methods=['POST','GET'])
+def editar_acao(id):
+    if 'admin_logado' not in session:
+        return render_template('adm/login_admin.html')
+
+    if request.method == 'GET':
+        acao = acao_dao.buscar_por_id(id)
+
+        return render_template('adm/editaracao.html', acao=acao)
+
+    nome = request.form.get('nome')
+    valor = request.form.get('valor')
+    descricao = request.form.get('descricao')
+
+    if acao_dao.editar(AcaoDB(id=id, nome=nome, valor=valor, descricao=descricao)):
+        return redirect(url_for('admin.mostrar_menu'))
+    else:
+        print('deu ruim. falta fazer a pagin html')
+        return redirect(url_for('admin.mostrar_menu'))
+
+

@@ -1,6 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models.modelosDAO import (
+from models.modelosDB import (
     AlunoDB, AvaliadorDB, AcaoDB, RecompensaDB, ResgateDB
 )
 
@@ -60,9 +60,10 @@ class AcaoDAO:
         self.session.add(acao)
         self.session.commit()
 
-    def listar_pendentes(self):
-        # ⚠️ Só funciona se o modelo AcaoDB tiver o campo "status"
-        return self.session.query(AcaoDB).filter_by(status='pendente').all()
+    def editar(self, acao):
+        self.session.merge(acao)
+        self.session.commit()
+        return True
 
     def listar_todas(self):
         return self.session.query(AcaoDB).all()
@@ -70,23 +71,6 @@ class AcaoDAO:
     def buscar_por_id(self, id_acao):
         return self.session.get(AcaoDB, id_acao)
 
-    def aprovar_acao(self, acao_id):
-        acao = self.buscar_por_id(acao_id)
-        if acao and acao.status == 'pendente':
-            acao.status = 'aprovada'
-            aluno = acao.aluno
-            aluno.saldo += acao.valor
-            self.session.commit()
-            return True
-        return False
-
-    def rejeitar_acao(self, acao_id):
-        acao = self.buscar_por_id(acao_id)
-        if acao and acao.status == 'pendente':
-            acao.status = 'rejeitada'
-            self.session.commit()
-            return True
-        return False
 
 
 

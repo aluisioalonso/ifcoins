@@ -37,13 +37,12 @@ class AcaoDB(Base):
     nome = Column(String)
     descricao = Column(String)
     valor = Column(Integer, default=0)
-    status = Column(String, default='pendente')
 
     acoes_realizadas = relationship("AcaoRealizadaAlunoDB", back_populates="acao")
 
     def __repr__(self):
         return (
-            f"<AcaoDB(id={self.id}, nome='{self.nome}', valor={self.valor}, status='{self.status}')>"
+            f"<AcaoDB(id={self.id}, nome='{self.nome}', valor={self.valor},descricao={self.descricao}')>"
         )
 
 class AcaoRealizadaAlunoDB(Base):

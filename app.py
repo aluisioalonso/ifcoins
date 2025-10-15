@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from models.modelosDAO import AlunoDB, AvaliadorDB, AcaoDB
+from models.modelosDB import AlunoDB, AvaliadorDB, AcaoDB
 from admin.admin_bp import admin_bp
 from database.database import (
     aluno_dao, avaliador_dao , acao_dao, recompensa_dao,
