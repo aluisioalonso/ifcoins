@@ -1,0 +1,249 @@
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #2e2e2e, #121212);
+    color: white;
+    min-height: 100vh;
+    padding: 30px;
+}
+
+/* CABEÇALHO */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 15px 25px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 255, 174, 0.2);
+}
+
+.content-header h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #00ffae;
+    text-shadow: 0 0 8px #00ffae;
+}
+
+/* BOTÃO PRINCIPAL */
+.button.primary-button {
+    background-color: #00ffae;
+    color: black;
+    padding: 12px 24px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+    box-shadow: 0 0 10px #00ffae;
+}
+
+.button.primary-button:hover {
+    background-color: #00cc8f;
+    box-shadow: 0 0 15px #00ffae;
+}
+
+/* TABELA */
+.table-container {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 255, 174, 0.2);
+    overflow: hidden;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead {
+    background-color: #00ffae;
+    color: black;
+}
+
+th, td {
+    padding: 14px 20px;
+    text-align: left;
+}
+
+tbody tr {
+    border-bottom: 1px solid #333;
+    transition: background-color 0.2s ease;
+}
+
+tbody tr:hover {
+    background-color: rgba(0, 255, 174, 0.1);
+}
+
+/* AÇÕES NA TABELA */
+.table-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.action-button {
+    padding: 8px 14px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+/* BOTÕES INDIVIDUAIS */
+.action-button.edit {
+    background-color: #00ffae;
+    color: black;
+}
+
+.action-button.edit:hover {
+    background-color: #00cc8f;
+    box-shadow: 0 0 10px #00ffae;
+}
+
+.action-button.delete {
+    background-color: #ff4d4d;
+    color: white;
+}
+
+.action-button.delete:hover {
+    background-color: #d93636;
+    box-shadow: 0 0 10px #ff4d4d;
+}
+
+/* ESTADO VAZIO */
+.empty-state {
+    text-align: center;
+    color: #ccc;
+    margin-top: 40px;
+    font-size: 18px;
+}
+
+.empty-state a {
+    color: #00ffae;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.empty-state a:hover {
+    text-decoration: underline;
+}
+/* ESTILOS DA MODAL */
+
+/* ... (Seu CSS Existente) ... */
+
+/* ESTILOS DA MODAL */
+
+/* Fundo da Modal (Escurece a tela) */
+.modal {
+    display: none; /* Escondida por padrão */
+    position: fixed; /* Fixa na viewport */
+    z-index: 1000; /* Acima de outros elementos */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* Habilita scroll se o conteúdo for grande */
+    background-color: rgba(0, 0, 0, 0.8); /* Fundo preto semi-transparente */
+    backdrop-filter: blur(5px); /* Efeito de desfoque */
+}
+
+/* Conteúdo da Modal (A caixa central) */
+.modal-content {
+    background-color: #1e1e1e; /* Cor de fundo escura */
+    /* Centralização com transformação (melhor para centralização perfeita) */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    padding: 30px;
+    border: 1px solid #00ffae; /* Borda da cor de destaque */
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px; /* Largura máxima */
+    box-shadow: 0 5px 30px rgba(0, 255, 174, 0.5); /* Sombra neon */
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Animação de entrada (opcional) */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translate(-50%, -60%); }
+    to { opacity: 1; transform: translate(-50%, -50%); }
+}
+
+/* Botão de Fechar (o 'x') */
+.close-button {
+    color: #00ffae;
+    float: right;
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 1;
+    transition: 0.2s;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #ff4d4d; /* Cor de destaque ao passar o mouse/focar */
+    text-decoration: none;
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+/* Título da Modal */
+.modal-content h2 {
+    color: #00ffae;
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 24px;
+}
+
+/* Estilos de Formulário */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ccc;
+    font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #00ffae;
+    border-radius: 6px;
+    background-color: #2e2e2e;
+    color: white;
+    font-size: 16px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: #00cc8f;
+    box-shadow: 0 0 10px rgba(0, 255, 174, 0.5);
+    outline: none;
+}
+
+/* Botão de Submit (reutiliza o estilo primary-button) */
+.modal-submit-button {
+    width: 100%;
+    margin-top: 15px;
+    /* Ajusta padding/tamanho se necessário para modal */
+    padding: 15px 24px !important;
+    font-size: 18px;
+}

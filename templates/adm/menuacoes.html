@@ -1,11 +1,14 @@
-{% extends "pessoa/base.html" %}
+{% block estilos %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/adm/menuacoes.css') }}">
+{% endblock %}
 
-{% block titulo %}Lista de Pessoas{% endblock %}
+{% block titulo %}Lista de Ações{% endblock %}
 
 {% block conteudo %}
 <div class="content-header">
-<h1>Lista de Pessoas</h1>
-<a href="/" class="button primary-button">Cadastrar Nova Ação</a>
+    <h1>Lista de Ações</h1>
+    {# MUDEI A TAG <a> PARA <button> E ADICIONEI O ID PARA O JS PEGAR #}
+    <button id="abrirModalCadastro" class="button primary-button">Cadastrar Nova Ação</button>
 </div>
 
 {% if acoes %}
@@ -17,6 +20,7 @@
                 <th>Nome</th>
                 <th>Valor</th>
                 <th>Descrição</th>
+                <th>Ações</th>
             </tr>
         </thead>
         <tbody>
@@ -27,9 +31,8 @@
                 <td>{{ acao.valor }}</td>
                 <td>{{ acao.descricao }}</td>
                 <td class="table-actions">
-                    <a href="{{ url_for('pessoa.detalhes_pessoa', id=p.id_pessoa) }}" class="action-button view">Ver</a>
                     <a href="/admin/detalharacao/{{acao.id}}" class="action-button edit">Editar</a>
-                    <form method="POST" action="{{ url_for('pessoa.excluir_pessoa', id=p.id_pessoa) }}" onsubmit="return confirm('Tem certeza que deseja excluir esta pessoa?');" style="display:inline;">
+                    <form method="POST" action="/admin/excluiracao/{{acao.id}}" onsubmit="return confirm('Tem certeza que deseja excluir esta ação?');" style="display:inline;">
                         <button type="submit" class="action-button delete">Excluir</button>
                     </form>
                 </td>
@@ -39,7 +42,37 @@
     </table>
 </div>
 {% else %}
-<p class="empty-state">Nenhuma pessoa encontrada. <a href="{{ url_for('pessoa.cadastrar_pessoa') }}">Cadastre uma agora.</a></p>
+<p class="empty-state">Nenhuma ação encontrada.</p>
 {% endif %}
 
+{# -------------------- CÓDIGO HTML DA MODAL -------------------- #}
+<div id="modalCadastroAcao" class="modal">
+    <div class="modal-content">
+        {# ADICIONEI ID AO BOTÃO FECHAR PARA REFERENCIAR NO JS #}
+        <span class="close-button" id="fecharModalCadastro">&times;</span>
+        <h2>Cadastrar Nova Ação</h2>
+        <form method="POST" action="/admin/menuacoes">
+            <div class="form-group">
+                <label for="nome">Nome da Ação:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            <div class="form-group">
+                <label for="valor">Valor:</label>
+                <input type="number" step="0.01" id="valor" name="valor" required>
+            </div>
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <textarea id="descricao" name="descricao" rows="4" required></textarea>
+            </div>
+            <button type="submit" class="button primary-button modal-submit-button">Salvar Ação</button>
+        </form>
+    </div>
+</div>
+{# -------------------- FIM DA MODAL -------------------- #}
+
+{% endblock %}
+
+{# CHAMA O ARQUIVO JAVASCRIPT #}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/adm/menuacoes.js') }}"></script>
 {% endblock %}

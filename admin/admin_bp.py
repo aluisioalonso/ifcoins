@@ -39,9 +39,9 @@ def logout_admin():
 
 @admin_bp.route('/menuacoes')
 def mostrar_menu():
-
+    acoes = acao_dao.listar_pendentes()
     if 'admin_logado' not in session:
-        return render_template('adm/menuacoes.html')
+        return render_template('adm/login_admin.html')
 
     acoes = acao_dao.listar_todas()
     return render_template('adm/menuacoes.html', acoes=acoes)
