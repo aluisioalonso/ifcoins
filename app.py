@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from models.modelosDAO import AlunoDB, AvaliadorDB, AcaoDB
-from admin.admin_bp import admin_bp
 from database.database import (
     aluno_dao, avaliador_dao , acao_dao, recompensa_dao, resgate_dao,
 )
@@ -10,7 +9,21 @@ app.secret_key = 'IUY$#YIy5i#5232'
 EMAIL_DOMAIN = '@academico.ifpb.edu.br'
 
 
-app.register_blueprint(admin_bp)
+@app.route('/admin')
+def admin_dashboard():
+    if not session.get('admin_logado'):
+        return redirect(url_for('login_admin'))
+
+    mestres = []
+    return render_template('adm/admin.html', mestres=mestres)
+
+
+@app.route('/adm/logout')
+def logout_admin():
+    session.pop('admin_logado', None)
+    flash('Logout realizado com sucesso!', 'sucesso')
+    return redirect(url_for('login_admin'))
+
 
 @app.route("/compras_disponiveis")
 def compras_disponiveis():
@@ -46,13 +59,9 @@ def login():
             if not user.aprovado:
                 flash("Seu acesso ainda não foi aprovado pelo administrador.")
                 return redirect(url_for('login'))
-            else:
-                session['user'] = user.email
-                session['role'] = 'avaliador'
-                acoes = acao_dao.listar_pendentes()
-                return render_template('avaliador.html', acoes=acoes, acoes_disponiveis=[])
-
-
+            session['user'] = user.email
+            session['role'] = 'avaliador'
+            return redirect(url_for('avaliador_pagina'))
         else:
             flash("Email ou senha incorretos.")
             print('senha ou email errados')
