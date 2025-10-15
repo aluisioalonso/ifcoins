@@ -41,7 +41,7 @@ def login():
     if request.method == 'POST':
         email_input = request.form['email']
         senha = request.form['senha']
-        role = request.form.get('role')
+        role = request.form.get('role')#aluno ou avaliador
         email = email_input + EMAIL_DOMAIN
 
         if role == 'aluno':

@@ -6,7 +6,6 @@ admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 @admin_bp.route('/', methods=['GET', 'POST'])
 def login_admin():
-    print('tttt')
     if request.method == 'POST':
         usuario = request.form.get('usuario')
         senha = request.form.get('senha')
@@ -17,7 +16,7 @@ def login_admin():
             return render_template('adm/admin.html')
         else:
             flash('Usuário ou senha incorretos!', 'erro')
-    print(2)
+
     return render_template('adm/login_admin.html')
 
 
@@ -43,10 +42,5 @@ def mostrar_menu():
 
     acoes = acao_dao.listar_todas()
     return render_template('adm/menuacoes.html', acoes=acoes)
-
-
-@admin_bp.route('/detalharacao/<int:id>')
-def mostrar_menu(id):
-    return 'oi'
 
 
