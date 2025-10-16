@@ -1,0 +1,141 @@
+/* ======= RESET ======= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ======= BASE ======= */
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #2e2e2e, #121212);
+    color: white;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* ======= TÍTULOS ======= */
+h1, h2 {
+    color: #00ffae;
+    text-align: center;
+    margin-bottom: 25px;
+    text-shadow: 0 0 8px #00ffae;
+}
+
+/* ======= BOTÕES ======= */
+.action-button {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 15px;
+    text-decoration: none;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.action-button.edit {
+    background-color: #00ffae;
+    color: black;
+}
+
+.action-button.delete {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.action-button.edit:hover {
+    background-color: #00cc8f;
+    box-shadow: 0 0 10px #00ffae;
+}
+
+.action-button.delete:hover {
+    background-color: #c0392b;
+    box-shadow: 0 0 10px #ff3c3c;
+}
+
+/* ======= TABELA ======= */
+.table-container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 255, 174, 0.2);
+    padding: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    color: white;
+}
+
+thead {
+    background-color: #00ffae;
+    color: black;
+}
+
+th, td {
+    padding: 14px 10px;
+    text-align: center;
+}
+
+tbody tr {
+    border-bottom: 1px solid #333;
+}
+
+tbody tr:hover {
+    background-color: #2c2c2c;
+}
+
+/* ======= MENSAGEM DE VAZIO ======= */
+.empty-state {
+    text-align: center;
+    color: #ccc;
+    font-size: 18px;
+    margin-top: 40px;
+}
+
+/* ======= LINK "CADASTRAR NOVA AÇÃO" ======= */
+.button.primary-button {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: #00ffae;
+    color: black;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.button.primary-button:hover {
+    background-color: #00cc8f;
+    box-shadow: 0 0 10px #00ffae;
+}
+
+/* ======= HEADER ======= */
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+/* ======= RESPONSIVIDADE ======= */
+@media (max-width: 768px) {
+    .table-container {
+        padding: 10px;
+    }
+
+    th, td {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .button.primary-button {
+        width: 100%;
+        text-align: center;
+    }
+}

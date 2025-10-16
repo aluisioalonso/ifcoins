@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Avaliadores Pendentes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adm/avaliadorespendentes.css') }}">
+</head>
+<body>
+    <div class="content-header">
+        <h1>Avaliadores Pendentes</h1>
+        <a href="{{ url_for('admin.admin_dashboard') }}" class="button back-button">Voltar</a>
+    </div>
+
+    {% if avaliadores %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for avaliador in avaliadores %}
+                <tr>
+                    <td>{{ avaliador.nome }}</td>
+                    <td>{{ avaliador.email }}</td>
+                    <td class="table-actions">
+                        <a href="{{ url_for('admin.aprovar_avaliador', email=avaliador.email) }}"
+                           onclick="confirmarAprovacao(event)"
+                           class="action-button approve">Aprovar</a>
+
+                        <a href="{{ url_for('admin.rejeitar_avaliador', email=avaliador.email) }}"
+                           onclick="confirmarRejeicao(event)"
+                           class="action-button reject">Rejeitar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="empty-state">Nenhum avaliador pendente de aprovação.</p>
+    {% endif %}
+
+    <script src="{{ url_for('static', filename='js/adm/avaliadorespendentes.js') }}"></script>
+</body>
+</html>

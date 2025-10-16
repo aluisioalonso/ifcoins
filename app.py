@@ -1,15 +1,16 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
-from models.modelosDB import AlunoDB, AvaliadorDB, AcaoDB
-from admin.admin_bp import admin_bp
+from models.modelosDB import AlunoDB, AvaliadorDB
+from blueprints.admin_bp import admin_bp
+from blueprints.avaliador_bp import avaliador_bp
 from database.database import (
-    aluno_dao, avaliador_dao , acao_dao, recompensa_dao,
-)
+    aluno_dao, avaliador_dao , )
 
 app = Flask(__name__)
 app.secret_key = 'IUY$#YIy5i#5232'
 EMAIL_DOMAIN = '@academico.ifpb.edu.br'
 
 app.register_blueprint(admin_bp)
+app.register_blueprint(avaliador_bp)
 
 @app.route('/adm/logout')
 def logout_admin():
@@ -54,7 +55,7 @@ def login():
                 return redirect(url_for('login'))
             session['user'] = user.email
             session['role'] = 'avaliador'
-            return redirect(url_for('avaliador_pagina'))
+            return redirect(url_for('avaliador.avaliador_pagina'))
         else:
             flash("Email ou senha incorretos.")
             print('senha ou email errados')
@@ -128,34 +129,7 @@ def aluno_pagina():
     return render_template('aluno/aluno.html', aluno=aluno)
 
 
-@app.route('/avaliador', methods=['GET'])
-def avaliador_pagina():
-    email = session.get('user')
-    role = session.get('role')
-    if not email or role != 'avaliador':
-        flash("Faça login como avaliador para acessar esta página.")
-        return redirect(url_for('login'))
 
-    avaliador = avaliador_dao.buscar_por_email(email)
-    if not avaliador.aprovado:
-        flash("Seu acesso ainda não foi aprovado pelo administrador.")
-        return redirect(url_for('login'))
-
-    acoes = acao_dao.listar_pendentes()
-    return render_template('adm/avaliador.html', acoes=acoes, acoes_disponiveis=[])
-
-@app.route('/aprovar/<int:id_acao>', methods=['POST'])
-def aprovar_acao(id_acao):
-    valor_ifcoins = int(request.form['valor'])
-    acao_dao.aprovar_acao(id_acao, valor_ifcoins)
-    flash("Ação aprovada com sucesso!")
-    return redirect(url_for('avaliador_pagina'))
-
-@app.route('/rejeitar/<int:id_acao>')
-def rejeitar_acao(id_acao):
-    acao_dao.rejeitar_acao(id_acao)
-    flash("Ação rejeitada.")
-    return redirect(url_for('avaliador_pagina'))
 
 
 
