@@ -107,24 +107,6 @@ def aluno_pagina():
         return redirect(url_for('login'))
 
     aluno = aluno_dao.buscar_por_email(email)
-    # Corrigido para usar a lista de acoes reais
-    #acoes_aluno = acao_dao.listar_por_aluno(email)
-
-    '''
-        if request.method == 'POST':
-        descricao = request.form['descricao']
-
-        nova_acao = AcaoDB(
-            descricao=descricao,
-            aluno_email=aluno.email,
-            status='pendente',
-            valor=0
-        )
-        acao_dao.adicionar(nova_acao)
-        flash(f"Ação '{descricao}' enviada para aprovação do avaliador!")
-        return redirect(url_for('aluno_pagina'))
-
-    '''
 
     return render_template('aluno/aluno.html', aluno=aluno)
 

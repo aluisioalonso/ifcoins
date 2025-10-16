@@ -54,7 +54,7 @@ class AcaoRealizadaAlunoDB(Base):
     comentarios_aluno = Column(String)
     valor = Column(Integer, default=0)
     status = Column(String, default='pendente')  # pendente/aprovada/rejeitada
-    data_envio = Column(DateTime, default=datetime.utcnow)
+    data_envio = Column(DateTime, default=datetime.now())
 
     aluno = relationship("AlunoDB", back_populates="acoes_realizadas")
     acao = relationship("AcaoDB", back_populates="acoes_realizadas")
@@ -62,7 +62,7 @@ class AcaoRealizadaAlunoDB(Base):
     def __repr__(self):
         return (
             f"<AcaoRealizadaAlunoDB(id={self.id}, aluno='{self.email_aluno}', "
-            f"acao_id={self.id_acao}, status='{self.status}')>"
+            f"acao_id={self.id_acao}, status='{self.status}, valor='{self.valor}')>"
         )
 
 class RecompensaDB(Base):

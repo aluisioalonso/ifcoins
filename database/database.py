@@ -96,6 +96,9 @@ class AcaoRealizadaDAO:
     def listar_pendentes(self):
         return self.session.query(AcaoRealizadaAlunoDB).filter_by(status='pendente').all()
 
+    def listar_todas(self):
+        return self.session.query(AcaoRealizadaAlunoDB).all()
+
     def buscar_por_id(self, id_acao_realizada):
         return self.session.get(AcaoRealizadaAlunoDB, id_acao_realizada)
 
