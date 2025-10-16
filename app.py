@@ -142,7 +142,7 @@ def avaliador_pagina():
         return redirect(url_for('login'))
 
     acoes = acao_dao.listar_pendentes()
-    return render_template('avaliador.html', acoes=acoes, acoes_disponiveis=[])
+    return render_template('adm/avaliador.html', acoes=acoes, acoes_disponiveis=[])
 
 @app.route('/aprovar/<int:id_acao>', methods=['POST'])
 def aprovar_acao(id_acao):

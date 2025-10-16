@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menu Principal</title>
+  <link rel="stylesheet" href="../static/css/avaliador/avaliador.css">
+</head>
+<body>
+  <main class="canvas">
+    <div class="top-row">
+      <button id="open-profile" class="pill-profile">perfil</button>
+    </div>
+
+    <div class="title">área do avaliador</div>
+
+    <section class="actions-row">
+      <button class="action-btn" id="btn-enviadas">ações enviadas</button>
+      <button class="action-btn" id="btn-deferidas">ações deferidas</button>
+    </section>
+
+    <div class="sections">
+
+      </article>
+    </div>
+  </main>
+
+  <div id="profile-modal" class="modal hidden">
+    <div class="modal-content">
+      <h4>Perfil</h4>
+      <a href="#" class="mini-btn">dados do usuário</a>
+      <a href="#" class="mini-btn">avaliações</a>
+      <a href="#" class="mini-btn">ações indeferidas</a>
+      <a href="#" class="mini-btn">sair da sessão</a>
+      <span id="close-profile" class="close-btn">×</span>
+    </div>
+  </div>
+
+
+     <script src="{{ url_for('static', filename='js/avaliador/avaliador.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+/* menu_principal.css - Improved Version */
+* {
+  /* Box model reset - essential */
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* Font - 'Inter' is retained */
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  /* Background and Text Colors (Dark Mode with Neon Green) */
+  background-color: #121212; /* Slightly darker background for better contrast */
+  color: #00ff99; /* Neon green text */
+
+  /* Centering content vertically and horizontally */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  justify-content: center;
+
+  /* Ensure a minimum padding around the content */
+  padding: 20px;
+}
+
+.canvas {
+  width: 100%;
+  max-width: 500px; /* Slightly reduced max-width for focus */
+  padding: 1rem;
+  text-align: center;
+  /* Add a subtle shadow for depth in dark mode */
+  box-shadow: 0 4px 15px rgba(0, 255, 153, 0.1);
+  border-radius: 10px;
+}
+
+/* --- Profile Button (Moved to Top Left) --- */
+.top-row {
+  /* Use fixed positioning to place it relative to the viewport */
+  position: fixed;
+  top: 20px; /* 20px from the top */
+  left: 20px; /* 20px from the left */
+  /* Remove flex properties as it's now fixed/absolute */
+  display: block;
+  margin-bottom: 0; /* Reset margin */
+}
+
+.pill-profile {
+  background-color: #00ff99; /* Neon green pill background */
+  color: #000000; /* Black text for high contrast */
+  border: none;
+  /* Smaller, more rounded pill shape */
+  border-radius: 50px;
+  padding: 0.5rem 1rem; /* Adjusted padding */
+  font-weight: 600; /* Medium bold */
+  cursor: pointer;
+  /* Smooth transition for hover effect */
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.pill-profile:hover {
+  background-color: #00e680; /* Slightly darker green on hover */
+  transform: scale(1.05); /* Slight lift effect */
+}
+
+/* --- Title --- */
+.title {
+  font-size: 2rem; /* Slightly larger title */
+  margin-bottom: 2.5rem; /* Increased spacing below title */
+  font-weight: 800; /* Extra bold */
+  color: #00ff99;
+  /* Add a subtle text shadow for a neon glow effect */
+  text-shadow: 0 0 5px rgba(0, 255, 153, 0.7);
+}
+
+/* --- Action Buttons --- */
+.actions-row {
+  display: flex;
+  flex-direction: column;
+  /* Consistent and generous spacing */
+  gap: 1rem;
+  margin-bottom: 2rem;
+  width: 100%; /* Ensure actions row uses full canvas width */
+}
+
+.action-btn {
+  background-color: #00ff99; /* Neon green background */
+  color: #121212; /* Text color matching the new background */
+  border: none;
+  /* Improved button shape: full width with rounded corners */
+  padding: 1.2rem 2rem;
+  border-radius: 12px;
+  font-weight: 700; /* Bold text */
+  cursor: pointer;
+  font-size: 1.1rem; /* Slightly larger font */
+  letter-spacing: 0.5px;
+  /* Smooth transition for hover effect */
+  transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+  /* Subtle initial shadow */
+  box-shadow: 0 4px 10px rgba(0, 255, 153, 0.3);
+}
+
+.action-btn:hover {
+  background-color: #00e680; /* Slightly darker green on hover */
+  transform: translateY(-2px); /* Slight lift effect */
+  box-shadow: 0 6px 15px rgba(0, 255, 153, 0.5); /* Enhanced shadow on hover */
+}
+
+/* --- Removed 'registro' Card --- */
+/* The entire .card section for 'registro' is no longer needed.
+   I've kept the general .card, .fake-input, and modal styles below
+   in case they are used elsewhere in your application. */
+
+.card {
+  margin-top: 1.5rem;
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: #202020; /* Darker card background */
+  color: #00ff99;
+  border: 1px solid rgba(0, 255, 153, 0.2); /* Subtle neon border */
+}
+
+/* Fake input */
+.fake-input {
+  background-color: #333333;
+  padding: 0.8rem;
+  border-radius: 8px;
+  color: #00ff99;
+}
+
+.fake-input.small {
+  height: 2.5rem; /* Slightly increased height */
+}
+
+/* --- Modal Styles (Retained for completeness) --- */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8); /* Slightly darker overlay */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Ensure modal is on top */
+}
+
+.modal-content {
+  background: #121212;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 350px;
+  text-align: center;
+  position: relative;
+  color: #00ff99;
+  border: 2px solid #00ff99; /* Stronger neon border for modals */
+  box-shadow: 0 0 20px rgba(0, 255, 153, 0.5);
+}
+
+.mini-btn {
+  display: block;
+  background: #00ff99;
+  color: #000;
+  padding: 0.6rem;
+  border-radius: 10px;
+  margin: 0.6rem 0;
+  text-decoration: none;
+  font-weight: 700;
+  transition: background-color 0.3s;
+}
+
+.mini-btn:hover {
+  background: #00cc7a;
+}
+
+.close-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.7rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #00ff99;
+  transition: color 0.3s;
+}
+
+.close-btn:hover {
+  color: #ffffff; /* White on hover for visibility */
+}
+
+.hidden {
+  display: none;
+}#menu_principal.css
