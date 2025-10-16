@@ -65,6 +65,20 @@ class AcaoDAO:
         self.session.commit()
         return True
 
+    def deletar(self, id):
+        try:
+            acao = acao_dao.buscar_por_id(id)
+            if not acao:
+                return False
+
+            session_dao.delete(acao)
+            session_dao.commit()
+            return True
+        except Exception as e:
+            session_dao.rollback()
+            return False
+
+
     def listar_todas(self):
         return self.session.query(AcaoDB).all()
 

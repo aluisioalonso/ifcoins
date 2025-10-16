@@ -32,9 +32,7 @@
                     <td>{{ acao.descricao }}</td>
                     <td class="table-actions">
                         <a href="/admin/editaracao/{{acao.id}}" class="action-button edit">Editar</a>
-                        <form method="POST" action="/admin/excluiracao/{{acao.id}}" onsubmit="return confirm('Tem certeza que deseja excluir esta ação?');" style="display:inline;">
-                            <button type="submit" class="action-button delete">Excluir</button>
-                        </form>
+                        <a href="/admin/excluiracao/{{acao.id}}" onclick="confirmarexcluir()" class="action-button delete">Excluir</a>
                     </td>
                 </tr>
                 {% endfor %}

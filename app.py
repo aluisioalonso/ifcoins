@@ -159,20 +159,7 @@ def rejeitar_acao(id_acao):
 
 
 
-@app.route('/aprovar_avaliador/<email>')
-def aprovar_avaliador(email):
-    avaliador_dao .aprovar_avaliador(email)
-    flash(f"avaliador {email} aprovado!")
-    return redirect(url_for('admin'))
 
-@app.route('/rejeitar_avaliador/<email>')
-def rejeitar_avaliador(email):
-    avaliador = avaliador_dao .buscar_por_email(email)
-    if avaliador:
-        session.delete(avaliador)
-        session.commit()
-        flash(f"avaliador {email} rejeitado e removido do sistema.")
-    return redirect(url_for('admin'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5002)

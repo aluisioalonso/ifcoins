@@ -81,4 +81,26 @@ def editar_acao(id):
         print('deu ruim. falta fazer a pagin html')
         return redirect(url_for('admin.mostrar_menu'))
 
+@admin_bp.route('/excluiracao/<int:id_acao>')
+def excluir_acao(id_acao):
+    if 'admin_logado' not in session:
+        return render_template('adm/login_admin.html')
+
+    acao_dao.deletar(id_acao)
+    return redirect(url_for('admin.mostrar_menu'))
+
+@admin_bp.route('/aprovar_avaliador/<email>')
+def aprovar_avaliador(email):
+    avaliador_dao .aprovar_avaliador(email)
+    flash(f"avaliador {email} aprovado!")
+    return redirect(url_for('admin'))
+
+@admin_bp.route('/rejeitar_avaliador/<email>')
+def rejeitar_avaliador(email):
+    avaliador = avaliador_dao .buscar_por_email(email)
+    if avaliador:
+        session.delete(avaliador)
+        session.commit()
+        flash(f"avaliador {email} rejeitado e removido do sistema.")
+    return redirect(url_for('admin'))
 

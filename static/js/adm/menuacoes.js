@@ -38,3 +38,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Se a modal ainda não abrir, verifique no console do navegador (F12)
     // se o arquivo "menuacoes.js" está sendo carregado sem erros 404.
 });
+
+function confirmarexcluir() {
+    const confirmar = confirm("Tem certeza que deseja excluir esta ação?");
+    if (!confirmar){
+        event.preventDefault();
+    }
+
+
+}
