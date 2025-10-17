@@ -8,7 +8,7 @@ admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 @admin_bp.route('/', methods=['GET', 'POST'])
 def login_admin():
     if request.method == 'GET' and 'admin_logado' in session:
-        return render_template('adm/login_admin.html')
+        return render_template('adm/admin.html')
 
     if request.method == 'POST':
         usuario = request.form.get('usuario')

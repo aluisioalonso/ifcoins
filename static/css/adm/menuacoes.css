@@ -13,6 +13,7 @@ body {
     padding: 30px;
 }
 
+
 /* CABEÇALHO */
 .content-header {
     display: flex;
@@ -169,6 +170,8 @@ tbody tr:hover {
     background-color: rgba(0, 0, 0, 0.8); /* Fundo preto semi-transparente */
     backdrop-filter: blur(5px); /* Efeito de desfoque */
 }
+
+
 
 /* Conteúdo da Modal (A caixa central) */
 .modal-content {
