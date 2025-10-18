@@ -4,7 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Menu Principal</title>
-  <link rel="stylesheet" href="../static/css/avaliador/avaliador.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/avaliador/avaliador.css') }}">
+
 </head>
 <body>
   <main class="canvas">
@@ -15,28 +16,21 @@
     <div class="title">Área do avaliador</div>
 
     <section class="actions-row">
-      <button class="action-btn" id="btn-enviadas">Ações enviadas</button>
-      <button class="action-btn" id="btn-deferidas">Ações deferidas</button>
+      <a href="{{ url_for('avaliador.acoes_enviadas') }}" class="action-btn" id="btn-enviadas">
+        Ações enviadas
+      </a>
+
+      <a href="{{ url_for('avaliador.acoes_deferidas') }}" class="action-btn" id="btn-deferidas">
+        Ações deferidas
+      </a>
     </section>
 
     <div class="sections">
-
-      </article>
-    </div>
+      </div>
   </main>
 
-  <div id="profile-modal" class="modal hidden">
-    <div class="modal-content">
-      <h4>Perfil</h4>
-      <a href="#" class="mini-btn">dados do usuário</a>
-      <a href="#" class="mini-btn">avaliações</a>
-      <a href="#" class="mini-btn">ações indeferidas</a>
-      <a href="#" class="mini-btn">sair da sessão</a>
-      <span id="close-profile" class="close-btn">×</span>
-    </div>
-  </div>
 
 
-     <script src="{{ url_for('static', filename='js/avaliador/avaliador.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/avaliador/avaliador.js') }}"></script>
 </body>
 </html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ações Deferidas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/avaliador/acoes_enviadas.css">
+</head>
+<body>
+
+    <!-- TOPO FIXO -->
+    <div class="top-row-fixed">
+        <a href="/avaliador/" class="pill-btn back-btn">voltar</a>
+
+        <div class="profile-dropdown-container">
+            <button id="open-profile" class="pill-profile">Perfil</button>
+
+            <div id="profile-modal" class="modal hidden">
+                <div class="modal-content">
+                    <h4>Perfil</h4>
+                    <a href="#" class="mini-btn">dados do usuário</a>
+                    <a href="#" class="mini-btn">avaliações</a>
+                    <a href="#" class="mini-btn">ações indeferidas</a>
+                    <a href="#" class="mini-btn">sair da sessão</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="canvas">
+
+        <div class="title">Ações Deferidas</div>
+
+        <div class="sections">
+            {% if acoes %}
+                {% for acao in acoes %}
+                <article class="card">
+                    <div class="fake-input large">
+                        <p><strong>Ação:</strong> {{ acao.acao.nome }}</p>
+                        <p><strong>Justificativa:</strong> {{ acao.comentarios_aluno }}</p>
+                        {% if acao.anexo %}
+                            <p><a href="{{ url_for('static', filename='uploads/' ~ acao.anexo) }}" target="_blank" class="mini-btn">Abrir Anexo</a></p>
+                        {% endif %}
+                        <p><strong>Status:</strong> Aprovada</p>
+                        <p><strong>Valor IFCOINS:</strong> {{ acao.valor }}</p>
+                    </div>
+                </article>
+                {% endfor %}
+            {% else %}
+                <article class="card">
+                    <div class="fake-input large">
+                        <div class="empty-message">Nenhuma ação deferida até o momento</div>
+                    </div>
+                </article>
+            {% endif %}
+        </div>
+
+    </main>
+
+    <!-- IMPORTAÇÃO DO JS -->
+    <script src="../static/js/avaliador/acoes_enviadas.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,265 @@
+/* acoes_enviadas.css - Versão Final com Dropdown de Perfil Funcional */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+body {
+  background-color: #121212;
+  color: #00ff99;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  justify-content: center;
+  padding: 20px;
+}
+
+.canvas {
+  width: 100%;
+  max-width: 900px;
+  padding: 1.5rem;
+  text-align: center;
+  background-color: transparent;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+/* ---------------------------------------------------------------- */
+/* --- POSICIONAMENTO FIXO NO TOPO --- */
+/* ---------------------------------------------------------------- */
+.top-row-fixed {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  right: 20px;
+  z-index: 10;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Contêiner que ancora o dropdown */
+.profile-dropdown-container {
+    position: relative;
+    display: inline-block;
+}
+
+/* --- Botão 'voltar' --- */
+.back-btn {
+  background-color: transparent;
+  color: #00ff99;
+  border: 2px solid #00ff99;
+  text-decoration: none;
+  border-radius: 50px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s, color 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #00ff99;
+  color: #121212;
+  transform: scale(1.05);
+}
+
+/* --- Profile Button (Pill) --- */
+.pill-profile {
+  background-color: #00ff99;
+  color: #000000;
+  border: none;
+  border-radius: 50px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.pill-profile:hover {
+  background-color: #00e680;
+  transform: scale(1.05);
+}
+
+/* --- Título Principal --- */
+.title {
+  font-size: 2.2rem;
+  margin-top: 5rem;
+  margin-bottom: 2rem;
+  font-weight: 800;
+  color: #00ff99;
+  text-shadow: 0 0 8px rgba(0, 255, 153, 0.7);
+}
+
+/* --- Seções e Conteúdo --- */
+.sections {
+    margin-bottom: 2rem;
+    width: 100%;
+    padding: 0;
+}
+
+.card {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.fake-input.large {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+
+  background-color: #383838;
+  min-height: 150px;
+
+  padding: 1.5rem;
+  border-radius: 12px;
+  color: #c9c9c9;
+  font-size: 1.1rem;
+  font-weight: 400;
+
+  overflow-y: hidden;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.empty-message {
+    text-align: center;
+    color: #999;
+    font-size: 1.1rem;
+    font-style: italic;
+}
+
+
+/* ---------------------------------------------------------------- */
+/* --- DROPDOWN STYLES (CORRIGIDO PARA FUNCIONAR) --- */
+/* ---------------------------------------------------------------- */
+
+/* Garante que o menu fique invisível por padrão e tem prioridade */
+.hidden {
+  display: none !important;
+}
+
+/* O MODAL AGORA É O DROPDOWN */
+.modal {
+  position: absolute;
+  top: 100%; /* Abaixo do botão */
+  right: 0;  /* Alinhado à direita */
+
+  width: 250px;
+
+  background: none;
+  /* display: block é o estado visível quando .hidden é removido */
+  display: block;
+
+  z-index: 1001;
+  padding-top: 5px;
+}
+
+.modal-content {
+  background: #121212;
+  border-radius: 8px;
+  padding: 0.5rem;
+
+  width: 100%;
+  max-width: none;
+  text-align: left;
+
+  position: static;
+
+  color: #00ff99;
+  border: 1px solid #00ff99;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 255, 153, 0.3);
+}
+
+/* Título (Perfil) dentro do Menu */
+.modal-content h4 {
+    margin-bottom: 0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 0.8rem;
+    font-size: 1rem;
+    font-weight: 700;
+    border-bottom: 1px solid rgba(0, 255, 153, 0.2);
+}
+
+/* Itens de Menu */
+.mini-btn {
+    display: block;
+    background: transparent;
+    color: #c9c9c9;
+    padding: 0.5rem 0.8rem;
+    border-radius: 4px;
+    margin: 0;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    text-align: left;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.mini-btn:hover {
+    background: rgba(0, 255, 153, 0.1);
+    color: #00ff99;
+}
+/* Botões de ação dentro dos cards */
+.action-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.pill-btn {
+    border-radius: 50px;
+    padding: 0.4rem 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Aprovar */
+.approve-btn {
+    background-color: #00ff99;
+    color: #000;
+    border: none;
+}
+.approve-btn:hover {
+    background-color: #00e680;
+    transform: scale(1.05);
+}
+
+/* Rejeitar */
+.reject-btn {
+    background-color: transparent;
+    color: #ff4d4d;
+    border: 2px solid #ff4d4d;
+    text-decoration: none;
+    padding: 0.4rem 1rem;
+}
+.reject-btn:hover {
+    background-color: #ff4d4d;
+    color: #fff;
+    transform: scale(1.05);
+}
+
+/* Input para valor IFCOINS */
+input[type="number"] {
+    width: 80px;
+    padding: 0.3rem;
+    border-radius: 6px;
+    border: 1px solid #00ff99;
+    background-color: #121212;
+    color: #00ff99;
+    font-weight: 500;
+}
+input[type="number"]:focus {
+    outline: none;
+    box-shadow: 0 0 5px #00ff99;
+}

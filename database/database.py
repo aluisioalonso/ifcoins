@@ -110,6 +110,11 @@ class AcaoRealizadaDAO:
             .all()
         )
 
+    # NOVO MÉTODO: Lista ações APROVADAS
+    def listar_deferidas(self):
+        # Lista ações com status 'aprovada'
+        return self.session.query(AcaoRealizadaAlunoDB).filter_by(status='aprovada').all()
+
     def processar_acao(self, id_acao_realizada, status, valor=0, comentario=None):
         acao_realizada = self.buscar_por_id(id_acao_realizada)
         if not acao_realizada:

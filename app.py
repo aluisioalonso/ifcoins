@@ -3,7 +3,7 @@ from models.modelosDB import AlunoDB, AvaliadorDB
 from blueprints.admin_bp import admin_bp
 from blueprints.avaliador_bp import avaliador_bp
 from database.database import (
-    aluno_dao, avaliador_dao , acao_dao)
+    aluno_dao, avaliador_dao , acao_dao )
 
 app = Flask(__name__)
 app.secret_key = 'IUY$#YIy5i#5232'
@@ -107,6 +107,8 @@ def aluno_pagina():
         return redirect(url_for('login'))
 
     aluno = aluno_dao.buscar_por_email(email)
+
+    from database.database import acao_dao  # Garante que acao_dao está disponível
     acoes = acao_dao.listar_todas()
 
     return render_template('aluno/aluno.html', aluno=aluno, acoes=acoes)
