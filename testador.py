@@ -10,9 +10,9 @@ from database.database import *
 
 #print(aluno_dao.obter_todos_alunos())
 #print(acao_dao.listar_todas())
-acao_realizadasDAO.adicionar(AcaoRealizadaAlunoDB(email_aluno='r@r',id_acao=1,comentarios_aluno='bla',
-                                                  valor=30))
+#acao_realizadasDAO.adicionar(AcaoRealizadaAlunoDB(email_aluno='r@r',id_acao=1,comentarios_aluno='bla',
+#                                                  valor=30))
 
+print(avaliador_dao.listar_todos())
 
-
-print(acao_realizadasDAO.listar_todas())
+#print(acao_realizadasDAO.listar_todas())

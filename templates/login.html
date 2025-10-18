@@ -37,6 +37,16 @@
     <p class="signup-text">
         Não tem uma conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a>
     </p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flash-messages">
+              {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+    {% endwith %}
 </div>
 
 <script src="{{ url_for('static', filename='js/login.js') }}"></script>

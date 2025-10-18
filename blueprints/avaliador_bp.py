@@ -9,7 +9,6 @@ avaliador_bp = Blueprint('avaliador', __name__, url_prefix='/avaliador')
 
 
 @avaliador_bp.route('/', methods=['GET'])
-@avaliador_bp.route('/home', methods=['GET'])
 def avaliador_pagina():
     email = session.get('user')
     role = session.get('role')

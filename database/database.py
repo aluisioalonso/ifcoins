@@ -41,6 +41,12 @@ class AvaliadorDAO:
     def listar_pendentes(self):
         return self.session.query(AvaliadorDB).filter_by(aprovado=False).all()
 
+    def listar_aprovados(self):
+        return self.session.query(AvaliadorDB).filter_by(aprovado=True).all()
+
+    def listar_todos(self):
+        return self.session.query(AvaliadorDB).all()
+
     def aprovar_avaliador(self, email):
         avaliador = self.buscar_por_email(email)
         if avaliador:

@@ -38,28 +38,30 @@ def login():
         role = request.form.get('role')#aluno ou avaliador
         email = email_input + EMAIL_DOMAIN
 
+
         if role == 'aluno':
             user = aluno_dao.buscar_por_email(email)
-        else:
-            user = avaliador_dao .buscar_por_email(email)
+            if user and user.senha == senha:
+                session['user'] = user.email
+                session['role'] = 'aluno'
+                return redirect(url_for('aluno_pagina'))
 
-        if user and user.senha == senha and role == 'aluno':
+        elif role == 'avaliador':
+            user = avaliador_dao.buscar_por_email(email)
 
-            session['user'] = user.email
-            session['role'] = 'aluno'
-            return redirect(url_for('aluno_pagina'))
-        elif user and user.senha == senha and role == 'avaliador':
-            print('avaliador:', email, senha)
             if not user.aprovado:
+                print('avaliador nao aprovado')
                 flash("Seu acesso ainda não foi aprovado pelo administrador.")
                 return redirect(url_for('login'))
-            session['user'] = user.email
-            session['role'] = 'avaliador'
-            return redirect(url_for('avaliador.avaliador_pagina'))
-        else:
-            flash("Email ou senha incorretos.")
-            print('senha ou email errados')
-            return redirect(url_for('login'))
+            elif user and user.senha == senha:
+                print('avaliador Aprovado')
+                session['user'] = user.email
+                session['role'] = 'avaliador'
+                return redirect(url_for('avaliador.avaliador_pagina'))
+
+        #pessoal, aqui é o caso do usuário que mandou form com dados errados de e-mail ou senha
+        flash("Email ou senha incorretos.")
+    #se ele acessar via get ou se errar a senha como avaliador ou aluno, mandará para o login
     return render_template('login.html')
 
 @app.route('/logout')

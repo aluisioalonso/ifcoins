@@ -35,24 +35,43 @@ h1, h2 {
     transition: background-color 0.3s, box-shadow 0.3s;
 }
 
-.action-button.edit {
+.action-button.approve {
     background-color: #00ffae;
     color: black;
 }
 
-.action-button.delete {
+.action-button.reject {
     background-color: #e74c3c;
     color: white;
 }
 
-.action-button.edit:hover {
+.action-button.approve:hover {
     background-color: #00cc8f;
     box-shadow: 0 0 10px #00ffae;
 }
 
-.action-button.delete:hover {
+.action-button.reject:hover {
     background-color: #c0392b;
     box-shadow: 0 0 10px #ff3c3c;
+}
+
+
+.back-button {
+  background-color: transparent;
+  color: #00ff99;
+  border: 2px solid #00ff99;
+  text-decoration: none;
+  border-radius: 50px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s, color 0.3s;
+}
+
+.back-button:hover {
+  background-color: #00ff99;
+  color: #121212;
+  transform: scale(1.05);
 }
 
 /* ======= TABELA ======= */
