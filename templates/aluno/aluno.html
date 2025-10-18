@@ -9,7 +9,6 @@
     <header class="top-bar">
         <div class="saldo-box">IFCOINS: {{ aluno.saldo if aluno else '0.0' }}</div>
         <h1 class="titulo">Página do Aluno</h1>
-
         <div class="perfil-menu">
             <button onclick="toggleMenu()" class="hamburger">☰ Perfil</button>
             <div id="menu-opcoes" class="menu-opcoes hidden">
@@ -19,46 +18,31 @@
             </div>
         </div>
     </header>
-
     <main class="main-content">
         <button class="btn" onclick="abrirModal()">Inserir Ação</button>
         <a href="{{ url_for('compras_disponiveis') }}" class="btn">Retirar Recompensas</a>
         <a href="{{ url_for('historico_acoes') }}" class="btn">Histórico de Ações</a>
     </main>
-
-    <!-- Modal INSERIR AÇÃO -->
     <div id="modal" class="modal hidden">
     <div class="modal-content">
         <span class="fechar" onclick="fecharModal()">&times;</span>
         <h2>Inserir Ação</h2>
-
         <form>
-            <!-- Lista de ações -->
             <label for="acao">Selecione a Ação:</label>
             <select id="acao" name="acao" required>
                 <option value="">*Escolha uma ação</option>
-                <option value="participacao_evento">Participação em Evento</option>
-                <option value="projeto_extensao">Projeto de Extensão</option>
-                <option value="publicacao_artigo">Publicação de Artigo</option>
-                <option value="monitoria">Monitoria</option>
-                <option value="atividade_voluntaria">Atividade Voluntária</option>
-                <option value="representacao_estudantil">Representação Estudantil</option>
-            </select>
-
-            <!-- Campo de mensagem -->
+                {% for acao in acoes %}
+                <option value="{{ acao.id }}">{{ acao.nome }} | Valor: ({{ acao.valor }} IFCOINS)</option>
+                {% endfor %}
+                </select>
             <label for="mensagem">Descrição / Justificativa:</label>
             <textarea id="mensagem" name="mensagem" rows="4" placeholder="*Justificativa" required></textarea>
-
-            <!-- Anexo -->
             <label for="anexo">Anexar Comprovante (PDF, Imagem ou Vídeo):</label>
             <input type="file" id="anexo" name="anexo" accept=".pdf,.jpg,.jpeg,.png,.mp4,.mov,.avi,.mkv" required>
-
             <button type="submit" class="btn enviar-btn">Enviar</button>
         </form>
     </div>
 </div>
-
-    <!-- Modal INFORMAÇÕES PESSOAIS -->
     <div id="modal-pessoais" class="modal hidden">
         <div class="modal-content">
             <span class="fechar" onclick="fecharModalPessoais()">&times;</span>
@@ -66,10 +50,9 @@
             <p><strong>Nome:</strong> {{ aluno.nome }}</p>
             <p><strong>Email:</strong> {{ aluno.email }}</p>
             <p><strong>Senha:</strong> ********</p>
-            <p><strong>Tipo de Usuário:</strong> {{ 'Aluno' if aluno.tipo_usuario == 'aluno' else 'Avaliador' }}</p>
-        </div>
+            <p><strong>Tipo de Usuário:</strong> Aluno</p>
+            </div>
     </div>
-
     <script src="{{ url_for('static', filename='js/aluno.js') }}"></script>
 </body>
 </html>
