@@ -2,65 +2,92 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ações Deferidas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/avaliador/acoes_enviadas.css">
+    <title>Ações para Avaliação</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/avaliador/acoes_enviadas.css') }}">
 </head>
 <body>
 
-    <!-- TOPO FIXO -->
-    <div class="top-row-fixed">
-        <a href="/avaliador/" class="pill-btn back-btn">voltar</a>
+<div class="top-row-fixed">
+    <a href="{{ url_for('avaliador.avaliador_pagina') }}" class="back-btn neon-btn">← Voltar</a>
+    <button id="open-profile" class="pill-profile neon-btn">Perfil</button>
+</div>
 
-        <div class="profile-dropdown-container">
-            <button id="open-profile" class="pill-profile">Perfil</button>
-
-            <div id="profile-modal" class="modal hidden">
-                <div class="modal-content">
-                    <h4>Perfil</h4>
-                    <a href="#" class="mini-btn">dados do usuário</a>
-                    <a href="#" class="mini-btn">avaliações</a>
-                    <a href="#" class="mini-btn">ações indeferidas</a>
-                    <a href="#" class="mini-btn">sair da sessão</a>
-                </div>
-            </div>
-        </div>
+<!-- Modal de perfil -->
+<div id="profile-modal" class="modal hidden">
+    <div class="modal-content profile-modal-content">
+        <h2>Perfil do Avaliador</h2>
+        <a href="{{ url_for('avaliador.acoes_enviadas') }}" class="neon-btn modal-btn">Ações enviadas</a>
+        <a href="{{ url_for('avaliador.acoes_deferidas') }}" class="neon-btn modal-btn">Ações deferidas</a>
+        <a href="{{ url_for('logout') }}" class="neon-btn modal-btn">Sair</a>
+        <button id="close-profile" class="neon-btn close-btn">Fechar</button>
     </div>
+</div>
 
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="canvas">
+<main class="canvas">
+    <div class="title">Ações Pendentes</div>
 
-        <div class="title">Ações Deferidas</div>
-
-        <div class="sections">
-            {% if acoes %}
-                {% for acao in acoes %}
-                <article class="card">
-                    <div class="fake-input large">
-                        <p><strong>Ação:</strong> {{ acao.acao.nome }}</p>
-                        <p><strong>Justificativa:</strong> {{ acao.comentarios_aluno }}</p>
-                        {% if acao.anexo %}
-                            <p><a href="{{ url_for('static', filename='uploads/' ~ acao.anexo) }}" target="_blank" class="mini-btn">Abrir Anexo</a></p>
-                        {% endif %}
-                        <p><strong>Status:</strong> Aprovada</p>
-                        <p><strong>Valor IFCOINS:</strong> {{ acao.valor }}</p>
+    {% if acoes|length == 0 %}
+        <div class="empty-message">Nenhuma ação pendente de avaliação.</div>
+    {% else %}
+        {% for acao in acoes %}
+            <div class="card horizontal-card">
+                <form class="action-form horizontal-form" method="POST" action="{{ url_for('avaliador.aprovar_acao', id_acao=acao.id) }}">
+                    <div class="form-group">
+                        <label>Aluno:</label>
+                        <input type="text" value="{{ acao.email_aluno }}" disabled>
                     </div>
-                </article>
-                {% endfor %}
-            {% else %}
-                <article class="card">
-                    <div class="fake-input large">
-                        <div class="empty-message">Nenhuma ação deferida até o momento</div>
+                    <div class="form-group">
+                        <label>ID:</label>
+                        <input type="text" value="{{ acao.id }}" disabled>
                     </div>
-                </article>
-            {% endif %}
-        </div>
+                    <div class="form-group">
+                        <label>Ação:</label>
+                        <input type="text" value="{{ acao.acao.nome if acao.acao else 'Sem nome' }}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label>Descrição:</label>
+                        <textarea rows="2" disabled>{{ acao.comentarios_aluno or 'Sem descrição' }}</textarea>
+                    </div>
+                    {% if acao.arquivo %}
+                        <div class="form-group">
+                            <label>Arquivo enviado:</label>
+                            <a href="{{ url_for('static', filename='uploads/' ~ acao.arquivo) }}" target="_blank" class="mini-btn neon-btn">📎 Abrir arquivo</a>
+                        </div>
+                    {% endif %}
+                    <div class="form-group">
+                        <label>IFCoins:</label>
+                        <input type="number" value="{{ acao.acao.valor if acao.acao else 0 }}" name="valor" disabled>
+                    </div>
+                    <div class="form-actions horizontal-buttons">
+                        <button type="submit" class="pill-btn approve-btn neon-btn">Aprovar</button>
+                        <a href="{{ url_for('avaliador.rejeitar_acao', id_acao=acao.id) }}" class="pill-btn reject-btn neon-red-btn">Rejeitar</a>
+                    </div>
+                </form>
+            </div>
+            <br>
+        {% endfor %}
+    {% endif %}
+</main>
 
-    </main>
+<script>
+const openProfile = document.getElementById('open-profile');
+const closeProfile = document.getElementById('close-profile');
+const profileModal = document.getElementById('profile-modal');
 
-    <!-- IMPORTAÇÃO DO JS -->
-    <script src="../static/js/avaliador/acoes_enviadas.js"></script>
+openProfile.addEventListener('click', () => {
+    profileModal.classList.remove('hidden');
+});
+
+closeProfile.addEventListener('click', () => {
+    profileModal.classList.add('hidden');
+});
+
+window.addEventListener('click', (e) => {
+    if(e.target === profileModal){
+        profileModal.classList.add('hidden');
+    }
+});
+</script>
 
 </body>
 </html>

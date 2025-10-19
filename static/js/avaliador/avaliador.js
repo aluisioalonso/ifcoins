@@ -1,19 +1,24 @@
-// Menu Principal JS
+document.addEventListener("DOMContentLoaded", () => {
+  const btnOpen = document.getElementById("open-profile");
+  const modal = document.getElementById("modal-perfil");
+  const btnClose = document.getElementById("close-modal");
 
-// Modal do perfil
-const modal = document.getElementById('profile-modal');
-const openBtn = document.getElementById('open-profile');
-const closeBtn = document.getElementById('close-profile');
+  if (btnOpen) {
+    btnOpen.addEventListener("click", () => {
+      modal.classList.remove("hidden");
+    });
+  }
 
-openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
-closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+  if (btnClose) {
+    btnClose.addEventListener("click", () => {
+      modal.classList.add("hidden");
+    });
+  }
 
-// Navegação para páginas de ações
-document.getElementById('btn-enviadas').addEventListener('click', () => {
-  window.location.href = 'acoes_enviadas.html';
+  // Fecha o modal se clicar fora dele
+  window.addEventListener("click", (e) => {
+    if (e.target === modal) {
+      modal.classList.add("hidden");
+    }
+  });
 });
-
-document.getElementById('btn-deferidas').addEventListener('click', () => {
-  window.location.href = 'acoes_deferidas.html';
-});
-#menu_principal.js

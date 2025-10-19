@@ -69,3 +69,10 @@ def rejeitar_acao(id_acao):
     acao_dao.rejeitar_acao(id_acao)
     flash("Ação rejeitada.")
     return redirect(url_for('.avaliador_pagina')) # Use . para referenciar rotas dentro do Blueprint
+
+
+@avaliador_bp.route('/logout')
+def logout():
+    session.clear()
+    flash("Sessão encerrada.")
+    return redirect(url_for('login'))

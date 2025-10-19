@@ -118,14 +118,13 @@ def rejeitar_avaliador(email):
     if 'admin_logado' not in session:
         return render_template('adm/login_admin.html')
 
-    avaliador = avaliador_dao.buscar_por_email(email)
-    if avaliador:
-        session_dao.delete(avaliador)
-        session_dao.commit()
+    sucesso = avaliador_dao.deletar(email)
+    if sucesso:
         flash(f"Avaliador {email} rejeitado e removido do sistema.", "sucesso")
     else:
-        flash("Avaliador não encontrado.", "erro")
+        flash("Avaliador não encontrado ou erro ao deletar.", "erro")
 
     return redirect(url_for('admin.listar_avaliadores_pendentes'))
+
 
 

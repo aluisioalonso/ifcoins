@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Menu Principal</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='css/avaliador/avaliador.css') }}">
-
 </head>
 <body>
   <main class="canvas">
     <div class="top-row">
-      <button id="open-profile" class="pill-profile">Perfil</button>
+      <button class="pill-profile" id="open-profile">Perfil</button>
     </div>
 
     <div class="title">Área do avaliador</div>
@@ -24,13 +23,23 @@
         Ações deferidas
       </a>
     </section>
-
-    <div class="sections">
-      </div>
   </main>
 
+  <!-- 🟩 MODAL DE PERFIL -->
+  <div id="modal-perfil" class="modal hidden">
+    <div class="modal-content">
+      <span class="fechar" id="close-modal">&times;</span>
+      <p><strong>Tipo de Usuário:</strong> Avaliador</p>
 
+      <div class="perfil-links">
+        <a href="{{ url_for('avaliador.acoes_enviadas') }}" class="btn">Ações Enviadas</a>
+        <a href="{{ url_for('avaliador.acoes_deferidas') }}" class="btn">Ações Deferidas</a>
+        <a href="{{ url_for('logout') }}" class="btn sair-btn">Sair</a>
+      </div>
+    </div>
+  </div>
 
+  <!-- 👇 O JS agora é carregado no final -->
   <script src="{{ url_for('static', filename='js/avaliador/avaliador.js') }}"></script>
 </body>
 </html>

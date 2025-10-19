@@ -1,15 +1,15 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from models.modelosDB import (
-    AlunoDB, AvaliadorDB, AcaoDB, RecompensaDB, ResgateDB
+    AlunoDB, AvaliadorDB, AcaoDB, RecompensaDB, ResgateDB, AcaoRealizadaAlunoDB
 )
-from models.modelosDB import AcaoRealizadaAlunoDB, AlunoDB, AcaoDB
 from datetime import datetime
 
 
 engine = create_engine('sqlite:///ifcoins.db', echo=False)
 Session = sessionmaker(bind=engine)
 session_dao = Session()
+
 
 
 class AlunoDAO:
@@ -55,6 +55,18 @@ class AvaliadorDAO:
             return True
         return False
 
+    def deletar(self, email):
+        avaliador = self.buscar_por_email(email)
+        if not avaliador:
+            return False
+        try:
+            self.session.delete(avaliador)
+            self.session.commit()
+            return True
+        except Exception:
+            self.session.rollback()
+            return False
+
 
 class AcaoDAO:
     def __init__(self, session):
@@ -71,15 +83,14 @@ class AcaoDAO:
 
     def deletar(self, id):
         try:
-            acao = acao_dao.buscar_por_id(id)
+            acao = self.buscar_por_id(id)
             if not acao:
                 return False
-
-            session_dao.delete(acao)
-            session_dao.commit()
+            self.session.delete(acao)
+            self.session.commit()
             return True
-        except Exception as e:
-            session_dao.rollback()
+        except Exception:
+            self.session.rollback()
             return False
 
     def listar_todas(self):
@@ -99,11 +110,14 @@ class AcaoRealizadaDAO:
         self.session.add(acao_realizada)
         self.session.commit()
 
+    def listar_todas(self):
+        return self.session.query(AcaoRealizadaAlunoDB).all()
+
     def listar_pendentes(self):
         return self.session.query(AcaoRealizadaAlunoDB).filter_by(status='pendente').all()
 
-    def listar_todas(self):
-        return self.session.query(AcaoRealizadaAlunoDB).all()
+    def listar_deferidas(self):
+        return self.session.query(AcaoRealizadaAlunoDB).filter_by(status='aprovada').all()
 
     def buscar_por_id(self, id_acao_realizada):
         return self.session.get(AcaoRealizadaAlunoDB, id_acao_realizada)
@@ -115,11 +129,6 @@ class AcaoRealizadaDAO:
             .order_by(AcaoRealizadaAlunoDB.data_envio.desc())
             .all()
         )
-
-    # NOVO MÉTODO: Lista ações APROVADAS
-    def listar_deferidas(self):
-        # Lista ações com status 'aprovada'
-        return self.session.query(AcaoRealizadaAlunoDB).filter_by(status='aprovada').all()
 
     def processar_acao(self, id_acao_realizada, status, valor=0, comentario=None):
         acao_realizada = self.buscar_por_id(id_acao_realizada)
@@ -144,7 +153,6 @@ class AcaoRealizadaDAO:
 
             self.session.commit()
             return True, f"Ação {status} com sucesso!"
-
         except Exception as e:
             self.session.rollback()
             return False, f"Erro ao processar ação: {e}"
@@ -183,7 +191,7 @@ class RecompensaDAO:
 class ResgateDAO:
     def __init__(self, session, recompensa_dao=None):
         self.session = session
-        self.recompensa_dao = recompensa_dao  # 👈 injeta dependência
+        self.recompensa_dao = recompensa_dao
 
     def adicionar(self, resgate):
         self.session.add(resgate)
@@ -209,17 +217,14 @@ class ResgateDAO:
 
         if not recompensa:
             return False, "Recompensa não encontrada."
-
         if recompensa.estoque <= 0:
             return False, "Sem estoque disponível."
-
         if aluno.saldo < recompensa.custo:
             return False, "Saldo insuficiente."
 
         try:
             aluno.saldo -= recompensa.custo
             recompensa.estoque -= 1
-
             novo_resgate = ResgateDB(
                 aluno_email=aluno_email,
                 recompensa_id=recompensa_id,
@@ -229,7 +234,6 @@ class ResgateDAO:
             self.session.add(novo_resgate)
             self.session.commit()
             return True, "Resgate solicitado com sucesso!"
-
         except Exception as e:
             self.session.rollback()
             return False, f"Erro ao processar resgate: {e}"

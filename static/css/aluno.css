@@ -394,3 +394,19 @@ body {
         transform: scale(1);
     }
 }
+.logout-btn {
+    display: block;
+    background-color: #c0392b;
+    color: white;
+    text-decoration: none;
+    text-align: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-top: 8px;
+    font-weight: bold;
+    transition: background-color 0.2s ease;
+}
+
+.logout-btn:hover {
+    background-color: #e74c3c;
+}

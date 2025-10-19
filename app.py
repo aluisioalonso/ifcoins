@@ -3,11 +3,18 @@ from models.modelosDB import AlunoDB, AvaliadorDB
 from blueprints.admin_bp import admin_bp
 from blueprints.avaliador_bp import avaliador_bp
 from database.database import (
-    aluno_dao, avaliador_dao , acao_dao )
+    aluno_dao, avaliador_dao , acao_dao, AcaoRealizadaAlunoDB )
+from werkzeug.utils import secure_filename
+import os
 
 app = Flask(__name__)
 app.secret_key = 'IUY$#YIy5i#5232'
 EMAIL_DOMAIN = '@academico.ifpb.edu.br'
+
+
+UPLOAD_FOLDER = 'uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 app.register_blueprint(admin_bp)
 app.register_blueprint(avaliador_bp)
@@ -115,7 +122,41 @@ def aluno_pagina():
 
     return render_template('aluno/aluno.html', aluno=aluno, acoes=acoes)
 
+@app.route('/enviar_acao', methods=['POST'])
+def enviar_acao():
+    if 'user' not in session or session.get('role') != 'aluno':
+        flash("Faça login como aluno para enviar uma ação.")
+        return redirect(url_for('login'))
 
+    email_aluno = session['user']
+    id_acao = request.form.get('acao')
+    comentarios_aluno = request.form.get('mensagem')
+    arquivo = request.files.get('anexo')
+
+    if not id_acao or not comentarios_aluno:
+        flash("Preencha todos os campos obrigatórios.")
+        return redirect(url_for('aluno_pagina'))
+
+
+    nome_arquivo = None
+    if arquivo and arquivo.filename != '':
+        nome_arquivo = secure_filename(arquivo.filename)
+        caminho = os.path.join(app.config['UPLOAD_FOLDER'], nome_arquivo)
+        arquivo.save(caminho)
+    nova_acao = AcaoRealizadaAlunoDB(
+        email_aluno=email_aluno,
+        id_acao=id_acao,
+        comentarios_aluno=comentarios_aluno,
+        valor=0,
+        status='pendente'
+    )
+
+    # Adiciona ao banco
+    from database.database import acao_realizadasDAO
+    acao_realizadasDAO.adicionar(nova_acao)
+
+    flash("Ação enviada com sucesso e aguarda avaliação!")
+    return redirect(url_for('aluno_pagina'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5002)

@@ -55,6 +55,7 @@ class AcaoRealizadaAlunoDB(Base):
     valor = Column(Integer, default=0)
     status = Column(String, default='pendente')  # pendente/aprovada/rejeitada
     data_envio = Column(DateTime, default=datetime.now())
+    arquivo = Column(String, nullable=True)
 
     aluno = relationship("AlunoDB", back_populates="acoes_realizadas")
     acao = relationship("AcaoDB", back_populates="acoes_realizadas")
