@@ -56,17 +56,19 @@ def acoes_enviadas():
     return render_template('avaliador/acoes_enviadas.html', acoes=acoes)
 
 
-@avaliador_bp.route('/aprovar/<int:id_acao>', methods=['POST'])
+@avaliador_bp.route('/aprovar/<int:id_acao>')
 def aprovar_acao(id_acao):
-    valor_ifcoins = int(request.form['valor'])
-    acao_dao.aprovar_acao(id_acao, valor_ifcoins)
+    valor_ifcoins = 10 # ajeitar
+
+    acao_realizadasDAO.aprovar_acao(id_acao, 'aprovada', valor_ifcoins)
     flash("Ação aprovada com sucesso!")
     return redirect(url_for('.avaliador_pagina')) # Use . para referenciar rotas dentro do Blueprint
 
 
 @avaliador_bp.route('/rejeitar/<int:id_acao>')
 def rejeitar_acao(id_acao):
-    acao_dao.rejeitar_acao(id_acao)
+
+    acao_realizadasDAO.rejeitar_acao(id_acao)
     flash("Ação rejeitada.")
     return redirect(url_for('.avaliador_pagina')) # Use . para referenciar rotas dentro do Blueprint
 

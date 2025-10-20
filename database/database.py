@@ -130,7 +130,7 @@ class AcaoRealizadaDAO:
             .all()
         )
 
-    def processar_acao(self, id_acao_realizada, status, valor=0, comentario=None):
+    def aprovar_acao(self, id_acao_realizada, status, valor=0, comentario=None):
         acao_realizada = self.buscar_por_id(id_acao_realizada)
         if not acao_realizada:
             return False, "Ação não encontrada."
@@ -157,7 +157,7 @@ class AcaoRealizadaDAO:
             self.session.rollback()
             return False, f"Erro ao processar ação: {e}"
 
-    def excluir(self, id_acao_realizada):
+    def rejeitar_acao(self, id_acao_realizada):
         acao_realizada = self.buscar_por_id(id_acao_realizada)
         if not acao_realizada:
             return False

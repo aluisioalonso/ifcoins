@@ -13,24 +13,27 @@
         <div class="perfil-menu">
             <button onclick="toggleMenu()" class="hamburger">☰ Perfil</button>
             <div id="menu-opcoes" class="menu-opcoes hidden">
-                <a href="{{ url_for('historico_acoes') }}">Histórico de Ações</a>
-                <a href="{{ url_for('compras_disponiveis') }}">Compras Disponíveis</a>
+                <a href="{{ url_for('aluno.historico_acoes') }}">Histórico de Ações</a>
+                <a href="{{ url_for('aluno.compras_disponiveis') }}">Compras Disponíveis</a>
                 <button onclick="abrirModalPessoais()">Informações Pessoais</button>
-                <a href="{{ url_for('logout') }}" class="logout-btn">Sair</a>  <!-- 👈 Botão de logout -->
+                <a href="{{ url_for('logout') }}" class="logout-btn">Sair</a>
             </div>
         </div>
     </header>
 
     <main class="main-content">
         <button class="btn" onclick="abrirModal()">Inserir Ação</button>
-        <a href="{{ url_for('compras_disponiveis') }}" class="btn">Retirar Recompensas</a>
-        <a href="{{ url_for('historico_acoes') }}" class="btn">Histórico de Ações</a>
+        <a href="{{ url_for('aluno.compras_disponiveis') }}" class="btn">Retirar Recompensas</a>
+        <a href="{{ url_for('aluno.historico_acoes') }}" class="btn">Histórico de Ações</a>
     </main>
 
+    <!-- MODAL DE INSERIR AÇÃO -->
     <div id="modal" class="modal hidden">
-        <div class="modal-content">
+        <div class="modal-content modal-grande">
             <span class="fechar" onclick="fecharModal()">&times;</span>
-            <<form action="{{ url_for('enviar_acao') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ url_for('aluno.enviar_acao') }}" method="POST">
+                <h2>Inserir Ação</h2>
+
                 <label for="acao">Selecione a Ação:</label>
                 <select id="acao" name="acao" required>
                     <option value="">*Escolha uma ação</option>
@@ -42,22 +45,26 @@
                 <label for="mensagem">Descrição / Justificativa:</label>
                 <textarea id="mensagem" name="mensagem" rows="4" placeholder="*Justificativa" required></textarea>
 
-                <label for="anexo">Anexar Comprovante (PDF, Imagem ou Vídeo):</label>
-                <input type="file" id="anexo" name="anexo" accept=".pdf,.jpg,.jpeg,.png,.mp4,.mov,.avi,.mkv" required>
+                <label for="link">Link ou URL do comprovante:</label>
+                <input type="url" id="link" name="link" placeholder="https://exemplo.com/comprovante" required>
+
 
                 <button type="submit" class="btn enviar-btn">Enviar</button>
-</form>
+            </form>
         </div>
     </div>
 
+    <!-- MODAL DE INFORMAÇÕES PESSOAIS -->
     <div id="modal-pessoais" class="modal hidden">
-        <div class="modal-content">
+            <div class="modal-content modal-grande">
             <span class="fechar" onclick="fecharModalPessoais()">&times;</span>
             <h2>Informações Pessoais</h2>
-            <p><strong>Nome:</strong> {{ aluno.nome }}</p>
-            <p><strong>Email:</strong> {{ aluno.email }}</p>
-            <p><strong>Senha:</strong> ********</p>
-            <p><strong>Tipo de Usuário:</strong> Aluno</p>
+                <div class="info-pessoais">
+                <div class="info-item"><strong>Nome:</strong> {{ aluno.nome }}</div>
+                <div class="info-item"><strong>Email:</strong> {{ aluno.email }}</div>
+                <div class="info-item"><strong>Senha:</strong> ********</div>
+                <div class="info-item"><strong>Tipo de Usuário:</strong> Aluno</div>
+            </div>
         </div>
     </div>
 

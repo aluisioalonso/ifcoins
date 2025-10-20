@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, ses
 from models.modelosDB import AlunoDB, AvaliadorDB
 from blueprints.admin_bp import admin_bp
 from blueprints.avaliador_bp import avaliador_bp
+from blueprints.aluno_bp import aluno_bp
 from database.database import (
     aluno_dao, avaliador_dao , acao_dao, AcaoRealizadaAlunoDB )
 from werkzeug.utils import secure_filename
@@ -18,22 +19,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 app.register_blueprint(admin_bp)
 app.register_blueprint(avaliador_bp)
-
-@app.route('/adm/logout')
-def logout_admin():
-    session.pop('admin_logado', None)
-    flash('Logout realizado com sucesso!', 'sucesso')
-    return redirect(url_for('login_admin'))
-
-
-@app.route("/compras_disponiveis")
-def compras_disponiveis():
-    return render_template("aluno/compras_disponiveis.html")
-
-
-@app.route("/historico_acoes")
-def historico_acoes():
-    return "<h1>Histórico de ações</h1>"
+app.register_blueprint(aluno_bp)
 
 
 
@@ -51,7 +37,7 @@ def login():
             if user and user.senha == senha:
                 session['user'] = user.email
                 session['role'] = 'aluno'
-                return redirect(url_for('aluno_pagina'))
+                return redirect(url_for('aluno.aluno_pagina'))
 
         elif role == 'avaliador':
             user = avaliador_dao.buscar_por_email(email)
@@ -108,55 +94,6 @@ def cadastro():
     return render_template('cadastro.html')
 
 
-@app.route('/aluno', methods=['GET', 'POST'])
-def aluno_pagina():
-    email = session.get('user')
-    if not email or session.get('role') != 'aluno':
-        flash("Faça login para acessar a página do aluno.")
-        return redirect(url_for('login'))
-
-    aluno = aluno_dao.buscar_por_email(email)
-
-    from database.database import acao_dao  # Garante que acao_dao está disponível
-    acoes = acao_dao.listar_todas()
-
-    return render_template('aluno/aluno.html', aluno=aluno, acoes=acoes)
-
-@app.route('/enviar_acao', methods=['POST'])
-def enviar_acao():
-    if 'user' not in session or session.get('role') != 'aluno':
-        flash("Faça login como aluno para enviar uma ação.")
-        return redirect(url_for('login'))
-
-    email_aluno = session['user']
-    id_acao = request.form.get('acao')
-    comentarios_aluno = request.form.get('mensagem')
-    arquivo = request.files.get('anexo')
-
-    if not id_acao or not comentarios_aluno:
-        flash("Preencha todos os campos obrigatórios.")
-        return redirect(url_for('aluno_pagina'))
-
-
-    nome_arquivo = None
-    if arquivo and arquivo.filename != '':
-        nome_arquivo = secure_filename(arquivo.filename)
-        caminho = os.path.join(app.config['UPLOAD_FOLDER'], nome_arquivo)
-        arquivo.save(caminho)
-    nova_acao = AcaoRealizadaAlunoDB(
-        email_aluno=email_aluno,
-        id_acao=id_acao,
-        comentarios_aluno=comentarios_aluno,
-        valor=0,
-        status='pendente'
-    )
-
-    # Adiciona ao banco
-    from database.database import acao_realizadasDAO
-    acao_realizadasDAO.adicionar(nova_acao)
-
-    flash("Ação enviada com sucesso e aguarda avaliação!")
-    return redirect(url_for('aluno_pagina'))
 
 if __name__ == '__main__':
     app.run(debug=True, port=5002)

@@ -39,7 +39,7 @@ body {
   /* Use fixed positioning to place it relative to the viewport */
   position: fixed;
   top: 20px; /* 20px from the top */
-  left: 20px; /* 20px from the left */
+  right: 20px; /* 20px from the left */
   /* Remove flex properties as it's now fixed/absolute */
   display: block;
   margin-bottom: 0; /* Reset margin */
@@ -258,7 +258,7 @@ body {
 }
 
 .btn {
-  background-color: #3498db;
+  background-color: #00ff99;
   color: white;
   border: none;
   border-radius: 8px;
@@ -278,7 +278,7 @@ body {
 }
 
 .sair-btn:hover {
-  background-color: #e74c3c;
+  background-color: #00ff99
 }
 
 

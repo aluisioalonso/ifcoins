@@ -52,10 +52,11 @@ class AcaoRealizadaAlunoDB(Base):
     email_aluno = Column(String, ForeignKey('alunos.email'))
     id_acao = Column(Integer, ForeignKey('acoes.id'))
     comentarios_aluno = Column(String)
+    link = Column(String, nullable=True)
     valor = Column(Integer, default=0)
     status = Column(String, default='pendente')  # pendente/aprovada/rejeitada
     data_envio = Column(DateTime, default=datetime.now())
-    arquivo = Column(String, nullable=True)
+
 
     aluno = relationship("AlunoDB", back_populates="acoes_realizadas")
     acao = relationship("AcaoDB", back_populates="acoes_realizadas")
