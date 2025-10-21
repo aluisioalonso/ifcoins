@@ -130,29 +130,27 @@ class AcaoRealizadaDAO:
             .all()
         )
 
-    def aprovar_acao(self, id_acao_realizada, status, valor=0, comentario=None):
+    def aprovar_acao(self, id_acao_realizada, comentario=None):
         acao_realizada = self.buscar_por_id(id_acao_realizada)
         if not acao_realizada:
             return False, "Ação não encontrada."
 
-        if status not in ['aprovada', 'rejeitada']:
-            return False, "Status inválido."
+        if acao_realizada.status == 'aprovada':
+            return False, "ação já aprovada."
 
         aluno = self.session.query(AlunoDB).filter_by(email=acao_realizada.email_aluno).first()
         if not aluno:
             return False, "Aluno não encontrado."
 
         try:
-            acao_realizada.status = status
+            acao_realizada.status = 'aprovada'
             if comentario:
                 acao_realizada.comentarios_aluno = comentario
 
-            if status == 'aprovada':
-                acao_realizada.valor = valor
-                aluno.saldo += valor
+            aluno.saldo += acao_realizada.valor
 
             self.session.commit()
-            return True, f"Ação {status} com sucesso!"
+            return True, f"Ação aprovada com sucesso!"
         except Exception as e:
             self.session.rollback()
             return False, f"Erro ao processar ação: {e}"
@@ -161,9 +159,18 @@ class AcaoRealizadaDAO:
         acao_realizada = self.buscar_por_id(id_acao_realizada)
         if not acao_realizada:
             return False
-        self.session.delete(acao_realizada)
-        self.session.commit()
-        return True
+
+        if acao_realizada.status == 'reprovada':
+            return False, "ação já reprovada."
+
+        try:
+            acao_realizada.status = 'reprovada'
+            self.session.commit()
+            return True
+
+        except Exception as e:
+            self.session.rollback()
+            return False, f"Erro ao processar rejeitar a ação: {e}"
 
 
 class RecompensaDAO:

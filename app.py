@@ -80,14 +80,13 @@ def cadastro():
             aluno = AlunoDB(nome=nome, email=email, senha=senha, saldo=0)
             aluno_dao.adicionar(aluno)
         elif role == 'avaliador':
-            print('entrou p cadastrar avaliador')
-            print(nome, email, senha)
+
             if avaliador_dao .buscar_por_email(email):
                 flash("Este e-mail de avaliador já está cadastrado.", 'error')
                 return redirect(url_for('cadastro'))
             avaliador = AvaliadorDB(nome=nome, email=email, senha=senha, aprovado=False)
             avaliador_dao.adicionar(avaliador)
-            print('cadastrado com sucesso avaliador')
+
             flash("Seu login foi solicitado com sucesso. Aguarde aprovação.")
 
         return redirect(url_for('login'))

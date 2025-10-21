@@ -19,7 +19,7 @@ def aluno_pagina():
     acoes = acao_dao.listar_todas()
 
     return render_template('aluno/aluno.html', aluno=aluno, acoes=acoes)
-
+''
 @aluno_bp.route('/enviar_acao', methods=['POST'])
 def enviar_acao():
     if 'user' not in session or session.get('role') != 'aluno':
@@ -34,13 +34,14 @@ def enviar_acao():
     if not id_acao or not comentarios_aluno or not link_aluno:
         flash("Preencha todos os campos obrigatórios.")
         return redirect(url_for('aluno.aluno_pagina'))
+    acao = acao_dao.buscar_por_id(id_acao)
 
     nova_acao = AcaoRealizadaAlunoDB(
         email_aluno=email_aluno,
         id_acao=id_acao,
         comentarios_aluno=comentarios_aluno,
         link=link_aluno,
-        valor=0,
+        valor=acao.valor,
         status='pendente'
     )
 

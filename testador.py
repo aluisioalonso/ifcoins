@@ -13,6 +13,8 @@ from database.database import *
 #acao_realizadasDAO.adicionar(AcaoRealizadaAlunoDB(email_aluno='r@r',id_acao=1,comentarios_aluno='bla',
 #                                                  valor=30))
 
-print(avaliador_dao.listar_todos())
+#print(avaliador_dao.listar_todos())
 
-#print(acao_realizadasDAO.listar_todas())
+print(acao_realizadasDAO.listar_todas())
+
+print(aluno_dao.obter_todos_alunos())

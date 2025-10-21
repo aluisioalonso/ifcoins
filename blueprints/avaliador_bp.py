@@ -58,9 +58,8 @@ def acoes_enviadas():
 
 @avaliador_bp.route('/aprovar/<int:id_acao>')
 def aprovar_acao(id_acao):
-    valor_ifcoins = 10 # ajeitar
 
-    acao_realizadasDAO.aprovar_acao(id_acao, 'aprovada', valor_ifcoins)
+    acao_realizadasDAO.aprovar_acao(id_acao)
     flash("Ação aprovada com sucesso!")
     return redirect(url_for('.avaliador_pagina')) # Use . para referenciar rotas dentro do Blueprint
 
