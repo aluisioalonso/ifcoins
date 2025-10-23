@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Buscar Avaliador</title>
+  <link rel="stylesheet" href="/static/css/adm/buscar_avaliador.css" />
+</head>
+<body>
+  <header class="header">
+    <a href="/admin" class="pill-btn back-btn">Voltar</a>
+
+    <div class="profile-dropdown-container">
+      <button id="open-profile" class="pill-profile">Perfil</button>
+      <div id="profile-modal" class="modal hidden">
+        <div class="modal-content">
+          <h4>Perfil</h4>
+          <a href="#" class="mini-btn">Dados do usuário</a>
+          <a href="#" class="mini-btn">Avaliações</a>
+          <a href="#" class="mini-btn">Ações indeferidas</a>
+          <a href="/admin/logout" class="mini-btn">Sair da sessão</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="titulo-principal titulo-pesquisa">Buscar Avaliador</h1>
+
+    <div class="campo-pesquisa-e-filtro">
+      <input
+        type="text"
+        id="buscaAvaliador"
+        class="campo-input"
+        placeholder="Digite o nome ou email..."
+      />
+
+      <div class="filtro-dropdown-container">
+        <button id="open-filtro-modal" class="pill-btn filtro-btn">Filtrar</button>
+        <div id="filtro-modal" class="modal-filtro hidden-filtro">
+          <div class="modal-filtro-content">
+            <a href="#" class="mini-btn-filtro" data-filtro="nome">Nome</a>
+            <a href="#" class="mini-btn-filtro" data-filtro="email">Email</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <main class="area-conteudo">
+      <div class="lista-avaliadores">
+        {% if avaliadores %}
+        <table class="tabela-avaliadores">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for avaliador in avaliadores %}
+            <tr>
+              <td>{{ avaliador.nome }}</td>
+              <td>{{ avaliador.email }}</td>
+              <td>
+                {% if avaliador.aprovado %}
+                <span class="status-aprovado">Aprovado</span>
+                {% else %}
+                <span class="status-pendente">Pendente</span>
+                {% endif %}
+              </td>
+              <td>
+                <button
+                  class="neon-red-btn remove-btn"
+                  data-email="{{ avaliador.email }}"
+                >
+                  Remover
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p class="mensagem-vazia">Nenhum avaliador encontrado.</p>
+        {% endif %}
+      </div>
+    </main>
+  </div>
+
+  <script src="/static/js/adm/buscar_avaliadores.js"></script>
+</body>
+</html>

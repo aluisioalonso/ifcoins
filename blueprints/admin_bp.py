@@ -126,6 +126,37 @@ def rejeitar_avaliador(email):
 
     return redirect(url_for('admin.listar_avaliadores_pendentes'))
 
+@admin_bp.route('/buscaravaliador', methods=['GET'])
+def buscar_avaliador():
+    if 'admin_logado' not in session:
+        return render_template('adm/login_admin.html')
+
+    termo_busca = request.args.get('q', '').strip()
+    filtro = request.args.get('filtro', '').strip()
+
+    # Caso não tenha filtro ou termo, mostra todos
+    if not termo_busca:
+        avaliadores = avaliador_dao.listar_todos()
+    else:
+        query = session_dao.query(AvaliadorDB)
+        if filtro == 'email':
+            avaliadores = query.filter(AvaliadorDB.email.ilike(f"%{termo_busca}%")).all()
+        else:
+            avaliadores = query.filter(AvaliadorDB.nome.ilike(f"%{termo_busca}%")).all()
+
+    return render_template('adm/buscar_avaliador.html', avaliadores=avaliadores, termo=termo_busca, filtro=filtro)
+
+@admin_bp.route('/remover_avaliador/<email>', methods=['DELETE'])
+def remover_avaliador(email):
+    if 'admin_logado' not in session:
+        return jsonify({'erro': 'Não autorizado'}), 403
+
+    sucesso = avaliador_dao.deletar(email)
+    if sucesso:
+        return jsonify({'mensagem': f"Avaliador {email} removido com sucesso!"}), 200
+    else:
+        return jsonify({'erro': 'Falha ao remover avaliador.'}), 400
+
 
 
 

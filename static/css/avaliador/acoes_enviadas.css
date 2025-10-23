@@ -1,3 +1,4 @@
+/* acoes_enviadas.css (atualizado) */
 * {
   margin: 0;
   padding: 0;
@@ -69,14 +70,16 @@ body {
   flex-wrap: wrap;
   gap: 15px;
   width: 100%;
+  align-items: center; /* alinha verticalmente campos de mesma altura */
 }
 
 .horizontal-form .form-group {
   display: flex;
   flex-direction: column;
-  min-width: 150px;
+  /* removido min-width global para permitir campos de acordo com o conteúdo */
 }
 
+/* campos padrão (inputs e textarea) - altura padronizada */
 .horizontal-form .form-group input,
 .horizontal-form .form-group textarea {
   padding: 6px 10px;
@@ -85,16 +88,35 @@ body {
   background-color: #333;
   color: white;
   font-size: 14px;
+  height: 40px; /* altura consistente */
+  line-height: 20px;
 }
 
-.horizontal-form .form-group textarea {
+/* textarea convertido visualmente para single-line, mesma altura dos inputs */
+.horizontal-form .form-group textarea.single-line-textarea {
   resize: none;
+  overflow: hidden;
 }
 
-.horizontal-form .form-actions {
+/* estilo específico para o campo ID: largura automática conforme conteúdo */
+.form-group.id-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  align-items: flex-start;
+}
+
+.input-id {
+  width: auto;
+  min-width: 40px;
+  max-width: 220px; /* evita estourar o layout em casos extremos */
+  padding: 6px 10px;
+  text-align: left;
+}
+
+/* Para outros campos que queremos manter com largura razoável */
+.horizontal-form .form-group:nth-child(1),
+.horizontal-form .form-group:nth-child(3) {
+  min-width: 220px; /* email e açao */
 }
 
 .empty-message {
@@ -159,9 +181,13 @@ body {
   color: black;
   width: 50%;
 }
+
+/* Botões de ações alinhados horizontalmente */
 .form-actions.horizontal-buttons {
   display: flex;
   gap: 10px;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 /* Botão Aprovar (verde neon) */
@@ -174,6 +200,8 @@ body {
   border: none;
   cursor: pointer;
   transition: 0.3s;
+  text-decoration: none;
+  margin-top: auto;
 }
 
 .approve-btn.neon-btn:hover {
@@ -193,73 +221,30 @@ body {
   transition: 0.3s;
   text-decoration: none;
   text-align: center;
+  margin-top: 20px;
 }
 
 .reject-btn.neon-red-btn:hover {
   background-color: #e60000;
   box-shadow: 0 0 12px #ff4d4d;
-}
-.horizontal-buttons {
-  display: flex;
-  gap: 10px;
-}
-
-/* Aprovar verde neon */
-.approve-btn.neon-btn {
-  background-color: #00ffae;
-  color: black;
-  font-weight: bold;
-  padding: 8px 15px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: 0.3s;
-}
-.approve-btn.neon-btn:hover {
-  background-color: #00cc8f;
-  box-shadow: 0 0 12px #00ffae;
-}
-
-/* Rejeitar vermelho neon */
-.reject-btn.neon-red-btn {
-  background-color: #ff4d4d;
-  color: black;
-  font-weight: bold;
-  padding: 8px 15px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  text-align: center;
-  transition: 0.3s;
-}
-.reject-btn.neon-red-btn:hover {
-  background-color: #e60000;
-  box-shadow: 0 0 12px #ff4d4d;
-}
-.mini-btn {
-    display: inline-block;
-    padding: 6px 12px;
-    font-size: 0.9rem;
-    text-decoration: none;
-    border-radius: 20px;
-    border: 2px solid #00fff7;
-    color: #00fff7;
-    background-color: transparent;
-    transition: 0.3s;
-    cursor: pointer;
-}
-
-.mini-btn:hover {
-    background-color: #00fff7;
-    color: #000;
-    box-shadow: 0 0 10px #00fff7, 0 0 20px #00fff7;
 }
 
 /* Pequeno ajuste para o label do arquivo */
 .form-group label {
-    display: block;
-    margin-bottom: 4px;
-    font-weight: bold;
-    color: #fff;
+  display: block;
+  margin-bottom: 4px;
+  font-weight: bold;
+  color: #fff;
 }
+
+/* Responsividade: quebra de layout em telas pequenas */
+@media (max-width: 720px) {
+  .horizontal-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .form-actions.horizontal-buttons {
+    justify-content: space-between;
+  }
+}
+

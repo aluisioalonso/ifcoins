@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -36,17 +37,19 @@
                         <label>Aluno:</label>
                         <input type="text" value="{{ acao.email_aluno }}" disabled>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group id-group">
                         <label>ID:</label>
-                        <input type="text" value="{{ acao.id }}" disabled>
+                        <!-- adicionada classe específica para o campo ID -->
+                        <input type="text" class="input-id" value="{{ acao.id }}" disabled>
                     </div>
                     <div class="form-group">
                         <label>Ação:</label>
                         <input type="text" value="{{ acao.acao.nome if acao.acao else 'Sem nome' }}" disabled>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group desc-group">
                         <label>Descrição:</label>
-                        <textarea rows="2" disabled>{{ acao.comentarios_aluno or 'Sem descrição' }}</textarea>
+                        <!-- textarea com uma linha de altura visual igual aos inputs -->
+                        <textarea rows="1" class="single-line-textarea" disabled>{{ acao.comentarios_aluno or 'Sem descrição' }}</textarea>
                     </div>
                     {% if acao.link %}
                         <div class="form-group">
@@ -61,6 +64,7 @@
                     </div>
                     <div class="form-actions horizontal-buttons">
 
+                        <!-- usar botões como links está ok; mantive a estrutura, apenas alinhei lado a lado -->
                         <a href="{{ url_for('avaliador.aprovar_acao', id_acao=acao.id) }}" class="pill-btn approve-btn neon-btn">Aprovar</a>
                         <a href="{{ url_for('avaliador.rejeitar_acao', id_acao=acao.id) }}" class="pill-btn reject-btn neon-red-btn">Rejeitar</a>
                     </div>
@@ -71,25 +75,8 @@
     {% endif %}
 </main>
 
-<script>
-const openProfile = document.getElementById('open-profile');
-const closeProfile = document.getElementById('close-profile');
-const profileModal = document.getElementById('profile-modal');
-
-openProfile.addEventListener('click', () => {
-    profileModal.classList.remove('hidden');
-});
-
-closeProfile.addEventListener('click', () => {
-    profileModal.classList.add('hidden');
-});
-
-window.addEventListener('click', (e) => {
-    if(e.target === profileModal){
-        profileModal.classList.add('hidden');
-    }
-});
-</script>
+<script src="{{ url_for('static', filename='js/avaliador/acoes_enviadas.js') }}"></script>
 
 </body>
 </html>
+

@@ -56,20 +56,47 @@ def acoes_enviadas():
     return render_template('avaliador/acoes_enviadas.html', acoes=acoes)
 
 
+
 @avaliador_bp.route('/aprovar/<int:id_acao>')
 def aprovar_acao(id_acao):
+    email = session.get('user')
+    role = session.get('role')
+
+    if not email or role != 'avaliador':
+        flash("Faça login como avaliador para acessar esta página.")
+        return redirect(url_for('login'))
+
+    avaliador = avaliador_dao.buscar_por_email(email)
+    acao = acao_realizadasDAO.buscar_por_id(id_acao)
+
+    if acao.email_aluno == avaliador.email:
+        flash(" Você não pode aprovar uma ação que você mesmo enviou.", "erro")
+        return redirect(url_for('.acoes_enviadas'))
 
     acao_realizadasDAO.aprovar_acao(id_acao)
-    flash("Ação aprovada com sucesso!")
-    return redirect(url_for('.avaliador_pagina')) # Use . para referenciar rotas dentro do Blueprint
+    flash("✅ Ação aprovada com sucesso!", "sucesso")
+    return redirect(url_for('.avaliador_pagina'))
 
 
 @avaliador_bp.route('/rejeitar/<int:id_acao>')
 def rejeitar_acao(id_acao):
+    email = session.get('user')
+    role = session.get('role')
+
+    if not email or role != 'avaliador':
+        flash("Faça login como avaliador para acessar esta página.")
+        return redirect(url_for('login'))
+
+    avaliador = avaliador_dao.buscar_por_email(email)
+    acao = acao_realizadasDAO.buscar_por_id(id_acao)
+
+    if acao.email_aluno == avaliador.email:
+        flash("Você não pode rejeitar uma ação que você mesmo enviou.", "erro")
+        return redirect(url_for('.acoes_enviadas'))
 
     acao_realizadasDAO.rejeitar_acao(id_acao)
-    flash("Ação rejeitada.")
-    return redirect(url_for('.avaliador_pagina')) # Use . para referenciar rotas dentro do Blueprint
+    flash(" Ação rejeitada com sucesso.", "sucesso")
+    return redirect(url_for('.avaliador_pagina'))
 
 
 @avaliador_bp.route('/logout')
@@ -77,3 +104,4 @@ def logout():
     session.clear()
     flash("Sessão encerrada.")
     return redirect(url_for('login'))
+
