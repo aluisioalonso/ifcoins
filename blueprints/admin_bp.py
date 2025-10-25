@@ -1,12 +1,15 @@
-from flask import *
+from flask import Blueprint, render_template, request, session, redirect, url_for, flash, jsonify
 from database.database import *
 from models.modelosDB import *
+from database.database import admin_dao  # ✅ novo DAO
+from werkzeug.security import generate_password_hash, check_password_hash
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 
 @admin_bp.route('/', methods=['GET', 'POST'])
 def login_admin():
+    """Página de login do administrador"""
     if request.method == 'GET' and 'admin_logado' in session:
         return render_template('adm/admin.html')
 
@@ -14,8 +17,11 @@ def login_admin():
         usuario = request.form.get('usuario')
         senha = request.form.get('senha')
 
-        if usuario == 'admin' and senha == '1234': #criar DAO de blueprints/ model
+        # ✅ Validação via DAO
+        if admin_dao.validar_login(usuario, senha):
             session['admin_logado'] = True
+            session['admin_usuario'] = usuario
+            flash('Login realizado com sucesso!', 'sucesso')
             return render_template('adm/admin.html')
         else:
             flash('Usuário ou senha incorretos!', 'erro')
@@ -27,25 +33,26 @@ def login_admin():
 def admin_dashboard():
     if 'admin_logado' not in session:
         return render_template('adm/login_admin.html')
-
     return render_template('adm/admin.html')
 
 
 @admin_bp.route('/logout')
 def logout_admin():
     session.pop('admin_logado', None)
+    session.pop('admin_usuario', None)
     flash('Logout realizado com sucesso!', 'sucesso')
     return render_template('adm/login_admin.html')
 
 
+
 @admin_bp.route('/menuacoes')
 def mostrar_menu():
-
     if 'admin_logado' not in session:
         return render_template('adm/login_admin.html')
 
     acoes = acao_dao.listar_todas()
     return render_template('adm/menuacoes.html', acoes=acoes)
+
 
 @admin_bp.route('/cadastraracao', methods=['POST'])
 def cadastrar_acao():
@@ -61,14 +68,14 @@ def cadastrar_acao():
 
     return redirect(url_for('admin.mostrar_menu'))
 
-@admin_bp.route('/editaracao/<int:id>', methods=['POST','GET'])
+
+@admin_bp.route('/editaracao/<int:id>', methods=['POST', 'GET'])
 def editar_acao(id):
     if 'admin_logado' not in session:
         return render_template('adm/login_admin.html')
 
     if request.method == 'GET':
         acao = acao_dao.buscar_por_id(id)
-
         return render_template('adm/editaracao.html', acao=acao)
 
     nome = request.form.get('nome')
@@ -78,8 +85,9 @@ def editar_acao(id):
     if acao_dao.editar(AcaoDB(id=id, nome=nome, valor=valor, descricao=descricao)):
         return redirect(url_for('admin.mostrar_menu'))
     else:
-        print('deu ruim. falta fazer a pagin html')
+        flash('Erro ao editar ação.', 'erro')
         return redirect(url_for('admin.mostrar_menu'))
+
 
 @admin_bp.route('/excluiracao/<int:id_acao>')
 def excluir_acao(id_acao):
@@ -126,6 +134,7 @@ def rejeitar_avaliador(email):
 
     return redirect(url_for('admin.listar_avaliadores_pendentes'))
 
+
 @admin_bp.route('/buscaravaliador', methods=['GET'])
 def buscar_avaliador():
     if 'admin_logado' not in session:
@@ -134,7 +143,6 @@ def buscar_avaliador():
     termo_busca = request.args.get('q', '').strip()
     filtro = request.args.get('filtro', '').strip()
 
-    # Caso não tenha filtro ou termo, mostra todos
     if not termo_busca:
         avaliadores = avaliador_dao.listar_todos()
     else:
@@ -146,7 +154,8 @@ def buscar_avaliador():
 
     return render_template('adm/buscar_avaliador.html', avaliadores=avaliadores, termo=termo_busca, filtro=filtro)
 
-@admin_bp.route('/remover_avaliador/<email>', methods=['DELETE'])
+
+@admin_bp.route('/remover_avaliador/<email>', methods=['DELETE', 'POST'])
 def remover_avaliador(email):
     if 'admin_logado' not in session:
         return jsonify({'erro': 'Não autorizado'}), 403
@@ -156,8 +165,3 @@ def remover_avaliador(email):
         return jsonify({'mensagem': f"Avaliador {email} removido com sucesso!"}), 200
     else:
         return jsonify({'erro': 'Falha ao remover avaliador.'}), 400
-
-
-
-
-

@@ -1,0 +1,96 @@
+/* Reset e base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #2e2e2e, #121212);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Container central */
+.container {
+    background-color: #1e1e1e;
+    border: 2px solid #00ffae;
+    padding: 50px 40px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(0, 255, 174, 0.5);
+    max-width: 500px;
+    width: 90%;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* Título */
+.container h1 {
+    color: #00ffae;
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00ffae;
+}
+
+/* Texto explicativo */
+.container p {
+    font-size: 16px;
+    color: #ccc;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
+
+/* Botão */
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 14px 28px;
+    background-color: #00ffae;
+    color: black;
+    font-weight: bold;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 8px #00ffae50;
+}
+
+.btn:hover {
+    background-color: #00cc8f;
+    box-shadow: 0 0 20px #00ffae;
+}
+
+/* Animação suave */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 480px) {
+    .container {
+        padding: 30px 20px;
+    }
+
+    .container h1 {
+        font-size: 28px;
+    }
+
+    .btn {
+        width: 100%;
+        font-size: 16px;
+        padding: 12px 0;
+    }
+}

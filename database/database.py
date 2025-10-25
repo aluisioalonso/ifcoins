@@ -1,7 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from werkzeug.security import check_password_hash
 from models.modelosDB import (
-    AlunoDB, AvaliadorDB, AcaoDB, RecompensaDB, ResgateDB, AcaoRealizadaAlunoDB
+    AlunoDB, AvaliadorDB, AcaoDB, RecompensaDB, ResgateDB, AcaoRealizadaAlunoDB, AdminDB
 )
 from datetime import datetime
 
@@ -38,11 +39,15 @@ class AvaliadorDAO:
     def buscar_por_email(self, email):
         return self.session.query(AvaliadorDB).filter_by(email=email).first()
 
+    # Listar todos avaliadores com status pendente
     def listar_pendentes(self):
-        return self.session.query(AvaliadorDB).filter_by(aprovado=False).all()
+        return self.session.query(AvaliadorDB).filter_by(status='pendente').all()
 
     def listar_aprovados(self):
-        return self.session.query(AvaliadorDB).filter_by(aprovado=True).all()
+        return self.session.query(AvaliadorDB).filter_by(status='aprovado').all()
+
+    def listar_rejeitados(self):
+        return self.session.query(AvaliadorDB).filter_by(status='rejeitado').all()
 
     def listar_todos(self):
         return self.session.query(AvaliadorDB).all()
@@ -50,7 +55,15 @@ class AvaliadorDAO:
     def aprovar_avaliador(self, email):
         avaliador = self.buscar_por_email(email)
         if avaliador:
-            avaliador.aprovado = True
+            avaliador.status = 'aprovado'
+            self.session.commit()
+            return True
+        return False
+
+    def rejeitar_avaliador(self, email):
+        avaliador = self.buscar_por_email(email)
+        if avaliador:
+            avaliador.status = 'rejeitado'
             self.session.commit()
             return True
         return False
@@ -66,6 +79,7 @@ class AvaliadorDAO:
         except Exception:
             self.session.rollback()
             return False
+
 
 
 class AcaoDAO:
@@ -116,55 +130,76 @@ class AcaoRealizadaDAO:
     def listar_pendentes(self):
         return self.session.query(AcaoRealizadaAlunoDB).filter_by(status='pendente').all()
 
-    def listar_deferidas(self):
-        return self.session.query(AcaoRealizadaAlunoDB).filter_by(status='aprovada').all()
+
+    def listar_aprovadas_por_aluno(self, email_aluno):
+        return self.session.query(AcaoRealizadaAlunoDB)\
+            .filter_by(status='aprovado', email_aluno=email_aluno).all()
+
+    # Listar ações rejeitadas de um aluno específico
+    def listar_rejeitadas_por_aluno(self, email_aluno):
+        return self.session.query(AcaoRealizadaAlunoDB)\
+            .filter_by(status='rejeitado', email_aluno=email_aluno).all()
+
+    def listar_todas_aprovadas(self):
+        return self.session.query(AcaoRealizadaAlunoDB).filter_by(status='aprovado').all()
+
+    def listar_todas_rejeitadas(self):
+        return self.session.query(AcaoRealizadaAlunoDB).filter_by(status='rejeitado').all()
 
     def buscar_por_id(self, id_acao_realizada):
         return self.session.get(AcaoRealizadaAlunoDB, id_acao_realizada)
-
-    def listar_por_aluno(self, email_aluno):
-        return (
-            self.session.query(AcaoRealizadaAlunoDB)
-            .filter_by(email_aluno=email_aluno)
-            .order_by(AcaoRealizadaAlunoDB.data_envio.desc())
-            .all()
-        )
 
     def aprovar_acao(self, id_acao_realizada, comentario=None):
         acao_realizada = self.buscar_por_id(id_acao_realizada)
         if not acao_realizada:
             return False, "Ação não encontrada."
 
-        if acao_realizada.status == 'aprovada':
-            return False, "ação já aprovada."
+        if acao_realizada.status == 'aprovado':
+            return False, "Ação já aprovada."
 
         aluno = self.session.query(AlunoDB).filter_by(email=acao_realizada.email_aluno).first()
         if not aluno:
             return False, "Aluno não encontrado."
 
         try:
-            acao_realizada.status = 'aprovada'
+            acao_realizada.status = 'aprovado'
             if comentario:
                 acao_realizada.comentarios_aluno = comentario
 
             aluno.saldo += acao_realizada.valor
-
             self.session.commit()
-            return True, f"Ação aprovada com sucesso!"
+            return True, "Ação aprovada com sucesso!"
         except Exception as e:
             self.session.rollback()
-            return False, f"Erro ao processar ação: {e}"
+            return False, f"Erro ao aprovar ação: {e}"
+
+    def rejeitar_acao(self, id_acao_realizada):
+        acao_realizada = self.buscar_por_id(id_acao_realizada)
+        if not acao_realizada:
+            return False, "Ação não encontrada."
+
+        if acao_realizada.status == 'rejeitado':
+            return False, "Ação já rejeitada."
+
+        try:
+            acao_realizada.status = 'rejeitado'
+            self.session.commit()
+            return True, "Ação rejeitada com sucesso!"
+        except Exception as e:
+            self.session.rollback()
+            return False, f"Erro ao rejeitar ação: {e}"
+
 
     def rejeitar_acao(self, id_acao_realizada):
         acao_realizada = self.buscar_por_id(id_acao_realizada)
         if not acao_realizada:
             return False
 
-        if acao_realizada.status == 'reprovada':
+        if acao_realizada.status == 'rejeitado':
             return False, "ação já reprovada."
 
         try:
-            acao_realizada.status = 'reprovada'
+            acao_realizada.status = 'rejeitado'
             self.session.commit()
             return True
 
@@ -245,6 +280,15 @@ class ResgateDAO:
             self.session.rollback()
             return False, f"Erro ao processar resgate: {e}"
 
+class AdminDAO:
+    def buscar_por_usuario(self, usuario):
+        return session_dao.query(AdminDB).filter_by(usuario=usuario).first()
+
+    def validar_login(self, usuario, senha):
+        admin = self.buscar_por_usuario(usuario)
+        if admin and check_password_hash(admin.senha_hash, senha):
+            return True
+        return False
 
 aluno_dao = AlunoDAO(session_dao)
 avaliador_dao = AvaliadorDAO(session_dao)
@@ -252,3 +296,4 @@ acao_dao = AcaoDAO(session_dao)
 acao_realizadasDAO = AcaoRealizadaDAO(session_dao)
 recompensa_dao = RecompensaDAO(session_dao)
 resgate_dao = ResgateDAO(session_dao, recompensa_dao=recompensa_dao)
+admin_dao = AdminDAO()

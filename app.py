@@ -26,36 +26,49 @@ app.register_blueprint(aluno_bp)
 @app.route('/', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        email_input = request.form['email']
+        email_input = request.form['email'].strip().lower()
         senha = request.form['senha']
-        role = request.form.get('role')#aluno ou avaliador
+        role = request.form.get('role')
         email = email_input + EMAIL_DOMAIN
 
-
+        user = None
         if role == 'aluno':
             user = aluno_dao.buscar_por_email(email)
-            if user and user.senha == senha:
+            if not user:
+                flash("Usuário não encontrado.", "error")
+                return redirect(url_for('login'))
+            if user.verificar_senha(senha):
                 session['user'] = user.email
                 session['role'] = 'aluno'
                 return redirect(url_for('aluno.aluno_pagina'))
+            else:
+                flash("Senha incorreta.", "error")
+                return redirect(url_for('login'))
 
         elif role == 'avaliador':
             user = avaliador_dao.buscar_por_email(email)
-
-            if not user.aprovado:
-                print('avaliador nao aprovado')
-                flash("Seu acesso ainda não foi aprovado pelo administrador.")
+            if not user:
+                flash("Usuário não encontrado.", "error")
                 return redirect(url_for('login'))
-            elif user and user.senha == senha:
-                print('avaliador Aprovado')
-                session['user'] = user.email
-                session['role'] = 'avaliador'
+
+            if not user.verificar_senha(senha):
+                flash("Senha incorreta.", "error")
+                return redirect(url_for('login'))
+
+            session['user'] = user.email
+            session['role'] = 'avaliador'
+
+            # redirecionamento baseado no status
+            if user.status == 'pendente':
+                return redirect(url_for('aguardando_aprovacao'))
+            elif user.status == 'rejeitado':
+                return redirect(url_for('rejeitado'))
+            else:  # aprovado
                 return redirect(url_for('avaliador.avaliador_pagina'))
 
-        #pessoal, aqui é o caso do usuário que mandou form com dados errados de e-mail ou senha
-        flash("Email ou senha incorretos.")
-    #se ele acessar via get ou se errar a senha como avaliador ou aluno, mandará para o login
     return render_template('login.html')
+
+
 
 @app.route('/logout')
 def logout():
@@ -77,20 +90,32 @@ def cadastro():
             if aluno_dao.buscar_por_email(email):
                 flash("Este e-mail de aluno já está cadastrado.", 'error')
                 return redirect(url_for('cadastro'))
-            aluno = AlunoDB(nome=nome, email=email, senha=senha, saldo=0)
-            aluno_dao.adicionar(aluno)
-        elif role == 'avaliador':
 
-            if avaliador_dao .buscar_por_email(email):
+            aluno = AlunoDB(nome=nome, email=email, saldo=0)
+            aluno.set_senha(senha)
+            aluno_dao.adicionar(aluno)
+
+        elif role == 'avaliador':
+            if avaliador_dao.buscar_por_email(email):
                 flash("Este e-mail de avaliador já está cadastrado.", 'error')
                 return redirect(url_for('cadastro'))
-            avaliador = AvaliadorDB(nome=nome, email=email, senha=senha, aprovado=False)
-            avaliador_dao.adicionar(avaliador)
 
-            flash("Seu login foi solicitado com sucesso. Aguarde aprovação.")
+            avaliador = AvaliadorDB(nome=nome, email=email, status='pendente')
+            avaliador.set_senha(senha)
+            avaliador_dao.adicionar(avaliador)
 
         return redirect(url_for('login'))
     return render_template('cadastro.html')
+
+@app.route('/aguardando_aprovacao')
+def aguardando_aprovacao():
+    email = request.args.get('email')
+    return render_template('aguardando_aprovacao.html', email=email)
+
+@app.route('/rejeitado')
+def rejeitado():
+    email = request.args.get('email')
+    return render_template('rejeitado.html', email=email)
 
 
 

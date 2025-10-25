@@ -147,3 +147,25 @@ h1 {
     height: auto;
     filter: drop-shadow(0 0 6px #00ffae);
 }
+  .admin-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: #00ffae;
+            color: #000;
+            font-weight: bold;
+            padding: 10px 18px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: 0 0 8px #00ffae66;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .admin-btn:hover {
+            background-color: #00cc8f;
+            box-shadow: 0 0 12px #00ffae;
+            transform: scale(1.05);
+        }

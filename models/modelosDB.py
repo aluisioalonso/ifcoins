@@ -1,17 +1,25 @@
-from sqlalchemy import Column, String, Integer, Boolean, ForeignKey, DateTime
+from sqlalchemy import Column, String, Integer, Boolean, ForeignKey, DateTime, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
+import enum
 
 Base = declarative_base()
 
 class AlunoDB(Base):
     __tablename__ = 'alunos'
-
-    email = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
     nome = Column(String)
-    senha = Column(String)
-    saldo = Column(Integer, default=0)
+    email = Column(String, unique=True)
+    senha_hash = Column(String)
+    saldo = Column(Float, default=0)
+
+    def set_senha(self, senha):
+        self.senha_hash = generate_password_hash(senha)
+
+    def verificar_senha(self, senha):
+        return check_password_hash(self.senha_hash, senha)
 
     acoes_realizadas = relationship("AcaoRealizadaAlunoDB", back_populates="aluno")
     resgates = relationship("ResgateDB", back_populates="aluno")
@@ -19,16 +27,27 @@ class AlunoDB(Base):
     def __repr__(self):
         return f"<AlunoDB(email='{self.email}', nome='{self.nome}', saldo={self.saldo})>"
 
+
+
+
+
 class AvaliadorDB(Base):
     __tablename__ = 'avaliadores'
-
-    email = Column(String, primary_key=True)
+    id = Column(Integer, primary_key=True)
     nome = Column(String)
-    senha = Column(String)
-    aprovado = Column(Boolean, default=False)
+    email = Column(String, unique=True)
+    senha_hash = Column(String)
+    status = Column(String, default='pendente')  # pendente / aprovado / rejeitado
+
+    def set_senha(self, senha):
+        self.senha_hash = generate_password_hash(senha)
+
+    def verificar_senha(self, senha):
+        return check_password_hash(self.senha_hash, senha)
 
     def __repr__(self):
-        return f"<AvaliadorDB(email='{self.email}', nome='{self.nome}', aprovado={self.aprovado})>"
+        return f"<AvaliadorDB(email='{self.email}', nome='{self.nome}', status={self.status})>"
+
 
 class AcaoDB(Base):
     __tablename__ = 'acoes'
@@ -101,3 +120,10 @@ class ResgateDB(Base):
             f"<ResgateDB(id={self.id}, aluno='{self.aluno_email}', "
             f"recompensa_id={self.recompensa_id}, status='{self.status}')>"
         )
+
+class AdminDB(Base):
+    __tablename__ = 'admins'
+
+    id = Column(Integer, primary_key=True)
+    usuario = Column(String(50), unique=True, nullable=False)
+    senha_hash = Column(String(255), nullable=False)

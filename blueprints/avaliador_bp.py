@@ -18,7 +18,7 @@ def avaliador_pagina():
         return redirect(url_for('login'))
     print('a2')
     avaliador = avaliador_dao.buscar_por_email(email)
-    if not avaliador.aprovado:
+    if not avaliador.status == 'aprovado':
         print('a3')
         flash("Seu acesso ainda não foi aprovado pelo administrador.")
         return redirect(url_for('login'))
@@ -29,7 +29,6 @@ def avaliador_pagina():
     return render_template('avaliador/avaliador.html', acoes=acoes)
 
 
-# ROTA para listar ações DEFERIDAS (aprovadas)
 @avaliador_bp.route('/acoes_deferidas', methods=['GET'])
 def acoes_deferidas():
     email = session.get('user')
@@ -38,12 +37,20 @@ def acoes_deferidas():
         flash("Faça login como avaliador para acessar esta página.")
         return redirect(url_for('login'))
 
-    acoes = acao_realizadasDAO.listar_deferidas() # Você precisa ter este método implementado
-    return render_template('avaliador/acoes_deferidas.html', acoes=acoes)
+    # LISTA TODAS AS AÇÕES APROVADAS/REJEITADAS
+    acoes_aprovadas = acao_realizadasDAO.listar_todas_aprovadas()
+    acoes_rejeitadas = acao_realizadasDAO.listar_todas_rejeitadas()
+
+    return render_template(
+        'avaliador/acoes_deferidas.html',
+        acoes_aprovadas=acoes_aprovadas,
+        acoes_rejeitadas=acoes_rejeitadas
+    )
 
 
-# ROTA para listar ações ENVIADAS (Pendentes de avaliação)
-# Esta rota é a mesma que a página inicial, mas pode ser útil para navegação.
+
+
+
 @avaliador_bp.route('/acoesenviadas', methods=['GET'])
 def acoes_enviadas():
     email = session.get('user')

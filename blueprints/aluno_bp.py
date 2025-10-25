@@ -19,6 +19,23 @@ def aluno_pagina():
     acoes = acao_dao.listar_todas()
 
     return render_template('aluno/aluno.html', aluno=aluno, acoes=acoes)
+
+@aluno_bp.route("/historico_acoes")
+def historico_acoes():
+    email = session.get('user')
+    if not email or session.get('role') != 'aluno':
+        flash("Faça login para acessar o histórico.")
+        return redirect(url_for('login'))
+
+    acoes_aprovadas = acao_realizadasDAO.listar_aprovadas_por_aluno(email)
+    acoes_rejeitadas = acao_realizadasDAO.listar_rejeitadas_por_aluno(email)
+
+    return render_template(
+        "aluno/aluno_historico_acoes.html",
+        acoes_aprovadas=acoes_aprovadas,
+        acoes_rejeitadas=acoes_rejeitadas
+    )
+
 ''
 @aluno_bp.route('/enviar_acao', methods=['POST'])
 def enviar_acao():
@@ -54,7 +71,8 @@ def enviar_acao():
 def compras_disponiveis():
     return render_template("aluno/compras_disponiveis.html")
 
-
-@aluno_bp.route("/historico_acoes")
-def historico_acoes():
-    return "<h1>Histórico de ações</h1>"
+@aluno_bp.route('/logout')
+def logout():
+    session.clear()
+    flash("Sessão encerrada.")
+    return redirect(url_for('login'))

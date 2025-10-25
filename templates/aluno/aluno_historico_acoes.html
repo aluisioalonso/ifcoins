@@ -2,35 +2,34 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Ações deferidas</title>
+    <title>Histórico de Ações</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/avaliador/acoes_deferidas.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aluno/aluno_historico_acoes.css') }}">
 </head>
 <body>
 
     <div class="top-row-fixed">
-        <a href="/avaliador/" class="pill-btn back-btn">Voltar</a>
+        <a href="{{ url_for('aluno.aluno_pagina') }}" class="pill-btn back-btn">Voltar</a>
 
         <div class="profile-dropdown-container">
             <button id="open-profile" class="pill-profile">Perfil</button>
             <div id="profile-modal" class="modal hidden">
                 <div class="modal-content">
                     <h4>Perfil</h4>
-                    <a href="#" class="mini-btn">Dados do usuário</a>
-                    <a href="#" class="mini-btn">Avaliações</a>
-                    <a href="#" class="mini-btn">Ações indeferidas</a>
-                    <a href="{{ url_for('avaliador.logout') }}" class="mini-btn">Sair da sessão</a>
+                    <a href="{{ url_for('aluno.compras_disponiveis') }}" class="mini-btn">Resgates</a>
+                    <a href="{{ url_for('aluno.logout') }}" class="mini-btn">Sair da sessão</a>
                 </div>
             </div>
         </div>
     </div>
 
     <main class="canvas">
-        <div class="title">Ações deferidas</div>
+
+        <div class="title">Histórico de Ações</div>
 
         <div class="sections two-columns">
-            <!-- Ações aprovadas -->
+
+            <!-- Ações Aprovadas -->
             <article class="card approved">
                 <div class="section-title">Ações Aprovadas</div>
                 <div class="fake-input large">
@@ -38,12 +37,10 @@
                         <ul>
                         {% for acao in acoes_aprovadas %}
                             <li>
-                                <strong>Aluno:</strong> {{ acao.aluno.nome }} <br>
-                                <strong>Descrição do aluno:</strong> {{ acao.comentarios_aluno or 'N/A' }} <br>
-                                <strong>Ação:</strong> {{ acao.acao.nome }} - {{ acao.acao.descricao }} <br>
-                                <strong>Valor:</strong> {{ acao.valor }} pts <br>
+                                <strong>{{ acao.acao.nome }}</strong> - {{ acao.comentarios_aluno }}<br>
+                                <em>Valor:</em> {{ acao.valor }} IFCOINS<br>
                                 {% if acao.link %}
-                                    <strong>Link:</strong> <a href="{{ acao.link }}" target="_blank">{{ acao.link }}</a>
+                                    <a href="{{ acao.link }}" target="_blank">Ver comprovante</a>
                                 {% endif %}
                             </li>
                         {% endfor %}
@@ -54,7 +51,7 @@
                 </div>
             </article>
 
-            <!-- Ações rejeitadas -->
+            <!-- Ações Rejeitadas -->
             <article class="card rejected">
                 <div class="section-title">Ações Rejeitadas</div>
                 <div class="fake-input large">
@@ -62,12 +59,10 @@
                         <ul>
                         {% for acao in acoes_rejeitadas %}
                             <li>
-                                <strong>Aluno:</strong> {{ acao.aluno.nome }} <br>
-                                <strong>Descrição do aluno:</strong> {{ acao.comentarios_aluno or 'N/A' }} <br>
-                                <strong>Ação:</strong> {{ acao.acao.nome }} - {{ acao.acao.descricao }} <br>
-                                <strong>Valor:</strong> {{ acao.valor }} pts <br>
+                                <strong>{{ acao.acao.nome }}</strong> - {{ acao.comentarios_aluno }}<br>
+                                <em>Valor:</em> {{ acao.valor }} IFCOINS<br>
                                 {% if acao.link %}
-                                    <strong>Link:</strong> <a href="{{ acao.link }}" target="_blank">{{ acao.link }}</a>
+                                    <a href="{{ acao.link }}" target="_blank">Ver comprovante</a>
                                 {% endif %}
                             </li>
                         {% endfor %}
@@ -77,10 +72,11 @@
                     {% endif %}
                 </div>
             </article>
+
         </div>
 
     </main>
 
-    <script src="{{ url_for('static', filename='js/acoes_deferidas.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/aluno_historico.js') }}"></script>
 </body>
 </html>

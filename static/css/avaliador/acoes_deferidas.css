@@ -1,207 +1,151 @@
-/* acoes_enviadas.css - Versão Final com Dropdown de Perfil Funcional */
+/* Reset e fontes */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  background-color: #121212;
-  color: #00ff99;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  justify-content: center;
-  padding: 20px;
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #2e2e2e, #121212);
+    color: white;
+    min-height: 100vh;
 }
 
-.canvas {
-  width: 100%;
-  max-width: 900px;
-  padding: 1.5rem;
-  text-align: center;
-  background-color: transparent;
-  box-shadow: none;
-  border-radius: 0;
-}
-
-/* ---------------------------------------------------------------- */
-/* --- POSICIONAMENTO FIXO NO TOPO --- */
-/* ---------------------------------------------------------------- */
+/* Top bar */
 .top-row-fixed {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  right: 20px;
-  z-index: 10;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background-color: #1e1e1e;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
-/* Contêiner que ancora o dropdown */
-.profile-dropdown-container {
-    position: relative;
-    display: inline-block;
+.pill-btn, .pill-profile {
+    padding: 10px 20px;
+    border-radius: 999px;
+    background-color: #00ffae;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    transition: 0.3s;
 }
 
-/* --- Botão 'voltar' --- */
-.back-btn {
-  background-color: transparent;
-  color: #00ff99;
-  border: 2px solid #00ff99;
-  text-decoration: none;
-  border-radius: 50px;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s, color 0.3s;
+.pill-btn:hover, .pill-profile:hover {
+    background-color: #00cc8f;
+    box-shadow: 0 0 12px #00ffae;
 }
 
-.back-btn:hover {
-  background-color: #00ff99;
-  color: #121212;
-  transform: scale(1.05);
+/* Modal de perfil */
+.modal {
+    position: absolute;
+    right: 0;
+    top: 3rem;
+    background-color: #1e1e1e;
+    border: 2px solid #00ffae;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #00ffae;
+    width: 220px;
+    display: none;
 }
 
-/* --- Profile Button (Pill) --- */
-.pill-profile {
-  background-color: #00ff99;
-  color: #000000;
-  border: none;
-  border-radius: 50px;
-  padding: 0.5rem 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
+.modal-content a {
+    display: block;
+    padding: 8px 12px;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: 0.2s;
 }
 
-.pill-profile:hover {
-  background-color: #00e680;
-  transform: scale(1.05);
+.modal-content a:hover {
+    background-color: #00ffae;
+    color: black;
 }
 
-/* --- Título Principal --- */
+/* Canvas principal */
+.canvas {
+    padding: 2rem;
+}
+
 .title {
-  font-size: 2.2rem;
-  margin-top: 5rem;
-  margin-bottom: 2rem;
-  font-weight: 800;
-  color: #00ff99;
-  text-shadow: 0 0 8px rgba(0, 255, 153, 0.7);
+    font-size: 2rem;
+    font-weight: 700;
+    color: #00ffae;
+    margin-bottom: 1.5rem;
 }
 
-/* --- Seções e Conteúdo --- */
-.sections {
-    margin-bottom: 2rem;
-    width: 100%;
+/* Layout de duas colunas */
+.sections.two-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+}
+
+/* Card padrão */
+.card {
+    background-color: #1e1e1e;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border-left: 4px solid;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 18px rgba(0, 255, 174, 0.4);
+}
+
+.section-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+    color: #00ffae;
+}
+
+/* Lista dentro do card */
+.card ul {
+    list-style: none;
     padding: 0;
 }
 
-.card {
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  border: none;
+.card li {
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+    background-color: #2e2e2e;
+    border-radius: 6px;
+    transition: background-color 0.2s, box-shadow 0.2s;
 }
 
-.fake-input.large {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-
-  background-color: #383838;
-  min-height: 150px;
-
-  padding: 1.5rem;
-  border-radius: 12px;
-  color: #c9c9c9;
-  font-size: 1.1rem;
-  font-weight: 400;
-
-  overflow-y: hidden;
-  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+.card li:hover {
+    background-color: #333;
+    box-shadow: 0 0 10px #00ffae;
 }
 
+/* Cores de status */
+.card.approved li {
+    border-left: 4px solid #00ffae; /* Verde neon */
+}
+
+.card.rejected li {
+    border-left: 4px solid #ff3f3f; /* Vermelho neon */
+}
+
+/* Links dentro do card */
+.card a {
+    color: #00ffae;
+    text-decoration: underline;
+}
+
+.card a:hover {
+    color: #00cc8f;
+}
+
+/* Mensagem de vazio */
 .empty-message {
-    text-align: center;
-    color: #999;
-    font-size: 1.1rem;
+    color: #888;
     font-style: italic;
-}
-
-
-/* ---------------------------------------------------------------- */
-/* --- DROPDOWN STYLES (CORRIGIDO PARA FUNCIONAR) --- */
-/* ---------------------------------------------------------------- */
-
-/* Garante que o menu fique invisível por padrão e tem prioridade */
-.hidden {
-  display: none !important;
-}
-
-/* O MODAL AGORA É O DROPDOWN */
-.modal {
-  position: absolute;
-  top: 100%; /* Abaixo do botão */
-  right: 0;  /* Alinhado à direita */
-
-  width: 250px;
-
-  background: none;
-  /* display: block é o estado visível quando .hidden é removido */
-  display: block;
-
-  z-index: 1001;
-  padding-top: 5px;
-}
-
-.modal-content {
-  background: #121212;
-  border-radius: 8px;
-  padding: 0.5rem;
-
-  width: 100%;
-  max-width: none;
-  text-align: left;
-
-  position: static;
-
-  color: #00ff99;
-  border: 1px solid #00ff99;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5), 0 0 10px rgba(0, 255, 153, 0.3);
-}
-
-/* Título (Perfil) dentro do Menu */
-.modal-content h4 {
-    margin-bottom: 0.5rem;
-    padding: 0.5rem 0.5rem 0.5rem 0.8rem;
-    font-size: 1rem;
-    font-weight: 700;
-    border-bottom: 1px solid rgba(0, 255, 153, 0.2);
-}
-
-/* Itens de Menu */
-.mini-btn {
-    display: block;
-    background: transparent;
-    color: #c9c9c9;
-    padding: 0.5rem 0.8rem;
-    border-radius: 4px;
-    margin: 0;
-    text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    text-align: left;
-    transition: background-color 0.2s, color 0.2s;
-}
-
-.mini-btn:hover {
-    background: rgba(0, 255, 153, 0.1);
-    color: #00ff99;
+    text-align: center;
 }

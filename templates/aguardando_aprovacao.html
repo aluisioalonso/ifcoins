@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Solicitação Pendente</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aguardando_aprovacao.css') }}">
+</head>
+<body class="text-center">
+    <div class="container">
+        <h1>Solicitação Enviada com Sucesso!</h1>
+        <p>Seu cadastro como avaliador foi enviado ao administrador.</p>
+        <p>Assim que for aprovado, você poderá acessar o sistema normalmente.</p>
+        <a href="{{ url_for('login') }}" class="btn">Voltar ao login</a>
+    </div>
+</body>
+</html>

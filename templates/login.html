@@ -5,50 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
+
+    <!-- NOVO: estilo para o botão Admin -->
 </head>
 <body>
-<div class="login-container">
-    <h1>RPG</h1>
-    <form action="/" method="post" class="login-form" id="loginForm">
 
-        <label for="role">Escolha seu perfil</label>
-        <select id="role" name="role" required>
-            <option value="" disabled selected>Selecione</option>
-            <option value="avaliador">Avaliador</option>
-            <option value="aluno">Aluno</option>
-        </select>
+    <!-- NOVO: Botão para admin -->
+    <a href="{{ url_for('admin.login_admin') }}" class="admin-btn">Área Admin</a>
 
-        <div id="emailContainer" class="email-group">
-            <input type="text"name="email" id="emailUser" placeholder="" required>
-            <span id="emailDomain">@academico.ifpb.edu.br</span>
-        </div>
+    <div class="login-container">
+        <h1>RPG</h1>
+        <form action="/" method="post" class="login-form" id="loginForm">
 
-        <label for="password">Senha</label>
-        <input type="password" id="password" name="senha" placeholder="Digite sua senha" required>
+            <label for="role">Escolha seu perfil</label>
+            <select id="role" name="role" required>
+                <option value="" disabled selected>Selecione</option>
+                <option value="avaliador">Avaliador</option>
+                <option value="aluno">Aluno</option>
+            </select>
 
-        <button type="submit">Entrar</button>
+            <div id="emailContainer" class="email-group">
+                <input type="text" name="email" id="emailUser" placeholder="" required>
+                <span id="emailDomain">@academico.ifpb.edu.br</span>
+            </div>
 
-        <!-- ✅ Imagem do IFPB -->
-        <div class="ifpb-logo">
-            <img src="{{ url_for('static', filename='images/ifpb.png') }}" alt="Logo do IFPB">
-        </div>
-    </form>
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="senha" placeholder="Digite sua senha" required>
 
-    <p class="signup-text">
-        Não tem uma conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a>
-    </p>
+            <button type="submit">Entrar</button>
 
-    {% with messages = get_flashed_messages(with_categories=true) %}
-          {% if messages %}
-            <ul class="flash-messages">
-              {% for category, message in messages %}
-                <li class="{{ category }}">{{ message }}</li>
-              {% endfor %}
-            </ul>
-          {% endif %}
-    {% endwith %}
-</div>
+            <!-- ✅ Imagem do IFPB -->
+            <div class="ifpb-logo">
+                <img src="{{ url_for('static', filename='images/ifpb.png') }}" alt="Logo do IFPB">
+            </div>
+        </form>
 
-<script src="{{ url_for('static', filename='js/login.js') }}"></script>
+        <p class="signup-text">
+            Não tem uma conta? <a href="{{ url_for('cadastro') }}">Cadastre-se</a>
+        </p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <ul class="flash-messages">
+                  {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+        {% endwith %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
 </body>
 </html>
