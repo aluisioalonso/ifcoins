@@ -69,7 +69,7 @@ def enviar_acao():
 
 @aluno_bp.route("/compras_disponiveis")
 def compras_disponiveis():
-    return render_template("aluno/compras_disponiveis.html")
+    return render_template("aluno/retirar_recompensas.html")
 
 @aluno_bp.route('/logout')
 def logout():
