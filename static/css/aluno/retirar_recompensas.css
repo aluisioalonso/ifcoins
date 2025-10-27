@@ -1,0 +1,102 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #2e2e2e, #121212);
+  color: white;
+  min-height: 100vh;
+  padding: 40px;
+}
+
+.container {
+  max-width: 1000px;
+  margin: auto;
+}
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-voltar, .btn-historico {
+  background-color: #00ffae;
+  color: black;
+  padding: 8px 12px;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-voltar:hover, .btn-historico:hover {
+  background-color: #00cc8f;
+  box-shadow: 0 0 10px #00ffae;
+}
+
+.recompensas-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+}
+
+.recompensa-card {
+  background-color: #1e1e1e;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.2s;
+  height: 350px;
+}
+
+.recompensa-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.8);
+}
+
+.recompensa-card h2 {
+  margin-top: 0;
+  color: #00ffae;
+}
+
+.recompensa-card p {
+  color: #ccc;
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.btn-comprar {
+  background-color: #00ffae;
+  color: black;
+  border: none;
+  padding: 12px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-comprar:hover {
+  background-color: #00cc8f;
+  box-shadow: 0 0 12px #00ffae;
+}
+
+.recompensa-card.esgotada {
+  opacity: 0.6;
+}
+
+.recompensa-card.esgotada .btn-comprar {
+  background-color: #555;
+  color: #ccc;
+  cursor: not-allowed;
+  box-shadow: none;
+}

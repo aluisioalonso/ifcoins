@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker,joinedload
 from werkzeug.security import check_password_hash
 from models.modelosDB import (
     AlunoDB, AvaliadorDB, AcaoDB, RecompensaDB, ResgateDB, AcaoRealizadaAlunoDB, AdminDB
@@ -146,6 +146,10 @@ class AcaoRealizadaDAO:
     def listar_todas_rejeitadas(self):
         return self.session.query(AcaoRealizadaAlunoDB).filter_by(status='rejeitado').all()
 
+    def listar_pendentes_por_aluno(self, email_aluno):
+        return self.session.query(AcaoRealizadaAlunoDB) \
+            .filter_by(status='pendente', email_aluno=email_aluno).all()
+
     def buscar_por_id(self, id_acao_realizada):
         return self.session.get(AcaoRealizadaAlunoDB, id_acao_realizada)
 
@@ -190,23 +194,6 @@ class AcaoRealizadaDAO:
             return False, f"Erro ao rejeitar ação: {e}"
 
 
-    def rejeitar_acao(self, id_acao_realizada):
-        acao_realizada = self.buscar_por_id(id_acao_realizada)
-        if not acao_realizada:
-            return False
-
-        if acao_realizada.status == 'rejeitado':
-            return False, "ação já reprovada."
-
-        try:
-            acao_realizada.status = 'rejeitado'
-            self.session.commit()
-            return True
-
-        except Exception as e:
-            self.session.rollback()
-            return False, f"Erro ao processar rejeitar a ação: {e}"
-
 
 class RecompensaDAO:
     def __init__(self, session):
@@ -229,6 +216,26 @@ class RecompensaDAO:
     def listar_todas(self):
         return self.session.query(RecompensaDB).all()
 
+    def editar(self, recompensa):
+        try:
+            self.session.merge(recompensa)
+            self.session.commit()
+            return True
+        except Exception:
+            self.session.rollback()
+            return False
+
+    def deletar(self, id_recompensa):
+        try:
+            recompensa = self.buscar_por_id(id_recompensa)
+            if not recompensa:
+                return False
+            self.session.delete(recompensa)
+            self.session.commit()
+            return True
+        except Exception:
+            self.session.rollback()
+
 
 class ResgateDAO:
     def __init__(self, session, recompensa_dao=None):
@@ -238,6 +245,7 @@ class ResgateDAO:
     def adicionar(self, resgate):
         self.session.add(resgate)
         self.session.commit()
+
 
     def listar_pendentes(self):
         return self.session.query(ResgateDB).filter_by(status='pendente').all()
@@ -279,6 +287,15 @@ class ResgateDAO:
         except Exception as e:
             self.session.rollback()
             return False, f"Erro ao processar resgate: {e}"
+
+    def listar_por_aluno(self, aluno_email):
+        return (
+            self.session.query(ResgateDB)
+            .options(joinedload(ResgateDB.recompensa))
+            .filter_by(aluno_email=aluno_email)
+            .order_by(ResgateDB.data_resgate.desc())
+            .all()
+        )
 
 class AdminDAO:
     def buscar_por_usuario(self, usuario):

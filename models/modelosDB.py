@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
+
 import enum
 
 Base = declarative_base()
@@ -90,17 +91,19 @@ class RecompensaDB(Base):
     __tablename__ = 'recompensas'
 
     id = Column(Integer, primary_key=True)
-    nome = Column(String)
+    tipo = Column(String)  # antes era nome
     descricao = Column(String)
-    custo = Column(Integer)
-    estoque = Column(Integer, default=0)
-
+    valor = Column(Float)   # antes era custo
+    link = Column(String, nullable=True)
+    vagas = Column(Integer, default=0)
+    data_expiracao = Column(DateTime, nullable=True)
     resgates = relationship("ResgateDB", back_populates="recompensa")
 
     def __repr__(self):
         return (
-            f"<RecompensaDB(id={self.id}, nome='{self.nome}', custo={self.custo}, estoque={self.estoque})>"
+            f"<RecompensaDB(id={self.id}, tipo='{self.tipo}', valor={self.valor}, vagas={self.vagas}, link={self.link}, data_expiracao={self.data_expiracao})>"
         )
+
 
 class ResgateDB(Base):
     __tablename__ = 'resgates'

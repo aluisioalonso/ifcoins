@@ -165,3 +165,84 @@ def remover_avaliador(email):
         return jsonify({'mensagem': f"Avaliador {email} removido com sucesso!"}), 200
     else:
         return jsonify({'erro': 'Falha ao remover avaliador.'}), 400
+
+
+
+@admin_bp.route('/menurecompensas')
+def mostrar_recompensas():
+    if 'admin_logado' not in session:
+        return render_template('adm/login_admin.html')
+
+    recompensas = recompensa_dao.listar_todas()
+    return render_template('adm/menu_recompensas.html', recompensas=recompensas)
+
+
+@admin_bp.route('/cadastrarrecompensa', methods=['POST'])
+def cadastrar_recompensa():
+    if 'admin_logado' not in session:
+        return render_template('adm/login_admin.html')
+
+    tipo = request.form.get('tipo')
+    descricao = request.form.get('descricao')
+    valor = request.form.get('valor', type=float)
+    link = request.form.get('link')
+    vagas = request.form.get('vagas', type=int)
+    data_expiracao = request.form.get('data_expiracao')
+    if data_expiracao:
+        data_expiracao = datetime.strptime(data_expiracao, '%Y-%m-%d')
+
+    nova_recompensa = RecompensaDB(
+        tipo=tipo,
+        descricao=descricao,
+        valor=valor,
+        link=link,
+        vagas=vagas,
+        data_expiracao=data_expiracao
+    )
+    recompensa_dao.adicionar(nova_recompensa)
+    flash(f'Recompensa "{tipo}" cadastrada com sucesso!', 'sucesso')
+    return redirect(url_for('admin.mostrar_recompensas'))
+
+
+@admin_bp.route('/editarrecompensa/<int:id>', methods=['POST'])
+def editar_recompensa(id):
+    if 'admin_logado' not in session:
+        return render_template('adm/login_admin.html')
+
+    tipo = request.form.get('tipo')
+    descricao = request.form.get('descricao')
+    valor = request.form.get('valor', type=float)
+    link = request.form.get('link')
+    vagas = request.form.get('vagas', type=int)
+    data_expiracao = request.form.get('data_expiracao')
+    if data_expiracao:
+        data_expiracao = datetime.strptime(data_expiracao, '%Y-%m-%d')
+
+    sucesso = recompensa_dao.editar(RecompensaDB(
+        id=id,
+        tipo=tipo,
+        descricao=descricao,
+        valor=valor,
+        link=link,
+        vagas=vagas,
+        data_expiracao=data_expiracao
+    ))
+    if sucesso:
+        flash(f'Recompensa "{tipo}" editada com sucesso!', 'sucesso')
+    else:
+        flash('Erro ao editar recompensa.', 'erro')
+    return redirect(url_for('admin.mostrar_recompensas'))
+
+
+
+@admin_bp.route('/excluirrecompensa/<int:id>')
+def excluir_recompensa(id):
+    if 'admin_logado' not in session:
+        return render_template('adm/login_admin.html')
+
+    sucesso = recompensa_dao.deletar(id)
+    if sucesso:
+        flash('Recompensa excluída com sucesso!', 'sucesso')
+    else:
+        flash('Erro ao excluir recompensa.', 'erro')
+    return redirect(url_for('admin.mostrar_recompensas'))

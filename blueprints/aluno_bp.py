@@ -28,11 +28,13 @@ def historico_acoes():
         return redirect(url_for('login'))
 
     acoes_aprovadas = acao_realizadasDAO.listar_aprovadas_por_aluno(email)
+    acoes_pendentes = acao_realizadasDAO.listar_pendentes_por_aluno(email)
     acoes_rejeitadas = acao_realizadasDAO.listar_rejeitadas_por_aluno(email)
 
     return render_template(
         "aluno/aluno_historico_acoes.html",
         acoes_aprovadas=acoes_aprovadas,
+        acoes_pendentes=acoes_pendentes,
         acoes_rejeitadas=acoes_rejeitadas
     )
 
@@ -67,9 +69,79 @@ def enviar_acao():
     flash("Ação enviada com sucesso e aguarda avaliação!")
     return redirect(url_for('aluno.aluno_pagina'))
 
-@aluno_bp.route("/compras_disponiveis")
-def compras_disponiveis():
-    return render_template("aluno/retirar_recompensas.html")
+
+@aluno_bp.route("/retirar_recompensas")
+def retirar_recompensas():
+    if 'user' not in session or session.get('role') != 'aluno':
+        flash("Faça login como aluno para acessar esta página.")
+        return redirect(url_for('login'))
+
+    email_aluno = session['user']
+    aluno = aluno_dao.buscar_por_email(email_aluno)
+
+    # Pega todas as recompensas cadastradas
+    recompensas = recompensa_dao.listar_todas()
+
+    return render_template(
+        "aluno/retirar_recompensas.html",
+        aluno=aluno,
+        recompensas=recompensas
+    )
+@aluno_bp.route('/comprar_recompensa', methods=['POST'])
+def comprar_recompensa():
+    if 'user' not in session or session.get('role') != 'aluno':
+        return jsonify({"success": False, "message": "Faça login como aluno."})
+
+    data = request.get_json()
+    recomp_id = data.get("recompensa_id")
+    aluno_email = session['user']
+
+    recompensa = recompensa_dao.buscar_por_id(recomp_id)
+    aluno = aluno_dao.buscar_por_email(aluno_email)
+
+    if not recompensa or not aluno:
+        return jsonify({"success": False, "message": "Recompensa ou aluno não encontrados."})
+
+    if recompensa.vagas <= 0:
+        return jsonify({"success": False, "message": "Essa recompensa já esgotou."})
+
+    if aluno.saldo < recompensa.valor:
+        return jsonify({"success": False, "message": "Saldo insuficiente."})
+
+    try:
+        # Atualiza saldo e vagas
+        aluno.saldo -= recompensa.valor
+        recompensa.vagas -= 1
+
+        # Cria registro de resgate na MESMA sessão
+        resgate = ResgateDB(
+            aluno_email=aluno.email,
+            recompensa_id=recompensa.id,
+            valor_resgatado=recompensa.valor,
+            status='pendente'
+        )
+
+        session_dao.add_all([aluno, recompensa, resgate])
+        session_dao.commit()
+
+        return jsonify({"success": True})
+    except Exception as e:
+        session_dao.rollback()
+        return jsonify({"success": False, "message": str(e)})
+
+
+
+@aluno_bp.route("/historico_resgates")
+def historico_resgates():
+    email = session.get('user')
+    if not email or session.get('role') != 'aluno':
+        flash("Faça login para acessar o histórico de resgates.")
+        return redirect(url_for('login'))
+
+    resgates = resgate_dao.listar_por_aluno(email)
+    return render_template("aluno/historico_resgates.html", resgates=resgates)
+
+
 
 @aluno_bp.route('/logout')
 def logout():

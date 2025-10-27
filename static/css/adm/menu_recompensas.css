@@ -1,0 +1,164 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #121212, #1f1f1f);
+    color: #fff;
+    margin: 0;
+    padding: 0 20px;
+}
+
+.pill-btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 50px;
+    background-color: #00ffae;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: 0.3s;
+}
+.pill-btn:hover {
+    background-color: #00cc8f;
+}
+
+.content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.button, .primary-button {
+    background-color: #00ffae;
+    color: black;
+    border: none;
+    padding: 10px 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.button:hover, .primary-button:hover {
+    background-color: #00cc8f;
+    box-shadow: 0 0 12px #00ffae;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th, td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: #00ffae;
+}
+
+tr:nth-child(even) {
+    background-color: #2a2a2a;
+}
+
+tr:hover {
+    background-color: #333;
+}
+
+.action-button {
+    padding: 6px 12px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.edit {
+    background-color: #00ffae;
+    color: black;
+}
+
+.edit:hover {
+    background-color: #00cc8f;
+}
+
+.delete {
+    background-color: #c0392b;
+    color: white;
+}
+
+.delete:hover {
+    background-color: #e74c3c;
+}
+
+/* Modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0;
+    width: 100%; height: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-content {
+    background-color: #1e1e1e;
+    padding: 30px;
+    border-radius: 12px;
+    width: 95%;
+    max-width: 500px;
+    color: white;
+    box-shadow: 0 0 25px #00ffae;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.close-button {
+    align-self: flex-end;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #aaa;
+}
+
+.close-button:hover {
+    color: red;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 12px;
+}
+
+.form-group input, .form-group textarea {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #00ffae;
+    background-color: #333;
+    color: white;
+    outline: none;
+}
+
+.form-group input:focus, .form-group textarea:focus {
+    border-color: #00ffae;
+    box-shadow: 0 0 10px #00ffae;
+}
+
+@keyframes fadeIn {
+    from {opacity: 0; transform: scale(0.95);}
+    to {opacity: 1; transform: scale(1);}
+}

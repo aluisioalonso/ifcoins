@@ -1,10 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Menu de Recompensas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/adm/menu_recompensas.css') }}">
 </head>
 <body>
 
+<div>
+    <a href="/admin/" class="pill-btn back-btn">Voltar</a>
+    <br><br>
+</div>
+
+<div class="content-header">
+    <h1>Lista de Recompensas</h1>
+    <button id="abrirModalCadastro" class="button primary-button">Cadastrar Nova Recompensa</button>
+</div>
+
+{% if recompensas %}
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tipo</th>
+                <th>Descrição</th>
+                <th>Valor</th>
+                <th>Link</th>
+                <th>Vagas</th>
+                <th>Data Expiração</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for rec in recompensas %}
+            <tr>
+                <td>{{ rec.id }}</td>
+                <td>{{ rec.tipo }}</td>
+                <td>{{ rec.descricao }}</td>
+                <td>{{ rec.valor }}</td>
+                <td><a href="{{ rec.link }}" target="_blank">Ver</a></td>
+                <td>{{ rec.vagas }}</td>
+                <td>{{ rec.data_expiracao.strftime('%d/%m/%Y') if rec.data_expiracao else '-' }}</td>
+                <td class="table-actions">
+                    <button class="action-button edit"
+                        onclick="abrirModalEdicao(
+                            {{ rec.id }},
+                            `{{ rec.tipo | escape }}`,
+                            `{{ rec.descricao | escape }}`,
+                            {{ rec.valor }},
+                            `{{ rec.link | escape }}`,
+                            {{ rec.vagas }},
+                            `{{ rec.data_expiracao }}`
+                        )">Editar</button>
+                    <a href="/admin/excluirrecompensa/{{ rec.id }}" onclick="confirmarExcluir(event)" class="action-button delete">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% else %}
+<p class="empty-state">Nenhuma recompensa encontrada.</p>
+{% endif %}
+
+<!-- MODAL -->
+<div id="modalCadastroRecompensa" class="modal">
+    <div class="modal-content">
+        <span class="close-button" id="fecharModalCadastro">&times;</span>
+        <h2 id="modalTitle">Cadastrar Nova Recompensa</h2>
+        <form id="formRecompensa" method="POST" action="{{ url_for('admin.cadastrar_recompensa') }}">
+            <input type="hidden" id="recompensaId" name="id">
+            <div class="form-group">
+                <label for="tipo">Tipo de Recompensa:</label>
+                <input type="text" id="tipo" name="tipo" required>
+            </div>
+            <div class="form-group">
+                <label for="descricao">Descrição:</label>
+                <textarea id="descricao" name="descricao" rows="3" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="valor">Valor:</label>
+                <input type="number" step="0.01" id="valor" name="valor" required>
+            </div>
+            <div class="form-group">
+                <label for="link">Link:</label>
+                <input type="url" id="link" name="link">
+            </div>
+            <div class="form-group">
+                <label for="vagas">Vagas:</label>
+                <input type="number" id="vagas" name="vagas" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="data_expiracao">Data de Expiração:</label>
+                <input type="date" id="data_expiracao" name="data_expiracao" required>
+            </div>
+            <button type="submit" class="button primary-button modal-submit-button">Salvar</button>
+        </form>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/adm/menu_recompensas.js') }}"></script>
 </body>
 </html>

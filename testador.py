@@ -1,5 +1,5 @@
 from database.database import *
-
+from models.modelosDB import *
 
 #acao_dao.adicionar(AcaoDB(nome='teste2',descricao='kkkk as fas', valor=20))
 
@@ -15,6 +15,7 @@ from database.database import *
 
 #print(avaliador_dao.listar_todos())
 
-print(acao_realizadasDAO.listar_todas())
+#print(acao_realizadasDAO.listar_todas())
 
-print(aluno_dao.obter_todos_alunos())
+#print(aluno_dao.obter_todos_alunos())
+

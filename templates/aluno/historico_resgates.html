@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Histórico de Resgates</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aluno/historico_resgates.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Histórico de Recompensas Compradas</h1>
+        <a href="{{ url_for('aluno.retirar_recompensas') }}" class="btn">← Voltar</a>
+        <div class="recompensas-list">
+            {% for resgate in resgates %}
+            <div class="recompensa-card">
+                <h2>{{ resgate.recompensa.tipo }}</h2>
+                <p><strong>Descrição:</strong> {{ resgate.recompensa.descricao }}</p>
+                <p><strong>Valor:</strong> {{ resgate.valor_resgatado }}</p>
+                <p><strong>Vagas restantes:</strong> {{ resgate.recompensa.vagas }}</p>
+                <p><strong>Data:</strong> {{ resgate.data_resgate.strftime('%d/%m/%Y %H:%M') }}</p>
+                <p><strong>Status:</strong> {{ resgate.status }}</p>
+                {% if resgate.recompensa.link %}
+                <p><a href="{{ resgate.recompensa.link }}" target="_blank">Link</a></p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

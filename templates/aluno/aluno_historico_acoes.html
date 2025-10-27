@@ -16,7 +16,7 @@
             <div id="profile-modal" class="modal hidden">
                 <div class="modal-content">
                     <h4>Perfil</h4>
-                    <a href="{{ url_for('aluno.compras_disponiveis') }}" class="mini-btn">Resgates</a>
+                    <a href="{{ url_for('aluno.retirar_recompensas') }}" class="mini-btn">Resgates</a>
                     <a href="{{ url_for('aluno.logout') }}" class="mini-btn">Sair da sessão</a>
                 </div>
             </div>
@@ -40,13 +40,35 @@
                                 <strong>{{ acao.acao.nome }}</strong> - {{ acao.comentarios_aluno }}<br>
                                 <em>Valor:</em> {{ acao.valor }} IFCOINS<br>
                                 {% if acao.link %}
-                                    <a href="{{ acao.link }}" target="_blank">Ver comprovante</a>
+                                    <a href="{{ acao.link }}" target="_blank">Ver link</a>
                                 {% endif %}
                             </li>
                         {% endfor %}
                         </ul>
                     {% else %}
                         <div class="empty-message">Nenhuma ação aprovada até o momento</div>
+                    {% endif %}
+                </div>
+            </article>
+
+            <!-- Ações Pendentes -->
+            <article class="card pending">
+                <div class="section-title">Ações Pendentes</div>
+                <div class="fake-input large">
+                    {% if acoes_pendentes %}
+                        <ul>
+                        {% for acao in acoes_pendentes %}
+                            <li>
+                                <strong>{{ acao.acao.nome }}</strong> - {{ acao.comentarios_aluno }}<br>
+                                <em>Valor:</em> {{ acao.valor }} IFCOINS<br>
+                                {% if acao.link %}
+                                    <a href="{{ acao.link }}" target="_blank">Ver link</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    {% else %}
+                        <div class="empty-message">Nenhuma ação pendente até o momento</div>
                     {% endif %}
                 </div>
             </article>
@@ -62,7 +84,7 @@
                                 <strong>{{ acao.acao.nome }}</strong> - {{ acao.comentarios_aluno }}<br>
                                 <em>Valor:</em> {{ acao.valor }} IFCOINS<br>
                                 {% if acao.link %}
-                                    <a href="{{ acao.link }}" target="_blank">Ver comprovante</a>
+                                    <a href="{{ acao.link }}" target="_blank">Ver link</a>
                                 {% endif %}
                             </li>
                         {% endfor %}

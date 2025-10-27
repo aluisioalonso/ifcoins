@@ -14,7 +14,7 @@
             <button onclick="toggleMenu()" class="hamburger">☰ Perfil</button>
             <div id="menu-opcoes" class="menu-opcoes hidden">
                 <a href="{{ url_for('aluno.historico_acoes') }}">Histórico de Ações</a>
-                <a href="{{ url_for('aluno.compras_disponiveis') }}">Compras Disponíveis</a>
+                <a href="{{ url_for('aluno.retirar_recompensas') }}">Retirar Recompensas</a>
                 <button onclick="abrirModalPessoais()">Informações Pessoais</button>
                 <a href="{{ url_for('logout') }}" class="logout-btn">Sair</a>
             </div>
@@ -23,7 +23,7 @@
 
     <main class="main-content">
         <button class="btn" onclick="abrirModal()">Inserir Ação</button>
-        <a href="{{ url_for('aluno.compras_disponiveis') }}" class="btn">Retirar Recompensas</a>
+        <a href="{{ url_for('aluno.retirar_recompensas') }}" class="btn">Retirar Recompensas</a>
         <a href="{{ url_for('aluno.historico_acoes') }}" class="btn">Histórico de Ações</a>
     </main>
 
@@ -68,6 +68,6 @@
         </div>
     </div>
 
-    <script src="{{ url_for('static', filename='js/aluno.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/aluno/aluno.js') }}"></script>
 </body>
 </html>

@@ -2,10 +2,37 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Comprar Viagem</title>
+    <title>Retirar Recompensas</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/aluno/retirar_recompensas.css') }}">
 </head>
 <body>
-    <h1>Retirar Recompensas</h1>
-    <p>Em construção...</p>
+<div class="container">
+    <div class="top-bar">
+        <a href="{{ url_for('aluno.aluno_pagina') }}" class="btn-voltar">← Voltar</a>
+        <h1>Recompensas Disponíveis</h1>
+        <a href="{{ url_for('aluno.historico_resgates') }}" class="btn-historico">Histórico</a>
+    </div>
+
+    <div class="recompensas-list">
+        {% for r in recompensas %}
+        <div class="recompensa-card {% if r.vagas == 0 %}esgotada{% endif %}"
+             data-id="{{ r.id }}" data-valor="{{ r.valor }}" data-vagas="{{ r.vagas }}">
+            <h2>{{ r.tipo }}</h2>
+            <p><strong>Descrição:</strong> {{ r.descricao }}</p>
+            <p><strong>Valor:</strong> {{ r.valor }} IFCOINS</p>
+            <p><strong>Vagas:</strong> <span class="vagas">{{ r.vagas }}</span></p>
+            {% if r.link %}
+            <p><strong>Link:</strong> <a href="{{ r.link }}" target="_blank" style="color:#00ffae;">Acessar</a></p>
+            {% endif %}
+            {% if r.data_expiracao %}
+            <p><strong>Expira em:</strong> {{ r.data_expiracao.strftime('%d/%m/%Y') }}</p>
+            {% endif %}
+            <button class="btn-comprar" onclick="comprarRecompensa(this)">Comprar</button>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/aluno/retirar_recompensas.js') }}"></script>
 </body>
 </html>

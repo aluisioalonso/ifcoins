@@ -1,0 +1,130 @@
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Container central */
+.container {
+  max-width: 1000px;
+  width: 100%;
+}
+
+/* Título */
+h1 {
+  text-align: center;
+  color: #00ffae;
+  margin-bottom: 20px;
+  font-size: 28px;
+}
+
+/* Botão de voltar */
+.btn {
+  background-color: #00ffae;
+  color: #000;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: bold;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 20px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn:hover {
+  background-color: #00cc8f;
+  box-shadow: 0 0 12px #00ffae;
+}
+
+/* Lista de recompensas / cards */
+.recompensas-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* duas por linha */
+  gap: 20px;
+}
+
+/* Card da recompensa */
+.recompensa-card {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 6px 15px rgba(0, 255, 174, 0.3);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.recompensa-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 255, 174, 0.5);
+}
+
+.recompensa-card h2 {
+  color: #00ffae;
+  margin-bottom: 10px;
+}
+
+.recompensa-card p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #ccc;
+}
+
+.recompensa-card a {
+  color: #00ffae;
+  text-decoration: underline;
+  font-size: 14px;
+}
+
+.recompensa-card a:hover {
+  color: #00cc8f;
+}
+
+/* Botão dentro do card (ex: comprar) */
+.btn-comprar {
+  background-color: #00ffae;
+  color: #000;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-weight: bold;
+  transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.btn-comprar:hover {
+  background-color: #00cc8f;
+  box-shadow: 0 0 10px #00ffae;
+}
+
+/* Card esgotado */
+.recompensa-card.esgotada {
+  opacity: 0.5;
+}
+
+.recompensa-card.esgotada .btn-comprar {
+  background-color: #555;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .recompensas-list {
+    grid-template-columns: 1fr;
+  }
+}
