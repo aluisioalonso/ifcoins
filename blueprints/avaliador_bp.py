@@ -12,20 +12,22 @@ avaliador_bp = Blueprint('avaliador', __name__, url_prefix='/avaliador')
 def avaliador_pagina():
     email = session.get('user')
     role = session.get('role')
+
     if not email or role != 'avaliador':
-        print('a1')
         flash("Faça login como avaliador para acessar esta página.")
         return redirect(url_for('login'))
-    print('a2')
+
     avaliador = avaliador_dao.buscar_por_email(email)
-    if not avaliador.status == 'aprovado':
-        print('a3')
+
+    if avaliador is None:
+        flash("Avaliador não encontrado no sistema. Verifique seu login.")
+        return redirect(url_for('login'))
+
+    if avaliador.status != 'aprovado':
         flash("Seu acesso ainda não foi aprovado pelo administrador.")
         return redirect(url_for('login'))
-    print('a4')
-    # Esta rota principal lista as ações PENDENTES (que também é o que 'acoesenviadas' lista)
+
     acoes = acao_realizadasDAO.listar_pendentes()
-    print(len(acoes))
     return render_template('avaliador/avaliador.html', acoes=acoes)
 
 

@@ -72,6 +72,15 @@ class AvaliadorDAO:
             return True
         return False
 
+    def buscar(self, termo_busca, filtro=None):
+        termo = f"%{termo_busca.strip()}%"
+        query = self.session.query(AvaliadorDB)
+
+        if filtro == "email":
+            return query.filter(AvaliadorDB.email.ilike(termo)).all()
+        else:
+            return query.filter(AvaliadorDB.nome.ilike(termo)).all()
+
     def deletar(self, email):
         avaliador = self.buscar_por_email(email)
         if not avaliador:
