@@ -2,15 +2,19 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker,joinedload
 from werkzeug.security import check_password_hash
 from models.modelosDB import (
-    AlunoDB, AvaliadorDB, AcaoDB, RecompensaDB, ResgateDB, AcaoRealizadaAlunoDB, AdminDB
+    AlunoDB, AvaliadorDB, AcaoDB, RecompensaDB, ResgateDB, AcaoRealizadaAlunoDB, AdminDB, Base
 )
 from datetime import datetime
 
 
-engine = create_engine('sqlite:///ifcoins.db', echo=False)
+engine = create_engine(
+    'postgresql+psycopg2://adminifcoins:GrandTheftAuto.30/10/2004@localhost:5432/ifcoins',
+    echo=False
+)
+
 Session = sessionmaker(bind=engine)
 session_dao = Session()
-
+Base.metadata.create_all(engine)
 
 
 class AlunoDAO:
