@@ -61,10 +61,12 @@
               <td>{{ avaliador.nome }}</td>
               <td>{{ avaliador.email }}</td>
               <td>
-                {% if avaliador.aprovado %}
-                <span class="status-aprovado">Aprovado</span>
+                {% if avaliador.status == 'aprovado' %}
+                  <span class="status-aprovado">Aprovado</span>
+                {% elif avaliador.status == 'rejeitado' %}
+                  <span class="status-rejeitado">Rejeitado</span>
                 {% else %}
-                <span class="status-pendente">Pendente</span>
+                  <span class="status-pendente">Pendente</span>
                 {% endif %}
               </td>
               <td>
