@@ -7,10 +7,7 @@ from models.modelosDB import (
 from datetime import datetime
 
 
-engine = create_engine(
-    'postgresql+psycopg2://adminifcoins:GrandTheftAuto.30/10/2004@localhost:5432/ifcoins',
-    echo=False
-)
+engine = create_engine("sqlite:///ifcoins.db")
 
 Session = sessionmaker(bind=engine)
 session_dao = Session()
