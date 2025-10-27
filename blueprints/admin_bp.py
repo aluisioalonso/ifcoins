@@ -394,13 +394,13 @@ def buscar_avaliador():
     if not termo_busca:
         avaliadores = avaliador_dao.listar_todos()
     else:
-        query = session_dao.query(AvaliadorDB)
-        if filtro == 'email':
-            avaliadores = query.filter(AvaliadorDB.email.ilike(f"%{termo_busca}%")).all()
-        else:
-            avaliadores = query.filter(AvaliadorDB.nome.ilike(f"%{termo_busca}%")).all()
+        avaliadores = avaliador_dao.buscar(termo_busca, filtro)
 
-    return render_template('adm/buscar_avaliador.html', avaliadores=avaliadores, termo=termo_busca, filtro=filtro)
+    return render_template('adm/buscar_avaliador.html',
+                           avaliadores=avaliadores,
+                           termo=termo_busca,
+                           filtro=filtro)
+
 
 
 @admin_bp.route('/remover_avaliador/<email>', methods=['DELETE', 'POST'])

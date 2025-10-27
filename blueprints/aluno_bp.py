@@ -46,15 +46,23 @@ def enviar_acao():
         return redirect(url_for('login'))
 
     email_aluno = session['user']
+    aluno = aluno_dao.buscar_por_email(email_aluno)
+
+    # 🚨 Verifica se o aluno ainda existe
+    if not aluno:
+        session.clear()
+        flash("Sua conta de aluno não existe mais. Faça login novamente.")
+        return redirect(url_for('login'))
+
     id_acao = request.form.get('acao')
     comentarios_aluno = request.form.get('mensagem')
-    link_aluno = request.form.get('link')  # <- novo campo
+    link_aluno = request.form.get('link')
 
     if not id_acao or not comentarios_aluno or not link_aluno:
         flash("Preencha todos os campos obrigatórios.")
         return redirect(url_for('aluno.aluno_pagina'))
-    acao = acao_dao.buscar_por_id(id_acao)
 
+    acao = acao_dao.buscar_por_id(id_acao)
     nova_acao = AcaoRealizadaAlunoDB(
         email_aluno=email_aluno,
         id_acao=id_acao,
@@ -64,10 +72,13 @@ def enviar_acao():
         status='pendente'
     )
 
-    acao_realizadasDAO.adicionar(nova_acao)
-
-    flash("Ação enviada com sucesso e aguarda avaliação!")
+    try:
+        acao_realizadasDAO.adicionar(nova_acao)
+        flash("Ação enviada com sucesso e aguarda avaliação!")
+    except Exception as e:
+        flash(f"Erro ao enviar ação: {e}")
     return redirect(url_for('aluno.aluno_pagina'))
+
 
 
 @aluno_bp.route("/retirar_recompensas")
@@ -140,6 +151,7 @@ def historico_resgates():
 
     resgates = resgate_dao.listar_por_aluno(email)
     return render_template("aluno/historico_resgates.html", resgates=resgates)
+
 
 
 
