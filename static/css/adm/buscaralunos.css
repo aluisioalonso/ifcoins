@@ -1,0 +1,216 @@
+/* ===== Layout Base ===== */
+body {
+  background-color: #0a0a0a;
+  color: #e0e0e0;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.header {
+  background: #111;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 30px;
+  border-bottom: 2px solid #00ffae;
+}
+
+h1 {
+  text-align: center;
+  margin: 30px 0;
+  color: #00ffae;
+}
+
+/* ===== Botões e Inputs ===== */
+.pill-btn,
+.pill-profile {
+  background: #00ffae;
+  color: #000;
+  font-weight: bold;
+  padding: 10px 18px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+
+.pill-btn:hover,
+.pill-profile:hover {
+  background: #00cc8f;
+  box-shadow: 0 0 10px #00ffae;
+}
+
+.back-btn {
+  background: transparent;
+  border: 2px solid #00ffae;
+  color: #00ffae;
+}
+
+.campo-input {
+  width: 280px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #00ffae;
+  background: transparent;
+  color: #fff;
+  font-size: 16px;
+  outline: none;
+}
+
+.campo-pesquisa-e-filtro {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ===== Modal Perfil ===== */
+.modal {
+  position: absolute;
+  right: 30px;
+  top: 60px;
+  background: rgba(17, 17, 17, 0.96);
+  border: 1px solid #00ffae;
+  border-radius: 8px;
+  z-index: 10;
+  padding: 15px;
+  box-shadow: 0 0 10px #00ffae33;
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.25s ease-in-out;
+  backdrop-filter: blur(6px);
+}
+
+.modal.hidden {
+  opacity: 0;
+  transform: translateY(-10px);
+  pointer-events: none;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 6px;
+}
+
+.modal-content h4 {
+  color: #00ffae;
+  margin-bottom: 10px;
+  text-align: center;
+  border-bottom: 1px solid #00ffae33;
+  padding-bottom: 5px;
+}
+
+.mini-btn {
+  display: block;
+  text-decoration: none;
+  color: #00ffae;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-weight: 500;
+  text-align: center;
+  transition: 0.3s;
+  background: transparent;
+}
+
+.mini-btn:hover {
+  background: #00ffae;
+  color: #000;
+  box-shadow: 0 0 10px #00ffae66;
+}
+
+/* ===== Modal Filtro ===== */
+.modal-filtro {
+  position: absolute;
+  background: #111;
+  border: 1px solid #00ffae;
+  border-radius: 8px;
+  margin-top: 10px;
+  z-index: 20;
+  padding: 10px;
+}
+
+.hidden-filtro {
+  display: none;
+}
+
+.mini-btn-filtro {
+  display: block;
+  color: #00ffae;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: 0.3s;
+}
+
+.mini-btn-filtro:hover {
+  background: #00ffae;
+  color: #000;
+}
+
+/* ===== Tabela Avaliadores ===== */
+.tabela-avaliadores {
+  width: 90%;
+  margin: 30px auto;
+  border-collapse: collapse;
+  background: #111;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 0 10px #00ffae33;
+}
+
+.tabela-avaliadores th,
+.tabela-avaliadores td {
+  padding: 14px 12px;
+  text-align: left;
+  border-bottom: 1px solid #222;
+}
+
+.tabela-avaliadores th {
+  background: #00ffae22;
+  color: #00ffae;
+  text-transform: uppercase;
+  font-size: 14px;
+}
+
+.tabela-avaliadores tr:hover {
+  background: #00ffae11;
+}
+
+.status-aprovado {
+  color: #00ffae;
+  font-weight: bold;
+}
+
+.status-pendente {
+  color: #ff4d4d;
+  font-weight: bold;
+}
+
+/* ===== Botão Remover ===== */
+.neon-red-btn {
+  background-color: #ff4d4d;
+  color: black;
+  font-weight: bold;
+  padding: 8px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.neon-red-btn:hover {
+  background-color: #e60000;
+  box-shadow: 0 0 12px #ff4d4d;
+}
+
+/* ===== Mensagem vazia ===== */
+.mensagem-vazia {
+  text-align: center;
+  color: #888;
+  margin-top: 30px;
+  font-style: italic;
+}

@@ -17,6 +17,7 @@ class AlunoDAO:
     def __init__(self, session):
         self.session = session
 
+
     def adicionar(self, aluno):
         self.session.add(aluno)
         self.session.commit()
@@ -39,7 +40,6 @@ class AvaliadorDAO:
     def buscar_por_email(self, email):
         return self.session.query(AvaliadorDB).filter_by(email=email).first()
 
-    # Listar todos avaliadores com status pendente
     def listar_pendentes(self):
         return self.session.query(AvaliadorDB).filter_by(status='pendente').all()
 

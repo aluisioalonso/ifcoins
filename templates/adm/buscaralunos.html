@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lista de Alunos</title>
+  <link rel="stylesheet" href="/static/css/adm/buscaralunos.css" />
+</head>
+<body>
+  <header class="header">
+    <a href="/admin" class="pill-btn back-btn">Voltar</a>
+
+    <div class="profile-dropdown-container">
+      <button id="open-profile" class="pill-profile">Perfil</button>
+      <div id="profile-modal" class="modal hidden">
+        <div class="modal-content">
+          <h4>Perfil</h4>
+          <a href="/admin/logout" class="mini-btn">Sair da sessão</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <h1 class="titulo-principal titulo-pesquisa">Lista de Alunos</h1>
+
+    <div class="campo-pesquisa-e-filtro">
+      <input
+        type="text"
+        id="buscaAluno"
+        class="campo-input"
+        placeholder="Digite o nome ou email..."
+      />
+    </div>
+
+    <main class="area-conteudo">
+      <div class="lista-alunos">
+        {% if alunos %}
+        <table class="tabela-avaliadores">
+          <thead>
+            <tr>
+              <th>Nome</th>
+              <th>Email</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for aluno in alunos %}
+            <tr>
+              <td>{{ aluno.nome }}</td>
+              <td>{{ aluno.email }}</td>
+              <td>
+                <button
+                  class="neon-red-btn remove-btn"
+                  data-email="{{ aluno.email }}"
+                >
+                  Remover
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        {% else %}
+        <p class="mensagem-vazia">Nenhum aluno encontrado.</p>
+        {% endif %}
+      </div>
+    </main>
+  </div>
+
+  <script src="/static/js/adm/buscaralunos.js"></script>
+</body>
+</html>
